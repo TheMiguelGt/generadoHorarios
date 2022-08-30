@@ -18,10 +18,10 @@ Ejecutar los siguientes comandos en la terminal.
 7. Correr `git commit -m "hola bb"` para crear un comentario en el commit 
 8. Correr `git branch -M <nombre de la rama>` para posicionarse en la rama que se va a insertar
 9. Correr `git push` agregar el commit al repo
-<<<<<<< HEAD
-=======
 10. Correr `git branch <owo>` para crear una nueva rama con cierto nombre 
 11. Correr `git show-branch` muestra las ramas existentes
 12. Correr `git checkout <owo>` cambiarse a cierta rama 
 13. Correr `git push -u origin <owo>` insertar el commit en cierta rama
->>>>>>> ChristianCO
+14. Correr `git merge <owo> -m "comentario que desees"` tienes que estar en tu rama para actualizar los cambios del nombre de otra rama
+15. Correr `git push -u origin <owo>` subir la rama al repositorio remoto
+
