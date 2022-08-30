@@ -14,7 +14,7 @@ Ejecutar los siguientes comandos en la terminal.
 3. Correr `git pull origin <rama que se quiere actualizar>` para actualizar el repositorio local con el que esta subido 
 4. Correr `git status` para obtener el estatus del repo
 5. Correr `git add --all` para agregar todo
-6 Correr `git add <nombre del archivo>` para agregar un solo archivo o archivos en especifico
+6. Correr `git add <nombre del archivo>` para agregar un solo archivo o archivos en especifico
 7. Correr `git commit -m "hola bb"` para crear un comentario en el commit 
 8. Correr 'git branch -M <nombre de la rama> para posicionarse en la rama que se va a insertar
 9. Correr 'git push` agregar el commit al repo
