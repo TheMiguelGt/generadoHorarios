@@ -16,5 +16,5 @@ Ejecutar los siguientes comandos en la terminal.
 5. Correr `git add --all` para agregar todo
 6. Correr `git add <nombre del archivo>` para agregar un solo archivo o archivos en especifico
 7. Correr `git commit -m "hola bb"` para crear un comentario en el commit 
-8. Correr 'git branch -M <nombre de la rama> para posicionarse en la rama que se va a insertar
-9. Correr 'git push` agregar el commit al repo
+8. Correr `git branch -M <nombre de la rama>` para posicionarse en la rama que se va a insertar
+9. Correr `git push` agregar el commit al repo
