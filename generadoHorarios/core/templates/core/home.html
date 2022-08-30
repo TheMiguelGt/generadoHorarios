@@ -1,2 +1,3 @@
-{% extends 'core/base.html' %}
-{% block title %}Home{% endblock title %}
+{% extends 'core/base.html' %} #bloque para obtener el html padre
+{% load static %} #bloque para poder cargar los archivos estaticos (static folder)
+    {% block title %}Home{% endblock title %} #bloque donde obtendra el valor del titulo y lo imprimira en el html padre

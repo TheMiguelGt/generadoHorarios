@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {% load static %} <!--Bloque para cargar archivos estaticos-->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{% block title %}{% endblock title %}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <title>{% block title %}{% endblock title %}</title>
+        <link rel="stylesheet" href="{% static 'core/css/main.css' %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
     </head>
     <body>
         
         
-        <script src="" async defer></script>
+        
     </body>
 </html>
