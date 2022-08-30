@@ -9,8 +9,25 @@
         <title>{% block title %}{% endblock title %}</title>
         <link rel="stylesheet" href="{% static 'core/css/main.css' %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
     </head>
-    <body>
-        
+    <body >
+        <nav>
+            <div class="logo">Page Name</div>
+            <div class="btn-secondary">
+                <ul>
+                    <li ><a class="" href="{% url 'home' %}">Home</a></li>
+                    <li ><a class="" href="">About</a></li>
+                    <li ><a href="">Contact</a></li>
+                    <li ><a href="">Privacity</a></li>
+                    <li ><a href="">Start Now</a></li>
+                </ul>
+            </div>
+            <div class="btn-primary">
+                <ul class="ul-primary">
+                    <li class="li-sig"><a class="a-sig" href="">Sign Up</a></li>
+                    <li class="li-log"><a class="a-log" href="">Login</a></li>
+                </ul>
+            </div>
+        </nav>
         
         
     </body>
