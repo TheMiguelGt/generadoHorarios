@@ -99,3 +99,15 @@ nav .ul-primary .li-sig .a-sig:hover{
     opacity: 0.4;
     
 }
+
+h2 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.body{
+    background-color: blue;
+}
+
+.contenedor{
+    display: flex;
+}

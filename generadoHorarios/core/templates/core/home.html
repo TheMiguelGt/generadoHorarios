@@ -1,3 +1,37 @@
-{% extends 'core/base.html' %} #bloque para obtener el html padre
-{% load static %} #bloque para poder cargar los archivos estaticos (static folder)
-    {% block title %}Home{% endblock title %} #bloque donde obtendra el valor del titulo y lo imprimira en el html padre
+{% extends 'core/base.html' %} 
+{% load static %} 
+    {% block title %}Home{% endblock title %} 
+    {% block content %}
+    <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
+    <br>
+    <div>
+        <labe>
+            <center><h1 >Generador de horarios Ingeniería de software UNEDL </h1></center>
+        </labe>
+    </div>
+    <br>
+    <div class="contenedor">
+        <div><img src="{% static 'core/img/ejemplo.jpg' %}">
+            </div>
+
+    <br>
+    <br>
+    <div>
+
+        <h3>Seccion de Alumnos</h3>
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem minima ullam maiores repellat voluptatibus, magni eum mollitia molestias eos doloribus maxime deserunt vel harum. Adipisci obcaecati quod dolores id dolor?</p>
+    </div>
+    <br>
+    <br>
+    <div>
+
+        <h3>Seccion de maestros</h3>
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus iste, sed nobis vero consequatur sequi reiciendis molestiae, excepturi expedita eveniet labore voluptate in pariatur tempora. Tempore nemo ad dolorum quibusdam?</p>
+    
+    </div>
+
+
+    
+    
+    {% endblock content %}
+

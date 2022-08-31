@@ -11,8 +11,9 @@
     </head>
     <body >
         <nav>
-            <div class="logo">Page Name</div>
+            <div class="logo"><img src="{% static 'core/img/logounedl.png' %}" height="55" ></div>
             <div class="btn-secondary">
+            <nav>
                 <ul>
                     <li ><a class="" href="{% url 'home' %}">Home</a></li>
                     <li ><a class="" href="">About</a></li>
@@ -20,6 +21,7 @@
                     <li ><a href="">Privacity</a></li>
                     <li ><a href="">Start Now</a></li>
                 </ul>
+            </nav>
             </div>
             <div class="btn-primary">
                 <ul class="ul-primary">
@@ -28,7 +30,7 @@
                 </ul>
             </div>
         </nav>
-        
+        {% block content %}{% endblock content %}
         
     </body>
 </html>
