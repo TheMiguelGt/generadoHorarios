@@ -1,37 +1,22 @@
 {% extends 'core/base.html' %} 
 {% load static %} 
-    {% block title %}Home{% endblock title %} 
-    {% block content %}
-    <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
-    <br>
-    <div>
-        <labe>
-            <center><h1 >Generador de horarios Ingeniería de software UNEDL </h1></center>
-        </labe>
-    </div>
-    <br>
-    <div class="contenedor">
-        <div><img src="{% static 'core/img/ejemplo.jpg' %}">
+{% block title %}Home{% endblock title %} 
+{% block content %}
+    <div class="divPadre">
+        <div class="divHijo">
+            <div class="divCont">
+                <div id="centDiv">
+                    <h1>Es momento de hacer cambios.<br>Cambia tu estilo de trabajo.</h1>
+                    <br>
+                    <p>Administra bien los horarios de clase</p>
+                </div>
             </div>
-
-    <br>
-    <br>
-    <div>
-
-        <h3>Seccion de Alumnos</h3>
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem minima ullam maiores repellat voluptatibus, magni eum mollitia molestias eos doloribus maxime deserunt vel harum. Adipisci obcaecati quod dolores id dolor?</p>
+            <div class="divImg">
+                <div id="centImg">
+                    <img id="imgHor" src="{% static 'core/img/ejemplo.jpg' %}" ></
+                </div>
+            </div>
+        </div>
     </div>
-    <br>
-    <br>
-    <div>
-
-        <h3>Seccion de maestros</h3>
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus iste, sed nobis vero consequatur sequi reiciendis molestiae, excepturi expedita eveniet labore voluptate in pariatur tempora. Tempore nemo ad dolorum quibusdam?</p>
-    
-    </div>
-
-
-    
-    
-    {% endblock content %}
+{% endblock content %}
 

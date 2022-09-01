@@ -8,18 +8,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock title %}</title>
         <link rel="stylesheet" href="{% static 'core/css/main.css' %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     </head>
     <body >
         <nav>
-            <div class="logo"><img src="{% static 'core/img/logounedl.png' %}" height="55" ></div>
+            <div class="logo"><img src="{% static 'core/img/unedl.png' %}" height="63" ></div>
             <div class="btn-secondary">
             <nav>
                 <ul>
-                    <li ><a class="" href="{% url 'home' %}">Home</a></li>
-                    <li ><a class="" href="">About</a></li>
-                    <li ><a href="">Contact</a></li>
-                    <li ><a href="">Privacity</a></li>
-                    <li ><a href="">Start Now</a></li>
+                    <li ><b><a class="" href="{% url 'home' %}">Home</a></b></li>
+                    <li ><b><a class="" href="">About</a></b></li>
+                    <li ><b><a href="">Contact</a></b></li>
+                    <li ><b><a href="">Privacity</a></b></li>
                 </ul>
             </nav>
             </div>
@@ -31,6 +33,8 @@
             </div>
         </nav>
         {% block content %}{% endblock content %}
-        
+        <footer>
+
+        </footer>
     </body>
 </html>
