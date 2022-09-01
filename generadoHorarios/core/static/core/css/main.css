@@ -11,74 +11,68 @@ html, body{
     
   }
 /*START Nav bar*/
-nav{
-    height: 65px;
-    background: rgb(238, 238, 238);
-    display: flex;
-    align-items: center;
-    padding: 0px 12% 0px 12%;
+#unedlimg{
+    max-width: 25%;
+	height: auto;
 }
-nav .logo{
-    font-size: 33px;
-    color: #949293;
-    font-weight: 600;
-    padding: 0px 70px 0px 0px;
+/*
+ * Logo
+ */
+#logo-header {
+	float: left;
+	padding: 15px 0 0 180px;
+	text-decoration: none;
 }
-.btn-primary{
-    padding: 0px 0px 0px 45%;
+#logo-header .site-name {
+    display: block;
+    font-weight: 700;
+    font-size: 1.2em;
 }
-nav ul{
-    display:flex;
-    list-style: none;
+
+#logo-header .site-desc {
+    display: block;
+    font-weight: 300;
+    font-size: 0.8em;
+    color: #999;
 }
-nav ul li{
+/*
+ * Navegación
+ */
+nav {
+	float: right;
+}
+nav ul {
     margin: 0;
+    padding: 0;
+    list-style: none;
+    padding-right: 180px;
 }
+
+nav ul li {
+    display: inline-block;
+    line-height: 80px;
+    color: black;
+}
+
 nav ul li a{
-    color: rgb(13, 13, 14);
-    text-decoration:none;
-    font-size: 13px;
-    font-weight: 580;
-    letter-spacing: 1px;
-    padding: 24px 10px;
-}
-nav ul li a:hover{
-    color: rgb(13, 13, 14);
-    background: #949293;
+    display: block;
+    padding: 0 10px;
     text-decoration: none;
-    opacity: 0.8;
-    border-radius: 2px;
-    font-weight: 580;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 420;
 }
-nav .ul-primary .li-log .a-log{
-    color: rgb(13, 13, 14);
-    text-decoration:none;
-    font-size: 13px;
-    font-weight: 580;
-    letter-spacing: 1px;
-    padding: 24px 10px;
-    background: #A84DFA;
-    border-radius: 2px;
+#separate{
+    margin-left: 80px;
 }
-nav .ul-primary .li-log .a-log:hover{
-    color: rgb(13, 13, 14);
-    background: #A24AF1;
-    text-decoration: none;
+#aLogin{
+    color: rgb(71, 79, 199);
 }
-nav .ul-primary .li-sig .a-sig{
-    color: rgb(39, 46, 146);
-    text-decoration:none;
-    font-size: 13px;
-    font-weight: 580;
-    letter-spacing: 1px;
-    padding: 24px 10px;
-    
+#aSignup{
+    color: black;
 }
-nav .ul-primary .li-sig .a-sig:hover{
-    color: rgb(39, 46, 146);
-    background: #952F77;
-    text-decoration: none;
-    font-weight: 580;
+#aSignup:hover{
+    color: #95932f;
 }
 /*END Nav bar*/
 .page-container{
@@ -156,4 +150,23 @@ p{
 }
 #imgHor{
     width: 100%;
+}
+footer{
+    height:10%;
+    line-height:50px;
+    background: rgb(41, 46, 124);
+    color: #fff;
+    text-align:center;
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+}
+#footer-bottom{
+    padding: 20px 0;
+}
+#div-footer{
+    width: 100%;
+    height: 55px;
+    background-color: #95932f;
 }

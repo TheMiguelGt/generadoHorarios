@@ -1,40 +1,33 @@
+{% load static %} <!--Bloque para cargar archivos estaticos-->
 <!DOCTYPE html>
 <html>
     <head>
-        {% load static %} <!--Bloque para cargar archivos estaticos-->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock title %}</title>
-        <link rel="stylesheet" href="{% static 'core/css/main.css' %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
+        <link type='text/css' rel="stylesheet" href="{% static "core/css/main.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     </head>
     <body >
-        <nav>
-            <div class="logo"><img src="{% static 'core/img/unedl.png' %}" height="63" ></div>
-            <div class="btn-secondary">
+        <header id="main-header">
+            <a id="logo-header" href="#">
+                <img id="unedlimg" src="{% static 'core/img/unedl.png' %}" height="63" >
+            </a>
             <nav>
                 <ul>
-                    <li ><b><a class="" href="{% url 'home' %}">Home</a></b></li>
-                    <li ><b><a class="" href="">About</a></b></li>
-                    <li ><b><a href="">Contact</a></b></li>
-                    <li ><b><a href="">Privacity</a></b></li>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Acerca de</a></li>
+                    <li><a href="#">Contacto</a></li>
+                    <li id="separate" ><a id="aLogin" href="#">Login</a></li>
+                    <li><a id="aSignup" href="#">Sign up</a></li>
                 </ul>
             </nav>
-            </div>
-            <div class="btn-primary">
-                <ul class="ul-primary">
-                    <li class="li-sig"><a class="a-sig" href="">Sign Up</a></li>
-                    <li class="li-log"><a class="a-log" href="">Login</a></li>
-                </ul>
-            </div>
-        </nav>
+        </header>
         {% block content %}{% endblock content %}
-        <footer>
-
-        </footer>
+        
     </body>
 </html>
