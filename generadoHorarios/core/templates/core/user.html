@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}{% endblock title %}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <header id="main-center" align="center">
+            <a id="logo-center" href="{% url 'home' %}">
+                <img id="unedlimg" src="{% static 'core/img/unedl.png' %}" height="63" >
+            </a>
+        </header>
+        {% block contLogi %}{% endblock contLogi %}
+        
+    </body>
+</html>

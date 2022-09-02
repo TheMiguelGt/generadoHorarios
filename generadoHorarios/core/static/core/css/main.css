@@ -18,6 +18,10 @@ html, body{
 /*
  * Logo
  */
+ #main-center{
+    display: block;
+    margin: auto;
+ }
 #logo-header {
 	float: left;
 	padding: 15px 0 0 180px;
