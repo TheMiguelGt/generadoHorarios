@@ -5,17 +5,20 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>{% block title %}{% endblock title %}</title>
-        <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link type='text/css' rel="stylesheet" href="{% static "core/css/main.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
     </head>
     <body>
-        <header id="main-center" align="center">
-            <a id="logo-center" href="{% url 'home' %}">
+        <header id="main-header">
+            <a id="logo-header2" href="{% url 'home' %}">
                 <img id="unedlimg" src="{% static 'core/img/unedl.png' %}" height="63" >
             </a>
+
         </header>
-        {% block contLogi %}{% endblock contLogi %}
+        <div class="divUTemplate">
+
+        </div>
+        {% block content %}{% endblock content %}
         
     </body>
 </html>
