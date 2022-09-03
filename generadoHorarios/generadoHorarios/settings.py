@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'core',
-    'usuarios',
+    'usuarios.apps.UsuariosConfig',
 ]
 
 MIDDLEWARE = [
@@ -121,9 +121,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR,'core/static'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR,'core/static/core'),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#Media config
+MEDIA_URL ='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')

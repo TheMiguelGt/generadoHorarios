@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="{% static 'core/css/main.css' %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
     </head>
     <body >
+<<<<<<< HEAD
         <nav>
             <div class="logo"><img src="{% static 'core/img/logounedl.png' %}" height="55" ></div>
             <div class="btn-secondary">
@@ -20,6 +21,19 @@
                     <li ><a href="">Contact</a></li>
                     <li ><a href="">Privacity</a></li>
                     <li ><a href="">Start Now</a></li>
+=======
+        <header id="main-header">
+            <a id="logo-header" href="{% url 'home' %}">
+                <img id="unedlimg" src="{% static 'core/img/unedl.png' %}" height="63" >
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Inicio</a></li>
+                    <li><a href="#">Acerca de</a></li>
+                    <li><a href="#">Contacto</a></li>
+                    <li id="separate" ><a id="aLogin" href="{% url 'login' %}">Login</a></li>
+                    <li><a id="aSignup" href="{% url 'signup' %}">Sign up</a></li>
+>>>>>>> MiguelGT
                 </ul>
             </nav>
             </div>

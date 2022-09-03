@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf import settings
 
 urlpatterns = [
     #admin paths
@@ -24,3 +25,7 @@ urlpatterns = [
     #usuarios paths
     path('',include('usuarios.urls')),
 ]
+
+if settings.DEBUG:
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)#SI TENEMOS EL DEBUG EN TRUE TODOS LOS ARCHIVOS MEDIA IRAN A BUSCARLOS EN LA MEDIA ROOT QUE SE ENCUENTRA EN SETTINGS
