@@ -1,0 +1,10 @@
+{% extends 'core/loPage.html' %}
+{% load static %}
+{% block title %}Horarios{% endblock title %} 
+{% block content %}
+    {% for page in pages %}
+        <h2>{{page.title}}</h2>
+        <p>{{page.content|striptags|safe|truncatechars:200}}</p>
+        
+    {% endfor %}
+{% endblock content %}
