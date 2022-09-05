@@ -1,10 +1,10 @@
-{% extends 'core/loPage.html' %}
+{% extends 'core/loPage.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
 {% block title %}Horarios{% endblock title %} 
 {% block content %}
     {% for page in pages %}
         <h2>{{page.title}}</h2>
-        <p>{{page.content|striptags|safe|truncatechars:200}}</p>
-        
+        <p style="color: black;">{{page.content|striptags|safe|truncatechars:200}}</p>
+        <p><a href="{% url 'page' page.id page.title|slugify %}">Leer más</a>
     {% endfor %}
 {% endblock content %}
