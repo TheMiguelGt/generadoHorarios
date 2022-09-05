@@ -117,15 +117,14 @@ nav ul li a{
 }
 .divHijo{
     width: 80%;
-    height: 85%;
+    height: 50%;
     margin: 0px auto;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    margin-top: 10%;
+    margin-bottom: 10%;
     display: flex;
 }
 .divCont{
     width: 50%;
-    height: 100%;
     margin-right: 3%;
     align-items: center;
     display: flex;
@@ -133,7 +132,6 @@ nav ul li a{
 }
 .divImg{
     width: 50%;
-    height: 100%;
     margin-left: 3%;
     align-items: center;
     display: flex;
@@ -146,11 +144,9 @@ h1{
     font-size: 35px;
 }
 #centDiv{
-    height: 20%;
     width: 75%;
 }
 #centImg{
-    height: 60%;
     width: 95%;
 }
 p{

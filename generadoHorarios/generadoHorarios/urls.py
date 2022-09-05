@@ -24,6 +24,8 @@ urlpatterns = [
     path('',include('core.urls')),
     #usuarios paths
     path('',include('usuarios.urls')),
+    #pages paths
+    path('horarios/',include('pages.urls'))
 ]
 
 if settings.DEBUG:
