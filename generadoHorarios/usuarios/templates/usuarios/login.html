@@ -2,11 +2,16 @@
 {% load static %} 
 {% block title %}Login{% endblock title %} 
 {% block content %}
-    <div>
-        <div>
-            <input type="text" id="txtId" name="txtId" placeholder="ID de usuario"/>
-            <input type="text" id="txtContra" name="txtContra" placeholder="Contrasena"/>
-            <input type="submit" id="btnRegi" value="Registrar"/>
-        </div>
+<body>
+    <!--ventana Login-->
+    <div class="login">
+        <h1>Login</h1><br>
+        <form method="post">
+            <input type="text" id="txtId" name="txtId" placeholder="ID de Usuario" required="required" />
+            <input type="password" name="txtContra" placeholder="Password" required="required" />
+            <button type="submit" id="btnRegi" class="btn btn-primary btn-block btn-large">Inisiar Sesion</button>
+        </form>
     </div>
+</body>
+
 {% endblock content %}
