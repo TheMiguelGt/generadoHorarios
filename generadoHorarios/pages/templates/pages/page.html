@@ -4,7 +4,8 @@
 {% block content %}
     <h2 >{{page.title}}</h2>
     {{page.content|safe}}
-    {% if request.user.is_staff %}
-        <p><a href="#">Editar</a></p>
+    {{user}}
+    {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
+        <p><a href="{% url 'admin:pages_page_change' %}">Editar</a></p>
     {% endif %}
 {% endblock content %}

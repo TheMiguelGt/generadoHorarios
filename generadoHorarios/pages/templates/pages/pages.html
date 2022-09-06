@@ -4,7 +4,7 @@
 {% block content %}
     {% for page in pages %}
         <h2>{{page.title}}</h2>
-        <p style="color: black;">{{page.content|striptags|safe|truncatechars:200}}</p>
+        <p style="color: black;">{{page.content|striptags|safe|truncatechars:50}}</p>
         <p><a href="{% url 'page' page.id page.title|slugify %}">Leer más</a>
     {% endfor %}
 {% endblock content %}
