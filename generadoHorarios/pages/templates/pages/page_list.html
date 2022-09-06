@@ -2,9 +2,10 @@
 {% load static %}
 {% block title %}Horarios{% endblock title %} 
 {% block content %}
-    {% for page in page_list %}<!--se cambio la parte de pages por la lista de los objetos-->
+{% include "pages/includes/pages_menu.html" %}
+    {% for page in page_list|dictsort:"id" reversed%}<!--se cambio la parte de pages por la lista de los objetos, dictsort los posiciona por id y reversed de manera de reversa-->
         <h2>{{page.title}}</h2>
         <p style="color: black;">{{page.content|striptags|safe|truncatechars:"50"}}</p>
-        <p><a href="{% url 'page' page.id page.title|slugify %}">Leer más</a>
+        <p><a href="{% url 'pages:page' page.id page.title|slugify %}">Leer más</a>
     {% endfor %}
 {% endblock content %}

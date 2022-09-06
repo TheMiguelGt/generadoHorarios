@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}{{page.title}}{% endblock title %} 
 {% block content %}
+{% include "pages/includes/pages_menu.html" %}<!--para incluir una parte del html-->
     <h2 >{{page.title}}</h2><!--se puede acceder con el nombre del modelo u object-->
     {{page.content|safe}}
     {{user}}
