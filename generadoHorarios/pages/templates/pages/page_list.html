@@ -2,9 +2,9 @@
 {% load static %}
 {% block title %}Horarios{% endblock title %} 
 {% block content %}
-    {% for page in pages %}
+    {% for page in page_list %}<!--se cambio la parte de pages por la lista de los objetos-->
         <h2>{{page.title}}</h2>
-        <p style="color: black;">{{page.content|striptags|safe|truncatechars:50}}</p>
+        <p style="color: black;">{{page.content|striptags|safe|truncatechars:"50"}}</p>
         <p><a href="{% url 'page' page.id page.title|slugify %}">Leer más</a>
     {% endfor %}
 {% endblock content %}
