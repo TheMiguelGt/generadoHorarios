@@ -26,5 +26,7 @@ class PageUpdate(UpdateView):
     def get_success_url(self): #mostrar el formulario para ver los cambios
         return reverse_lazy('pages:update', args=[self.object.id]) + '?ok' #se recrea la url, donde se le pasa el update y la clave primaria con el indicador 
     
-
+class PageDelete(DeleteView):#eliminar
+    model = Page 
+    success_url = reverse_lazy('pages:pages')
     
