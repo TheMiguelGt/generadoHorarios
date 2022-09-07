@@ -9,11 +9,12 @@
       <div class="col-md-9 mx-auto">
         <div>
             <form action="" method="post">{% csrf_token %}<!--token para traer todo-->
-                <table>
-                    {{ form.as_table }}<!--como lo va a traer-->
-                </table>
-                <br>
-                <input type="submit" value="Crear p&aacute;gina" />
+                
+                    {{ form.as_p }}<!--como lo va a traer-->
+                
+                <div class="text-center">
+                  <input type="submit" style="background: blue;" value="Crear p&aacute;gina" />
+                </div>
             </form>
         </div>
       </div>

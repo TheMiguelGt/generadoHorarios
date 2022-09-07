@@ -8,5 +8,10 @@ class PageAdmin(admin.ModelAdmin):
     ordering = ('created','title')
     search_fields = ('title','created')
     list_filter = ('title','created')
+    
+    class Media:
+        css = {
+            'all': ('pages/css/custom_ckeditor.css',)
+        }
 
 admin.site.register(Page, PageAdmin)

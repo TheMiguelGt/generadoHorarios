@@ -14,14 +14,14 @@
               <a href="{% url 'pages:page' page.id page.title|slugify %}">Click para ver resultados</a>
             </p>
           {% endif %}
-            <form action="" method="post">{% csrf_token %}<!--token para traer todo-->
-              <table>
-              
-                    {{ form.as_table}}<!--como lo va a traer-->
-                </table>
-                <br>
-                <input type="submit" value="Actualizar p&aacute;gina" />
-            </form>
+          <form action="" method="post">{% csrf_token %}<!--token para traer todo-->
+                
+            {{ form.as_p }}<!--como lo va a traer-->
+        
+        <div class="text-center">
+          <input type="submit" style="background: blue;" value="Actualizar p&aacute;gina" />
+        </div>
+    </form>
         </div>
       </div>
     </div>
