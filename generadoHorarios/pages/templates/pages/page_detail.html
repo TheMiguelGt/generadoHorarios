@@ -1,0 +1,12 @@
+{% extends 'core/loPage.html' %}<!--En este script lo que hace es dar todo el contenido de la misma pagina que se creo-->
+{% load static %}
+{% block title %}{{page.title}}{% endblock title %} 
+{% block content %}
+{% include "pages/includes/pages_menu.html" %}<!--para incluir una parte del html-->
+    <h2 >{{page.title}}</h2><!--se puede acceder con el nombre del modelo u object-->
+    {{page.content|safe}}
+    {{user}}
+    {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
+        <p><a href="{% url 'pages:update' page.id %}">Editar</a></p>
+    {% endif %}
+{% endblock content %}

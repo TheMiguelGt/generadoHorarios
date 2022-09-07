@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from pages.urls import pages_patterns #se importa la tupla de pages
 from django.conf import settings
 
 urlpatterns = [
@@ -25,7 +26,7 @@ urlpatterns = [
     #usuarios paths
     path('',include('usuarios.urls')),
     #pages paths
-    path('horarios/',include('pages.urls'))
+    path('horarios/',include(pages_patterns)),
 ]
 
 if settings.DEBUG:

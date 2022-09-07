@@ -1,0 +1,59 @@
+{% load static %}<!--CARGAR LOS ESTILOS DEL CKEDITOR, EN ESTE CASO PARA EL CONTENT-->
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+
+<link href="{% static 'pages/css/custom_ckeditor.css' %}" rel="stylesheet"><!--modificar el content de ckeditor-->
+
+{% if request.user.is_staff %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <span class="navbar-brand" href="#"><i>Administrar</i></span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nep" aria-controls="nep" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nep">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'pages:create' %}"><i>Crear pagina</i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'pages:pages' %}"><i>Listar paginas</i></a><!--se anade el :pages por el nombre del path que se anadio y el otro por el urlpatterns que se modifico que es pages-->
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endif %}
+<div id="sidemenu" class="menu-collapsed">
+  <div id="header">
+    <div id="title"><span></span></div>
+    <div id="menu-btn">
+      <div class="btn-hamburger"></div>
+      <div class="btn-hamburger"></div>
+      <div class="btn-hamburger"></div>
+    </div>
+  </div>
+  <!--Profile-->
+  <div id="profile">
+    <div id="photo"><img src=""></div>
+    <div id="name"><span> </span></div>
+
+  <!--Items-->
+  <div id="menu-items">
+    <div class="item">
+      <a href="#">
+        <div class="icon"><img src=""></div>
+        <div class="title"><span>Home</span></div>
+      </a>
+    </div>
+    <div class="item separator">
+    </div>
+    <div class="item">
+      <a href="#">
+        <div class="icon"><img src=""></div>
+        <div class="title"><span>Materias</span></div>
+      </a>
+    </div>
+  </div>
+  </div>
+</div>

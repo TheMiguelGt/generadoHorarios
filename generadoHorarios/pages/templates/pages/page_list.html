@@ -1,0 +1,15 @@
+{% extends 'core/loPage.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Horarios{% endblock title %} 
+{% block content %}
+{% include "pages/includes/pages_menu.html" %}
+    {% for page in page_list|dictsort:"id" reversed%}<!--se cambio la parte de pages por la lista de los objetos, dictsort los posiciona por id y reversed de manera de reversa-->
+        <h2>{{page.title}}</h2>
+        <p style="color: black;">{{page.content|striptags|safe|truncatechars:"50"}}</p>
+        <p><a href="{% url 'pages:page' page.id page.title|slugify %}">Leer más</a>
+        {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
+            <a href="{% url 'pages:update' page.id %}">Editar</a>
+            <a href="{% url 'pages:delete' page.id %}">Borrar</a>
+        {% endif %}   
+    {% endfor %}
+{% endblock content %}
