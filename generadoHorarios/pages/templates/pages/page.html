@@ -1,0 +1,10 @@
+{% extends 'core/loPage.html' %}<!--En este script lo que hace es dar todo el contenido de la misma pagina que se creo-->
+{% load static %}
+{% block title %}{{page.title}}{% endblock title %} 
+{% block content %}
+    <h2 >{{page.title}}</h2>
+    {{page.content|safe}}
+    {% if request.user.is_staff %}
+        <p><a href="#">Editar</a></p>
+    {% endif %}
+{% endblock content %}

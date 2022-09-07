@@ -1,34 +1,33 @@
+{% load static %} <!--Bloque para cargar archivos estaticos-->
 <!DOCTYPE html>
 <html>
     <head>
-        {% load static %} <!--Bloque para cargar archivos estaticos-->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock title %}</title>
-        <link rel="stylesheet" href="{% static 'core/css/main.css' %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
+        <link type='text/css' rel="stylesheet" href="{% static "core/css/main.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
+        <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     </head>
     <body >
-        <nav>
-            <div class="logo">Page Name</div>
-            <div class="btn-secondary">
+        <header id="main-header">
+            <a id="logo-header" href="{% url 'home' %}">
+                <img id="unedlimg" src="{% static 'core/img/unedl.png' %}" height="63" >
+            </a>
+            <nav>
                 <ul>
-                    <li ><a class="" href="{% url 'home' %}">Home</a></li>
-                    <li ><a class="" href="">About</a></li>
-                    <li ><a href="">Contact</a></li>
-                    <li ><a href="">Privacity</a></li>
-                    <li ><a href="">Start Now</a></li>
+                    <li><a href="{% url 'home' %}">Inicio</a></li>
+                    <li><a href="#">Acerca de</a></li>
+                    <li><a href="#">Contacto</a></li>
+                    <li id="separate" ><a id="aLogin" href="{% url 'login' %}">Login</a></li>
+                    <li><a id="aSignup" href="{% url 'signup' %}">Sign up</a></li>
                 </ul>
-            </div>
-            <div class="btn-primary">
-                <ul class="ul-primary">
-                    <li class="li-sig"><a class="a-sig" href="">Sign Up</a></li>
-                    <li class="li-log"><a class="a-log" href="">Login</a></li>
-                </ul>
-            </div>
-        </nav>
-        
-        
+            </nav>
+        </header>
+        {% block content %}{% endblock content %}
+
     </body>
 </html>

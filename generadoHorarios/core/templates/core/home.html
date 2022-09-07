@@ -1,3 +1,22 @@
-{% extends 'core/base.html' %} #bloque para obtener el html padre
-{% load static %} #bloque para poder cargar los archivos estaticos (static folder)
-    {% block title %}Home{% endblock title %} #bloque donde obtendra el valor del titulo y lo imprimira en el html padre
+{% extends 'core/base.html' %} 
+{% load static %} 
+{% block title %}Home{% endblock title %} 
+{% block content %}
+    <div class="divPadre">
+        <div class="divHijo">
+            <div class="divCont">
+                <div id="centDiv">
+                    <h1>Es momento de hacer cambios.<br>Cambia tu estilo de trabajo.</h1>
+                    <br>
+                    <p>Administra bien los horarios de clase</p>
+                </div>
+            </div>
+            <div class="divImg">
+                <div id="centImg">
+                    <img id="imgHor" src="{% static 'core/img/ejemplo.jpg' %}" ></
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
