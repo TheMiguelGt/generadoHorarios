@@ -7,6 +7,6 @@
     {{page.content|safe}}
     {{user}}
     {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
-        <p><a href="#">Editar</a></p>
+        <p><a href="{% url 'pages:update' page.id %}">Editar</a></p>
     {% endif %}
 {% endblock content %}

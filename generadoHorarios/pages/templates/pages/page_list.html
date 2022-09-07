@@ -7,5 +7,8 @@
         <h2>{{page.title}}</h2>
         <p style="color: black;">{{page.content|striptags|safe|truncatechars:"50"}}</p>
         <p><a href="{% url 'pages:page' page.id page.title|slugify %}">Leer más</a>
+        {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
+            <p><a href="{% url 'pages:update' page.id %}">Editar</a></p>
+        {% endif %}   
     {% endfor %}
 {% endblock content %}

@@ -1,6 +1,6 @@
 from django.views.generic.list import ListView #crear una lista de paginas
-from django.views.generic.detail import DetailView #detalles de la pagina
-from django.views.generic.edit import CreateView #crear nuevas vistas
+from django.views.generic.detail import DetailView #detalles de la pagina, solo para lectura
+from django.views.generic.edit import CreateView,UpdateView,DeleteView #crear nuevas vistas,actualizar y eliminar 
 from django.urls import reverse, reverse_lazy
 from .models import Page
 
@@ -15,6 +15,16 @@ class PageCreate(CreateView):#crear
     model = Page
     fields = ['title','content','order']
     success_url = reverse_lazy('pages:pages') #se puede hacer de dos maneras 
-    
     #def get_success_url(self): #metodo cuando se haya creado un nuevo horario, donde nos mandara al listado
      #   return reverse('pages:pages')
+
+class PageUpdate(UpdateView):
+    model = Page
+    fields = ['title','content','order'] #campos para actualizar
+    template_name_suffix = '_update_form' #se pasa un subfijo para usar otro formulario
+
+    def get_success_url(self): #mostrar el formulario para ver los cambios
+        return reverse_lazy('pages:update', args=[self.object.id]) + '?ok' #se recrea la url, donde se le pasa el update y la clave primaria con el indicador 
+    
+
+    
