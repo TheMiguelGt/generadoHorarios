@@ -2,6 +2,12 @@
 {% load static %}
 {% block title %}Horarios{% endblock title %} 
 {% block content %}
+<BR>
+    <BR>
+        <BR>
+            <BR>
+                <BR>
+                    <BR>
 {% include "pages/includes/pages_menu.html" %}
     {% for page in page_list|dictsort:"id" reversed%}<!--se cambio la parte de pages por la lista de los objetos, dictsort los posiciona por id y reversed de manera de reversa-->
         <h2>{{page.title}}</h2>
