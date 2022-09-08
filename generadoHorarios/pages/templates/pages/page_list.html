@@ -2,20 +2,34 @@
 {% load static %}
 {% block title %}Horarios{% endblock title %} 
 {% block content %}
-<BR>
-    <BR>
-        <BR>
-            <BR>
-                <BR>
-                    <BR>
 {% include "pages/includes/pages_menu.html" %}
-    {% for page in page_list|dictsort:"id" reversed%}<!--se cambio la parte de pages por la lista de los objetos, dictsort los posiciona por id y reversed de manera de reversa-->
-        <h2>{{page.title}}</h2>
-        <p style="color: black;">{{page.content|striptags|safe|truncatechars:"50"}}</p>
-        <p><a href="{% url 'pages:page' page.id page.title|slugify %}">Leer más</a>
-        {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
-            <a href="{% url 'pages:update' page.id %}">Editar</a>
-            <a href="{% url 'pages:delete' page.id %}">Borrar</a>
-        {% endif %}   
-    {% endfor %}
+<div class="listCont">
+    <table class="listTable">
+        <tr class="border_bottom">
+            <th class="idTd"><p>ID Materia</p></th>
+            <th class="descTd"><p>Nombre de la Materia</p></th>
+            <th class="idTd"><p>ID Maestro</p></th>
+            <th class="descTd"><p>Nombre del Docente</p></th>
+            <th class="acTd"><p>Acci&oacute;n</p></th>
+        </tr>
+        {% for page in page_list|dictsort:"id" reversed%}<!--se cambio la parte de pages por la lista de los objetos, dictsort los posiciona por id y reversed de manera de reversa-->
+        <tr class="border_bottom">
+            <td class="idTd"><p></p></td>
+            <td class="descTd"><p>{{page.title}}</p></td>
+            <td class="idTd"><p></p></td>
+            <td class="descTd"><p>{{page.content|striptags|safe|truncatechars:"10"}}</p></td>
+            <td class="acTd">
+                <table>
+                    <td><a href="{% url 'pages:page' page.id page.title|slugify %}"><i class="fa-sharp fa-solid fa-circle-info"></i></a></td>
+                    {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
+                        <td><a href="{% url 'pages:update' page.id %}"><i class="fa-sharp fa-solid fa-pen"></i></a></td>
+                        <td><a href="{% url 'pages:delete' page.id %}"><i class="fa-solid fa-trash"></i></a></td>
+                    {% endif %}
+                </table>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
 {% endblock content %}

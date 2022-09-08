@@ -4,23 +4,20 @@
 
 <link href="{% static 'pages/css/custom_ckeditor.css' %}" rel="stylesheet"><!--modificar el content de ckeditor-->
 
-{% if request.user.is_staff %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container">
-    <span class="navbar-brand" href="#"><i>Administrar</i></span>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nep" aria-controls="nep" aria-expanded="false">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="nep">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'pages:create' %}"><i>Crear pagina</i></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'pages:pages' %}"><i>Listar paginas</i></a><!--se anade el :pages por el nombre del path que se anadio y el otro por el urlpatterns que se modifico que es pages-->
-        </li>
-      </ul>
-    </div>
+
+  <div class="divAdmin">
+    <h3>Materia</h3>
+    <table class="iconsTable">
+      <tr>
+    {% if request.user.is_staff %}
+      
+          <td class="iconTd"><a href="{% url 'pages:create' %}"><i class="fa-solid fa-circle-plus"></i><span></span></a></td>
+          <td class="iconTd"><a href="{% url 'pages:pages' %}"><i class="fa-solid fa-clipboard-list"></i><span></span></a></td>
+          
+
+    {% endif %}
+        <td class="inputTd"><input class="txtSearch" type="text" placeholder="Search"></td>
+      </tr>
+    </table>
   </div>
-</nav>
-{% endif %}
+  

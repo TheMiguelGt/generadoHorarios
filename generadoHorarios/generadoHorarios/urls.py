@@ -26,7 +26,7 @@ urlpatterns = [
     #usuarios paths
     path('',include('usuarios.urls')),
     #pages paths
-    path('horarios/',include(pages_patterns)),
+    path('materias/',include(pages_patterns)),
 ]
 
 if settings.DEBUG:
