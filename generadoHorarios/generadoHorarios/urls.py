@@ -23,10 +23,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #core paths
     path('',include('core.urls')),
-    #usuarios paths
-    path('',include('usuarios.urls')),
     #pages paths
     path('materias/',include(pages_patterns)),
+    #Paths de auth
+    path('accounts/',include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:
