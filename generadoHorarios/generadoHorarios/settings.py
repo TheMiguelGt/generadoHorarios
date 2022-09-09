@@ -147,3 +147,4 @@ CKEDITOR_CONFIGS = {
 
 #auth redirects 
 LOGIN_REDIRECT_URL = 'pages:pages' #buscara un pad con ese mismo nombre, en este caso nos mandaria al menu principal de materias
+LOGOUT_REDIRECT_URL = 'home'
