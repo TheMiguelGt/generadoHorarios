@@ -178,38 +178,36 @@ label #sidebar_btn:hover{
     color: #374DBF;
 }
 .content .divCont{
-    width: 96%;
     height: 600px;
     margin-top: 30px;
     margin-left: 30px;
+    margin-right: 30px;
     background-position: center;
     background-color: #ffff;
     box-shadow: 0px 0px 5px 1px rgb(184, 184, 184);
     transition: 0.5s;
 }
 /*BARRA DE ADMINISTRAR*/
-.divAdmin{
+.content .divAdmin{
     background-position: center;
-    top:0;
-    width: 100vh;
+    padding: 0 34px 0 0;
     background-color: #ffff;
     transition: 0.5s;
 }
 /*LISTAR LOS ICONOS EN TABLA*/
-.divAdmin .iconsTable{
+.content .iconsTable{
     width: 100%;
     padding: 10px 0px 0px 34px;
+    background-position: center;
 }
 .iconTd{
-    width: 2%;
+    width: 3%;
 }
 .inputTd{
-    width: 96%;
-    float: right;
-    margin-left: 2000px;
+    text-align: right;
 }
 .txtSearch{
-    width: 400px;
+    width: 350px;
     height: 40px;
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
@@ -240,40 +238,63 @@ label #sidebar_btn:hover{
 }
 /*Contenido en lista*/
 .content .listCont{
-    width: 100vh;
+    background-position: center;
     background-color: #ffff;
-    margin-top: 80px;
+    margin-top: 65px;
     margin-bottom: 30px;
 }
-.listCont .listTable{
+.content .listTable{
     width: 100%;
     padding: 0px 34px 0px 34px;
+    background-position: center;
 }
 .listTable th{
     text-align: left;
-    padding: 0 0 10px 0;
     font-family: 'Roboto', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #575655;
-    padding: 0 20px 0 0;
+    font-size: 17px;
+    font-weight: 500;
+    color: #000000;
+    padding: 0px 20px 10px 0;
 }
 .listTable td{
     text-align: left;
-    padding: 0 0 10px 0;
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 500;
     color: #575655;
-    padding: 0 20px 0 0;
+    padding: 10px 20px 10px 0;
 }
 .border_bottom{
     display: block;
     border-bottom: 2px solid #ada9a9;
 }
 .idTd{
-    width: 10%;
+    width: 100%;
 }
 .descTd{
-    width: 40%;
+    width: 100%;
+}
+.btnTable .btn1{
+    color: #FFF333;
+    font-size: 21px;
+}
+.btnTable .btn1:hover{
+    color: #CCC223;
+    font-size: 21px;
+}
+.btnTable .btn2{
+    color: #3368FF;
+    font-size: 21px;
+}
+.btnTable .btn2:hover{
+    color: #2650C9;
+    font-size: 21px;
+}
+.btnTable .btn3{
+    color: #FF4F33;
+    font-size: 21px;
+}
+.btnTable .btn3:hover{
+    color: #CD3D26;
+    font-size: 21px;
 }
