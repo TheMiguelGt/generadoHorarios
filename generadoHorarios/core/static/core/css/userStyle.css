@@ -179,9 +179,9 @@ label #sidebar_btn:hover{
 }
 .content .divCont{
     height: 600px;
-    margin-top: 30px;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-top: 40px;
+    margin-left: 60px;
+    margin-right: 60px;
     background-position: center;
     background-color: #ffff;
     box-shadow: 0px 0px 5px 1px rgb(184, 184, 184);
@@ -268,11 +268,11 @@ label #sidebar_btn:hover{
     display: block;
     border-bottom: 2px solid #ada9a9;
 }
-.idTd{
-    width: 100%;
+.listTable .idTd{
+    width: 80px;
 }
-.descTd{
-    width: 100%;
+.listTable .descTd{
+    width: 350px;
 }
 .btnTable .btn1{
     color: #FFF333;

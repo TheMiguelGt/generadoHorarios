@@ -6,18 +6,18 @@
 <div class="listCont">
     <table class="listTable">
         <tr class="border_bottom">
-            <th ><p>ID Materia</p></th>
-            <th ><p>Nombre de la Materia</p></th>
-            <th ><p>ID Maestro</p></th>
-            <th ><p>Nombre del Docente</p></th>
-            <th ><p>Acci&oacute;n</p></th>
+            <td class="idTd"><p><b>ID Materia</b></p></td>
+            <td class="descTd"><p><b>Nombre de la Materia</b></p></td>
+            <td class="idTd"><p><b>ID Maestro</b></p></td>
+            <td class="descTd"><p><b>Nombre del Docente</b></p></td>
+            <td class=""><p><b>Acci&oacute;n</b></p></td>
         </tr>
         {% for page in page_list|dictsort:"id" reversed%}<!--se cambio la parte de pages por la lista de los objetos, dictsort los posiciona por id y reversed de manera de reversa-->
         <tr class="border_bottom">
-            <td ><p></p></td>
-            <td ><p>{{page.title}}</p></td>
-            <td ><p></p></td>
-            <td ><p>{{page.content|striptags|safe|truncatechars:"10"}}</p></td>
+            <td class="idTd"><p></p></td>
+            <td class="descTd"><p>{{page.title}}</p></td>
+            <td class="idTd"><p></p></td>
+            <td class="descTd"><p>{{page.content|striptags|safe|truncatechars:"10"}}</p></td>
             <td >
                 <table class="btnTable">
                     <td><a class="btn1" href="{% url 'pages:page' page.id page.title|slugify %}"><i class="fa-sharp fa-solid fa-circle-info"></i></a></td>
