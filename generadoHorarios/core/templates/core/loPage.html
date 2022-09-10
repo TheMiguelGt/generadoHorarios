@@ -7,19 +7,53 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock title %}</title>
-        <link type='text/css' rel="stylesheet" href="{% static "core/css/main.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
+        <link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     </head>
     <body >
-        <header id="main-header">
-            <a id="logo-header" href="{% url 'home' %}">
-                <img id="unedlimg" src="{% static 'core/img/unedl.png' %}" height="63" >
-            </a>
-            
+        {% csrf_token %} 
+        <input type="checkbox" id="check">
+        <!--Header area start-->
+        <header>
+            <label for="check">
+                <i class="fa-solid fa-bars" id="sidebar_btn"></i>
+            </label>
+            <div class="left_area">
+                <h3>UNE<span>DL</span></h3>
+            </div>
+            <div class="right_area">
+                <a href="#" class="logout_btn"><img src="{% static 'core/img/uwu.jpg' %}" class="profile_image" alt=""></a>
+            </div>
         </header>
-        {% block content %}{% endblock content %}
+        <!--Header area end-->
+        <!--Slidebar start-->
+        <div class="sidebar">
+            <center>
+                <img src="{% static 'core/img/uwu.jpg' %}" class="profile_image" alt="">
+                <h4>{{user}}</h4>
+            </center>
+            <a href="#"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+            <a href="{% url 'pages:pages' %}"><i class="fa-solid fa-book"></i><span>Materia</span></a>
+            <a href="{% url 'pages:create' %}"><i class="fa-solid fa-chalkboard-user"></i><span>Clase</span></a>
+            <a href="#"><i class="fa-solid fa-person-chalkboard"></i><span>Lista de Docentes</span></a>
+            <a href="#"><i class="fa-solid fa-graduation-cap"></i><span>Lista de Alumnos</span></a>
+            <a style="margin-top:300px;" href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+        </div>
+        <!--Slidebar end-->
+        <div class="content">
+            
+            <div class="contCRUD">
+                <h3>Mate<span>ria</span></h3>
+                <p><a href="#"><span>Home</span></a> > <a href="{% url 'pages:pages' %}" class="aChoose"><span>Materia</span></a></p>
+            </div>
+            
+            <div class="divCont">
+                {% block content %}{% endblock content %}
+            </div>
         
+        </div>
     </body>
 </html>

@@ -1,0 +1,23 @@
+{% load static %}<!--CARGAR LOS ESTILOS DEL CKEDITOR, EN ESTE CASO PARA EL CONTENT-->
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+
+<link href="{% static 'pages/css/custom_ckeditor.css' %}" rel="stylesheet"><!--modificar el content de ckeditor-->
+
+
+  <div class="divAdmin">
+    <h3>Materia</h3>
+    <table class="iconsTable">
+      <tr>
+    {% if request.user.is_staff %}
+      
+          <td class="iconTd"><a href="{% url 'pages:create' %}"><i class="fa-solid fa-circle-plus"></i><span></span></a></td>
+          <td class="iconTd"><a href="{% url 'pages:pages' %}"><i class="fa-solid fa-clipboard-list"></i><span></span></a></td>
+          
+
+    {% endif %}
+        <td class="inputTd"><input align='right' class="txtSearch" type="text" placeholder="Search"></td>
+      </tr>
+    </table>
+  </div>
+  

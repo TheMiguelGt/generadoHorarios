@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from pages.urls import pages_patterns #se importa la tupla de pages
 from django.conf import settings
 
 urlpatterns = [
@@ -22,10 +23,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #core paths
     path('',include('core.urls')),
-    #usuarios paths
-    path('',include('usuarios.urls')),
     #pages paths
-    path('horarios/',include('pages.urls'))
+    path('materias/',include(pages_patterns)),
+    #Paths de auth
+    path('accounts/',include('django.contrib.auth.urls')),
+    path('accounts/',include('registration.urls')),
 ]
 
 if settings.DEBUG:
