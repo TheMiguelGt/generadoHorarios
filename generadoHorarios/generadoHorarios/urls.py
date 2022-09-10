@@ -27,6 +27,7 @@ urlpatterns = [
     path('materias/',include(pages_patterns)),
     #Paths de auth
     path('accounts/',include('django.contrib.auth.urls')),
+    path('accounts/',include('registration.urls')),
 ]
 
 if settings.DEBUG:
