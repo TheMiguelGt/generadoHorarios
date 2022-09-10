@@ -1,34 +1,17 @@
 {% extends 'core/user.html' %} 
-{% load static %}
-{% block title %}Iniciar sesion{% endblock %}
+{% load static %} 
+{% block title %}Login{% endblock title %} 
 {% block content %}
-<style>.errorlist{color:red;}</style>
-<main role="main">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto mb-5">
-        {% if 'register' in request.GET %}
-          <script>
-            alert("usuario registrado con exito")
-          </script>
-        {% endif %}
-        <form action="" method="post">{% csrf_token %}
-          <h3 class="mb-4">Iniciar sesion</h3>
-          {% if form.non_field_errors %}
-            <p style="color:red">Usuario o contrasena incorrectos, prueba de nuevo.</p>
-          {% endif %}
-          <p>
-            <input type="text" name="username" autofocus maxlength="254" required
-              id="id_username" class="form-control" placeholder="Nombre de usuario"/>
-          </p>
-          <p>
-            <input type="password" name="password" required
-              id="id_password" class="form-control" placeholder="Contrasena"/>
-          </p>
-          <p><input type="submit" class="btn btn-primary btn-block" value="Acceder"></p>
+<body id="bodyLogin">
+    <!--ventana Login-->
+    <div class="login">
+        <h1>Login</h1><br>
+        <form method="post">
+            <input type="text" id="txtId" name="txtId" placeholder="Matricula" required="required" />
+            <input type="password" name="txtContra" placeholder="Password" required="required" />
+            <button type="submit" id="btnRegi" class="btn btn-primary btn-block btn-large">Inisiar Sesion</button>
         </form>
-      </div>
     </div>
-  </div>
-</main>
-{% endblock %}
+</body>
+
+{% endblock content %}

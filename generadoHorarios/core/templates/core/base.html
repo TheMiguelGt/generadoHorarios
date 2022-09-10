@@ -13,19 +13,32 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     </head>
     <body >
-        <header id="main-header">
-            <a id="logo-header" href="{% url 'home' %}">
-                <img id="unedlimg" src="{% static 'core/img/unedl.png' %}" height="63" >
-            </a>
-            <nav>
-                <ul>
+        <section class="navigation">
+            <div class="nav-container">
+              <div class="brand">
+                <header id="main-header">
+                    <a id="logo-header" href="{% url 'home' %}">
+                        <img id="unedlimg" src="{% static 'core/img/unedl.png' %}" height="63" >
+                    </a>
+              </div>
+
+              <nav>
+                <div class="nav-mobile"><a id="nav-toggle" href="#!"><span></span></a></div>
+                <ul class="nav-list">
                     <li><a href="{% url 'home' %}">Inicio</a></li>
-                    <li><a href="#">Acerca de</a></li>
+                    <li><a href="#Acerca">Acerca de</a></li>
                     <li><a href="#">Contacto</a></li>
                     <li id="separate" ><a id="aLogin" href="{% url 'login' %}">Login</a></li>
                     <li><a id="aSignup" href="{% url 'signup' %}">Sign up</a></li>
                 </ul>
             </nav>
+          </div>
+        </section>
+        
+        <footer>
+            <span> Footer 2022</span>
+    
+        </footer>
         </header>
         {% block content %}{% endblock content %}
 
