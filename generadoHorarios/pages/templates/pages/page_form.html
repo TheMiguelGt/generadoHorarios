@@ -1,6 +1,10 @@
 {% extends 'core/loPage.html' %}
 {% load static %}
-{% block title %}Crear pagina{% endblock %}
+{% block title %}Crear materia{% endblock %}
+{% block subTitle %}<h3><span>Materias</span></h3>{% endblock subTitle %}
+{% block subMenu %}
+    <p><a href="#"><span>Home</span></a> > <a href="{% url 'pages:pages' %}" ><span>Materias</span></a> > <span class="aChoose">Crear materia</span></p>
+{% endblock subMenu %}
 {% block content %}
 {% include 'pages/includes/pages_menu.html'%}
 <main role="main">

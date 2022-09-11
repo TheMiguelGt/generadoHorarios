@@ -15,7 +15,7 @@
     </head>
     <body >
         {% csrf_token %} 
-        <input type="checkbox" id="check">
+        <input type="checkbox" id="check" checked="checked">
         <!--Header area start-->
         <header>
             <label for="check">
@@ -25,7 +25,7 @@
                 <h3>UNE<span>DL</span></h3>
             </div>
             <div class="right_area">
-                <a href="#" class="logout_btn"><img src="{% static 'core/img/uwu.jpg' %}" class="profile_image" alt=""></a>
+                <a href="{% url 'profile' %}" class="logout_btn"><img src="{% static 'core/img/uwu.jpg' %}" class="profile_image" alt=""></a>
             </div>
         </header>
         <!--Header area end-->
@@ -46,10 +46,8 @@
         <div class="content">
             
             <div class="contCRUD">
-                <h3>Mate<span>ria</span></h3>
-                <p><a href="#"><span>Home</span></a> > <a href="{% url 'pages:pages' %}" class="aChoose"><span>Materia</span></a></p>
-            </div>
-            
+                {% block subTitle %}{% endblock subTitle %}
+                {% block subMenu %}{% endblock subMenu %}
             <div class="divCont">
                 {% block content %}{% endblock content %}
             </div>

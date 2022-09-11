@@ -6,7 +6,7 @@
 
 
   <div class="divAdmin">
-    <h3>Materia</h3>
+    <h3><span>{% block subTitle %}{% endblock subTitle %}</span></h3>
     <table class="iconsTable">
       <tr>
     {% if request.user.is_staff %}

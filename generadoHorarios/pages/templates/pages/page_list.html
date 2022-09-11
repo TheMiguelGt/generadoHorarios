@@ -1,6 +1,10 @@
 {% extends 'core/loPage.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
-{% block title %}Horarios{% endblock title %} 
+{% block title %}Materias{% endblock title %} 
+{% block subTitle %}<h3><span>Materias</span></h3>{% endblock subTitle %}
+{% block subMenu %}
+    <p><a href="#"><span>Home</span></a> > <span class="aChoose">Materias</span></p>
+{% endblock subMenu %}
 {% block content %}
 {% include "pages/includes/pages_menu.html" %}
 <div class="listCont">
