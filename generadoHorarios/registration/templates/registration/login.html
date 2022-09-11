@@ -26,6 +26,8 @@
               id="id_password" class="form-control" placeholder="Contrasena"/>
           </p>
           <p><input type="submit" class="btn btn-primary btn-block" value="Acceder"></p>
+          <p>¿Ha olvidado su contrasena?, puede restaurarla <a href="{% url 'password_reset' %}">aqui</a></p>
+          <p><a href="{% url 'signup' %}">Registrarme</a></p>
         </form>
       </div>
     </div>
