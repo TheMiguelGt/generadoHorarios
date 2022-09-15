@@ -154,8 +154,8 @@ label #sidebar_btn:hover{
 .content .contCRUD h3{
     color: #575655;
     margin: 0;
-    font-size: 22px;
-    font-weight: 900;
+    font-size: 25px;
+    font-weight: 500;
     padding: 0px 0px 0px 20px;
 }
 .content .contCRUD a{
@@ -197,11 +197,32 @@ label #sidebar_btn:hover{
     background-color: #ffff;
     transition: 0.5s;
 }
+.divCont .divAdmin h3{
+    color: #dd1759;
+    margin: 0;
+    font-size: 25px;
+    font-weight: 500;
+    padding: 50px 0px 0px 30px;
+}
 /*LISTAR LOS ICONOS EN TABLA*/
-.content .iconsTable{
+.divAdmin .iconsTable{
     width: 100%;
     padding: 10px 0px 0px 34px;
     background-position: center;
+}
+.iconsTable a{
+    color: #ffff;
+    display: block;
+    width: 100%;
+    line-height: 60px;
+    text-decoration: none;
+    padding-left: 40px;
+    box-sizing: border-box;
+    transition: 0.5s;
+    transition-property: background;
+}
+.divAdmin a:hover{
+    color: #dd1759;
 }
 .iconTd{
     width: 3%;
@@ -220,27 +241,6 @@ label #sidebar_btn:hover{
 }
 .txtSearch:focus {
     border-color: #575655;
-}
-.iconsTable h3{
-    color: #dd1759;
-    margin: 0;
-    font-size: 28px;
-    font-weight: 500;
-    padding: 40px 0px 0px 40px;
-}
-.iconsTable a{
-    color: #ffff;
-    display: block;
-    width: 100%;
-    line-height: 60px;
-    text-decoration: none;
-    padding-left: 40px;
-    box-sizing: border-box;
-    transition: 0.5s;
-    transition-property: background;
-}
-.divAdmin a:hover{
-    color: #dd1759;
 }
 /*Contenido en lista*/
 .content .listCont{

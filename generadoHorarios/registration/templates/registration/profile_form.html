@@ -6,8 +6,7 @@
     <p><a href="#"><span>Home</span></a> > <span class="aChoose">Perfil</span></p>
 {% endblock subMenu %}
 {% block content %}
-            <form action="" method="post">{% csrf_token %}<!--token para traer todo-->
-                
+            <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}<!--token para traer todo, y el otro para crear archivos-->
                     {{ form.as_p }}<!--como lo va a traer-->
                 
                 <div class="text-center">
