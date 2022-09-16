@@ -25,14 +25,14 @@
                 <h3>UNE<span>DL</span></h3>
             </div>
             <div class="right_area">
-                <a href="{% url 'profile' %}" class="logout_btn"><img src="{% static 'core/img/uwu.jpg' %}" class="profile_image" alt=""></a>
+                <a href="{% url 'profile' %}" class="logout_btn"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} class="profile_image" alt=""></a>
             </div>
         </header>
         <!--Header area end-->
         <!--Slidebar start-->
         <div class="sidebar">
             <center>
-                <img src="{% static 'core/img/uwu.jpg' %}" class="profile_image" alt="">
+                <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} class="profile_image" alt="">
                 <h4>{{user}}</h4>
             </center>
             <a href="#"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
