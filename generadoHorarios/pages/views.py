@@ -17,6 +17,7 @@ class StaffRequiredMixin(object): #clase base de todas las clases de py
 # Create your views here.
 class PageListView(ListView):#listar
     model = Page    #se obtiene el modelo de la app
+    paginate_by = 3 #paginacion de la lista, para mostrar de 3 en 3
 
 class PageDetailView(DetailView):#ver detalles
     model = Page
