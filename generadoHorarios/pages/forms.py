@@ -7,12 +7,13 @@ class PageForms(forms.ModelForm):
     
     class Meta:
         model = Page
-        fields = ['title','content','order']
+        fields = ['idMateria','nomMateria','numHoras']
         Widget = {
-            'title': forms.TextInput(attrs={'class':'uwu-class','placeholder':'Titulo'}), #se añaden los atributos y se le pone la clase o id para modificar
-            'content': forms.Textarea(attrs={'class':'uwu-class'}),
-            'order': forms.NumberInput(attrs={'class':'uwu-class','placeholder':'Orden'}),
+            'idMateria': forms.TextInput(attrs={'class':'uwu-class','placeholder':'Id materia'}), #se aï¿½aden los atributos y se le pone la clase o id para modificar
+            'nomMateria': forms.TextInput(attrs={'class':'uwu-class','placeholder':'Nombre de la materia'}),
+            'numHoras': forms.TextInput(attrs={'class':'uwu-class','placeholder':'Numero de horas'}),
+            
         }
         labels = {
-            'title':'', 'order':'','content':''
+            'idMateria':'', 'nomMateria':'','numHoras':''#,'idDoce':''
         }

@@ -4,10 +4,10 @@ from .models import Page
 # Register your models here.
 class PageAdmin(admin.ModelAdmin):
     readonly_fields = ('created','update')
-    list_display = ('title','order','created')
-    ordering = ('created','title')
-    search_fields = ('title','created')
-    list_filter = ('title','created')
+    list_display = ('idMateria','nomMateria','numHoras','created')
+    ordering = ('idMateria','nomMateria')
+    search_fields = ('nomMateria','created')
+    list_filter = ('idMateria','nomMateria','numHoras')
     
     class Media:
         css = {

@@ -5,16 +5,17 @@ from ckeditor.fields import RichTextField
 
 # Create your models here.
 class Page(models.Model):
-    title = models.CharField(verbose_name="Titulo", max_length=200)
-    content = RichTextField(verbose_name = "Contenido")
-    order = models.SmallIntegerField(verbose_name="Orden", default=0)
+    idMateria = models.CharField(primary_key=True,max_length=10,verbose_name="Clave de la materia",default="")
+    nomMateria = models.CharField(max_length=50, verbose_name="Nombre de la materia",null=True)
+    numHoras = models.IntegerField(verbose_name="Numero de horas a la semana",null=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
     update = models.DateTimeField(auto_now="True", verbose_name="Fecha de edicion")
 
     class Meta:
-        verbose_name = 'horario'
-        verbose_name_plural = 'horarios'
-        ordering = ['order','title']
+        verbose_name = 'materia'
+        verbose_name_plural = 'materias'
+        db_table = 'materia'
+        ordering = ['idMateria','nomMateria']
 
     def __str__(self):
-        return self.title
+        return self.idMateria
