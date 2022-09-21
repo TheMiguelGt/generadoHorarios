@@ -12,8 +12,15 @@ def custom_upload_to(instance,filename): #objeto que se esta guardando, fichero 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE) #identifica un perfil para cada usuario
+    userNom = models.CharField(max_length=50, verbose_name="Nombre")
+    userApepat = models.CharField(max_length=50, verbose_name="Apellido paterno")
+    userApemat = models.CharField(max_length=50, verbose_name="Apellido materno")
     avatar = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)
-    bio = models.TextField(null=True, blank=True)
+
+    class Meta:
+        db_table = 'usuarios'
+
+    
 
 @receiver(post_save,sender=User)#verificar usuario creado
 def ensure_profile_exists(sender,instance,**kwargs):
