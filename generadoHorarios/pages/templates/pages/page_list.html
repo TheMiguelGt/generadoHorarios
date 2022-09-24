@@ -1,6 +1,10 @@
 {% extends 'core/loPage.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
-{% block title %}Horarios{% endblock title %} 
+{% block title %}Materias{% endblock title %} 
+{% block subTitle %}<h3><span>Materias</span></h3>{% endblock subTitle %}
+{% block subMenu %}
+    <p><a href="#"><span>Home</span></a> > <span class="aChoose">Materias</span></p>
+{% endblock subMenu %}
 {% block content %}
 {% include "pages/includes/pages_menu.html" %}
 <div class="listCont">
@@ -8,19 +12,19 @@
         <tr class="border_bottom">
             <td class="idTd"><p><b>ID Materia</b></p></td>
             <td class="descTd"><p><b>Nombre de la Materia</b></p></td>
-            <td class="idTd"><p><b>ID Maestro</b></p></td>
+            <td class="idTd"><p><b>Horas a la Semana</b></p></td>
             <td class="descTd"><p><b>Nombre del Docente</b></p></td>
             <td class=""><p><b>Acci&oacute;n</b></p></td>
         </tr>
         {% for page in page_list|dictsort:"id" reversed%}<!--se cambio la parte de pages por la lista de los objetos, dictsort los posiciona por id y reversed de manera de reversa-->
         <tr class="border_bottom">
-            <td class="idTd"><p></p></td>
-            <td class="descTd"><p>{{page.title}}</p></td>
-            <td class="idTd"><p></p></td>
+            <td class="idTd"><p>{{page.idMateria}}</p></td>
+            <td class="descTd"><p>{{page.nomMateria}}</p></td>
+            <td class="idTd"><p>{{page.numHoras}}</p></td>
             <td class="descTd"><p>{{page.content|striptags|safe|truncatechars:"10"}}</p></td>
             <td >
                 <table class="btnTable">
-                    <td><a class="btn1" href="{% url 'pages:page' page.id page.title|slugify %}"><i class="fa-sharp fa-solid fa-circle-info"></i></a></td>
+                    <td><a class="btn1" href="{% url 'pages:page' page.id page.nomMateria|slugify %}"><i class="fa-sharp fa-solid fa-circle-info"></i></a></td>
                     {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
                         <td><a class="btn2" href="{% url 'pages:update' page.id %}"><i class="fa-sharp fa-solid fa-pen"></i></a></td>
                         <td><a class="btn3" href="{% url 'pages:delete' page.id %}"><i class="fa-solid fa-trash"></i></a></td>
@@ -29,7 +33,36 @@
             </td>
         </tr>
         {% endfor %}
-    </table>
 
+    </table>
+    {% if is_paginated %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %} <!--objeto de la pagina que esta anterior a esa-->
+            <li class="page-item ">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+            </li>
+        {% endif %}
+        {% for i in paginator.page_range %}
+            <li class="page-item {% if page_obj.number == i %}active{% endif %}"><!--verificar si se esta navegando en la pagina activa-->
+            <a class="page-link" href="?page={{ i }}">{{ i }}</a><!--muestra la pagina-->
+            </li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li class="page-item ">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">&raquo;</a>
+            </li>
+        {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
 </div>
 {% endblock content %}

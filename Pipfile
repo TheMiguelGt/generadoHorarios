@@ -10,6 +10,10 @@ pillow = "*"
 pylint = "*"
 pylint-celery = "*"
 pylint-django = "*"
+pyodbc = "*"
+mssql-django = "*"
+django-mssql-backend = "*"
+mysqlclient = "*"
 
 [dev-packages]
 
