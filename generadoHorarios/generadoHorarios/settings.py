@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'core',
+    'institucion',
     'pages.apps.PagesConfig',
 ]
 

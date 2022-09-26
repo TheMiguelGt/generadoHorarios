@@ -36,7 +36,6 @@ class UserCor(models.Model):
 class UserDoce(models.Model):
     idDoce = models.ForeignKey(Profile,null=False,on_delete=models.CASCADE)
     idRol = models.CharField(max_length=1, choices=rol, default='M')
-    numHoras = models.IntegerField(verbose_name="Numero de horas a la semana")
 
     class Meta:
         db_table = "docente"

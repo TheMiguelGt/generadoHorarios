@@ -13,7 +13,7 @@
             <td class="idTd"><p><b>ID Materia</b></p></td>
             <td class="descTd"><p><b>Nombre de la Materia</b></p></td>
             <td class="idTd"><p><b>Horas a la Semana</b></p></td>
-            <td class="descTd"><p><b>Nombre del Docente</b></p></td>
+            <td class="descTd"><p><b>Aula</b></p></td>
             <td class=""><p><b>Acci&oacute;n</b></p></td>
         </tr>
         {% for page in page_list|dictsort:"id" reversed%}<!--se cambio la parte de pages por la lista de los objetos, dictsort los posiciona por id y reversed de manera de reversa-->
@@ -21,6 +21,7 @@
             <td class="idTd"><p>{{page.idMateria}}</p></td>
             <td class="descTd"><p>{{page.nomMateria}}</p></td>
             <td class="idTd"><p>{{page.numHoras}}</p></td>
+            <td class="idTd"><p>{{page.aula}}</p></td>
             <td class="descTd"><p>{{page.content|striptags|safe|truncatechars:"10"}}</p></td>
             <td >
                 <table class="btnTable">
