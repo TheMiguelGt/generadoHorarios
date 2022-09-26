@@ -23,10 +23,16 @@ class Licenciatura(models.Model):
     
     def __str__(self):
         return self.claveLicenci
+
+class Grupo(models.Model):
+    grupo = models.IntegerField(null=False)
+    
+    class Meta:
+        db_table = 'grupo'
     
 class Aula(models.Model):
     claveAula = models.CharField(max_length=10,null=False)
-    grupo = models.CharField(max_length=1)
+    grupo = models.ForeignKey(Grupo,null=False,on_delete=models.CASCADE)
     licenciatura = models.ForeignKey(Licenciatura,null=False,on_delete=models.CASCADE)
     
     class Meta:

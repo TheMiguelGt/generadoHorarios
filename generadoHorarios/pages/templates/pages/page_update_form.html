@@ -11,7 +11,7 @@
           {% if 'ok' in request.GET %}
             <p style="color : green;">
               El horario se edito correctamente.
-              <a href="{% url 'pages:page' page.id page.title|slugify %}">Click para ver resultados</a>
+              <a href="{% url 'pages:page' page.id page.nomMateria|slugify %}">Click para ver resultados</a>
             </p>
           {% endif %}
           <form action="" method="post">{% csrf_token %}<!--token para traer todo-->
