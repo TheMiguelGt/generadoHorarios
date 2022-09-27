@@ -39,6 +39,9 @@ class Dia(models.Model):
     
     class Meta:
         db_table = 'dia'
+
+    def __str__(self):
+        return self.nomDia
         
 class Hora(models.Model):
     iniHora = models.CharField(max_length=10)
@@ -46,6 +49,9 @@ class Hora(models.Model):
     
     class Meta:
         db_table = 'hora'
+
+    def __str__(self):
+        return self.iniHora,self.finHora
         
 class DispoHora(models.Model):
     materia = models.ForeignKey(MateDispo,null=False,on_delete=models.CASCADE)

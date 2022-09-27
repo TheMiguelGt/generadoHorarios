@@ -25,10 +25,13 @@ class Licenciatura(models.Model):
         return self.claveLicenci
 
 class Grupo(models.Model):
-    grupo = models.IntegerField(null=False)
+    grupo = models.CharField(max_length=1,null=False)
     
     class Meta:
         db_table = 'grupo'
+
+    def __str__(self):
+        return self.grupo
     
 class Aula(models.Model):
     claveAula = models.CharField(max_length=10,null=False)
