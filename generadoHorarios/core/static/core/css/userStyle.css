@@ -211,15 +211,8 @@ label #sidebar_btn:hover{
     background-position: center;
 }
 .iconsTable a{
-    color: #ffff;
-    display: block;
-    width: 100%;
-    line-height: 60px;
-    text-decoration: none;
-    padding-left: 40px;
-    box-sizing: border-box;
-    transition: 0.5s;
-    transition-property: background;
+    color: #c3c4c7;
+    font-size: 35px;
 }
 .divAdmin a:hover{
     color: #dd1759;
@@ -275,10 +268,12 @@ label #sidebar_btn:hover{
     border-bottom: 2px solid #ada9a9;
 }
 .listTable .idTd{
-    width: 80px;
+    width: 10%;
+    text-align: center;
 }
 .listTable .descTd{
-    width: 350px;
+    width: 30%;
+    text-align: center;
 }
 .btnTable .btn1{
     color: #FFF333;
