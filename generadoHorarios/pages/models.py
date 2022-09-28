@@ -4,7 +4,7 @@ from turtle import update
 from django.db import models
 from ckeditor.fields import RichTextField 
 from registration.models import UserDoce,UserAlum
-from institucion.models import Aula,Grupo
+from institucion.models import Aula,Grado
 
 # Create your models here.
 #modelo de materias
@@ -12,7 +12,7 @@ class Page(models.Model):
     idMateria = models.CharField(max_length=10,verbose_name="Clave de la materia",null=False)
     nomMateria = models.CharField(max_length=50, verbose_name="Nombre de la materia",null=False)
     numHoras = models.IntegerField(verbose_name="Numero de horas a la semana",null=False)
-    grupo = models.ForeignKey(Grupo,null=False,on_delete=models.CASCADE)
+    grado = models.ForeignKey(Grado,null=False,on_delete=models.CASCADE)
     aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
     update = models.DateTimeField(auto_now="True", verbose_name="Fecha de edicion")

@@ -24,18 +24,17 @@ class Licenciatura(models.Model):
     def __str__(self):
         return self.claveLicenci
 
-class Grupo(models.Model):
-    grupo = models.CharField(max_length=1,null=False)
+class Grado(models.Model):
+    grado = models.CharField(max_length=1,null=False)
     
     class Meta:
-        db_table = 'grupo'
+        db_table = 'grado'
 
     def __str__(self):
-        return self.grupo
+        return self.grado
     
 class Aula(models.Model):
     claveAula = models.CharField(max_length=10,null=False)
-    grupo = models.ForeignKey(Grupo,null=False,on_delete=models.CASCADE)
     licenciatura = models.ForeignKey(Licenciatura,null=False,on_delete=models.CASCADE)
     
     class Meta:
