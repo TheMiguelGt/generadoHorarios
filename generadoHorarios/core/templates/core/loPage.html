@@ -13,9 +13,16 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     </head>
+    <script>
+        function mantener(){
+            if (document.getElementById("check").checked){
+                document.getElementById("check").checked = true
+            }
+        }
+    </script>
     <body >
         {% csrf_token %} 
-        <input type="checkbox" id="check" checked="checked">
+        <input type="checkbox" id="check" onChange="mantener()">
         <!--Header area start-->
         <header>
             <label for="check">
@@ -36,6 +43,7 @@
                 <h4>{{user}}</h4>
             </center>
             <a href="#"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+            <a href="{% url 'aulas:aulas' %}"><i class="fa-solid fa-landmark"></i><span>Aulas</span></a>
             <a href="{% url 'pages:pages' %}"><i class="fa-solid fa-book"></i><span>Materia</span></a>
             <a href="{% url 'pages:create' %}"><i class="fa-solid fa-chalkboard-user"></i><span>Clase</span></a>
             <a href="#"><i class="fa-solid fa-person-chalkboard"></i><span>Lista de Docentes</span></a>
