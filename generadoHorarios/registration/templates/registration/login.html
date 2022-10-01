@@ -2,28 +2,51 @@
 {% load static %} 
 {% block title %}Login{% endblock title %} 
 {% block content %}
-<<<<<<< HEAD
-<body id="bodyLogin">
-    <!--ventana Login-->
-    <div class="login">
-        <h1>Login</h1><br>
-        <form method="post">
-            <input type="text" id="txtId" name="txtId" placeholder="Matricula" required="required" />
-            <input type="password" name="txtContra" placeholder="Password" required="required" />
-            <button type="submit" id="btnRegi" class="btn btn-primary btn-block btn-large">Inisiar Sesion</button>
-=======
+
+
+<div class="login-box">
+  <style>.errorlist{color:red;}</style>
+  <main>
+      {% if 'register' in request.GET %}
+        <script>
+          alert("usuario registrado con exito")
+        </script>
+      {% endif %}
+      <form action="" method="post">{% csrf_token %}
+  <h2>Iniciar Sesión</h2>
+  {% if form.non_field_errors %}
+            <p style="color:red">Usuario o contrasena incorrectos, prueba de nuevo.</p>
+          {% endif %}
+  <form>
+    <div class="user-box">
+      <input type="text" name="" autofocus maxlength="254" required
+      id="id_username" class="form-control"/>
+      <label>Nombre de Usuario</label>
+    </div>
+    <div class="user-box">
+      <input type="password" name="password" required
+      id="id_password" class="form-control"/>
+      <label>Password</label>
+    </div>
+    <a href="#">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Ingresar
+    </a>
+  </form>
+</div>
+<!--
 <style>.errorlist{color:red;}</style>
-<main role="main">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto mb-5">
+<main>
         {% if 'register' in request.GET %}
           <script>
             alert("usuario registrado con exito")
           </script>
         {% endif %}
         <form action="" method="post">{% csrf_token %}
-          <h3 class="mb-4">Iniciar sesion</h3>
+          <h2>Iniciar sesion</h2>
           {% if form.non_field_errors %}
             <p style="color:red">Usuario o contrasena incorrectos, prueba de nuevo.</p>
           {% endif %}
@@ -35,12 +58,12 @@
             <input type="password" name="password" required
               id="id_password" class="form-control" placeholder="Contrasena"/>
           </p>
+          
           <p><input type="submit" class="btn btn-primary btn-block" value="Acceder"></p>
           <p>¿Ha olvidado su contrasena?, puede restaurarla <a href="{% url 'password_reset' %}">aqui</a></p>
-          <p><a href="{% url 'signup' %}">Registrarme</a></p>
->>>>>>> MiguelGT
+
         </form>
     </div>
 </body>
-
+-->
 {% endblock content %}
