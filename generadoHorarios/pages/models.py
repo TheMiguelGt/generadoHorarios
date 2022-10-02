@@ -3,7 +3,6 @@ from tabnanny import verbose
 from turtle import update
 from django.db import models
 from ckeditor.fields import RichTextField 
-from registration.models import UserDoce,UserAlum
 from institucion.models import Aula,Grado
 
 # Create your models here.
@@ -29,7 +28,6 @@ class Page(models.Model):
 #modelo de materia docente
 class MateDispo(models.Model):
     materia = models.ForeignKey(Page, null=False,on_delete=models.CASCADE)
-    docente = models.ForeignKey(UserDoce,null=False,on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'materiaDisponible'

@@ -43,6 +43,9 @@
                 <h4>{{user}}</h4>
             </center>
             <a href="#"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+            {% comment %} {% if  user.is.authenticated and request.user.profile.role != 'E'%}
+            
+            {% endif %} {% endcomment %}
             <a href="{% url 'aulas:aulas' %}"><i class="fa-solid fa-landmark"></i><span>Aulas</span></a>
             <a href="{% url 'pages:pages' %}"><i class="fa-solid fa-book"></i><span>Materia</span></a>
             <a href="{% url 'pages:create' %}"><i class="fa-solid fa-chalkboard-user"></i><span>Clase</span></a>

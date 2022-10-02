@@ -1,16 +1,16 @@
 from django.contrib import admin
-from .models import UserCor,UserDoce,UserAlum
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from registration.models import Profile
 
 # Register your models here.
-class CorAdmin(admin.ModelAdmin):
-    ordering = ('idCor','idRol')
+class ProfileInLine(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Perfiles'
 
-class DoceAdmin(admin.ModelAdmin):
-    ordering = ('idDoce','idRol')
+class UserAdmin(BaseUserAdmin):
+    inlines = (ProfileInLine,)
 
-class AlumAdmin(admin.ModelAdmin):
-    ordering = ('idAlum','idRol')
-
-admin.site.register(UserCor, CorAdmin)
-admin.site.register(UserDoce, DoceAdmin)
-admin.site.register(UserAlum, AlumAdmin)
+admin.site.unregister(User)
+admin.site.register(User,UserAdmin)

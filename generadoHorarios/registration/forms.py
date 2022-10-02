@@ -19,10 +19,7 @@ class UserCreationFormWithEmail(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['avatar','userNom','userApepat','userApemat']
+        fields = ['avatar']
         widgets = {
             'avatar': forms.ClearableFileInput,
-            'userNom': forms.TextInput(attrs={'placeholder':'Nombre'}),
-            'userApepat': forms.TextInput(attrs={'placeholder':'Apellido paterno'}),
-            'userApemat': forms.TextInput(attrs={'placeholder':'Apellido materno'}),
         }
