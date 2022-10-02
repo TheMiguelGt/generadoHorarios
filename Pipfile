@@ -14,6 +14,8 @@ pyodbc = "*"
 mssql-django = "*"
 django-mssql-backend = "*"
 mysqlclient = "*"
+django-bootstrap4 = "*"
+django-bootstrap5 = "*"
 
 [dev-packages]
 
