@@ -1,0 +1,14 @@
+{% extends 'core/loPage.html' %}
+{% load static %}
+{% block title %}Importar{% endblock %}
+{% block subTitle %}<h3><span>Importar</span></h3>{% endblock subTitle %}
+{% block subMenu %}
+    <p><a href="#"><span>Home</span></a> > <span class="aChoose">Importar</span></p>
+{% endblock subMenu %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data">  
+        {% csrf_token %}  
+        <input type="file" name="xlsfile">  
+        <button type="submit">Subir</button>  
+    </form>    
+{% endblock %}

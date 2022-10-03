@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap4',
+    'import_export',
     'ckeditor',
     'core',
     'institucion',
@@ -127,6 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -151,9 +153,14 @@ CKEDITOR_CONFIGS = {
     }
 }
 
+AUTH_USER_MODEL = 'registration.User'
+
 #auth redirects 
 LOGIN_REDIRECT_URL = 'pages:pages' #buscara un pad con ese mismo nombre, en este caso nos mandaria al menu principal de materias
 LOGOUT_REDIRECT_URL = 'home'
+
+#importaciones usuando transacciones de la db
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 #Emails 
 if DEBUG:
