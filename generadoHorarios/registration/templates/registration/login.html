@@ -19,22 +19,25 @@
           {% endif %}
   <form>
     <div class="user-box">
-      <input type="text" name="" autofocus maxlength="254" required
-      id="id_username" class="form-control"/>
+      <input type="text" name="username" autofocus maxlength="254" required
+      id="id_username" class="form-control" placeholder=""/>
       <label>Nombre de Usuario</label>
     </div>
     <div class="user-box">
       <input type="password" name="password" required
-      id="id_password" class="form-control"/>
+      id="id_password" class="form-control" placeholder=""/>
       <label>Password</label>
     </div>
-    <a href="#">
+    
+    <p><input type="submit" class="btn btn-primary btn-block" value="Acceder"></p>
+
+    <!-- <a href="#">
       <span></span>
       <span></span>
       <span></span>
       <span></span>
       Ingresar
-    </a>
+    </a> -->
   </form>
 </div>
 <!--
@@ -64,6 +67,7 @@
 
         </form>
     </div>
+    -->
 </body>
 -->
 {% endblock content %}
