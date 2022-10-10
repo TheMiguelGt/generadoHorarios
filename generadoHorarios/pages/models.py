@@ -3,58 +3,57 @@ from tabnanny import verbose
 from turtle import update
 from django.db import models
 from ckeditor.fields import RichTextField 
-from institucion.models import Aula,Grado
+from institucion.models import Aula
 
 # Create your models here.
 #modelo de materias
 class Page(models.Model):
-    idMateria = models.CharField(max_length=10,verbose_name="Clave de la materia",null=False)
-    nomMateria = models.CharField(max_length=50, verbose_name="Nombre de la materia",null=False)
-    numHoras = models.IntegerField(verbose_name="Numero de horas a la semana",null=False)
-    grado = models.ForeignKey(Grado,null=False,on_delete=models.CASCADE)
-    aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creacion")
-    update = models.DateTimeField(auto_now="True", verbose_name="Fecha de edicion")
+    clave = models.CharField(max_length=10,null=False)
+    materia = models.CharField(max_length=45, verbose_name="Nombre de la materia")
+    carga = models.IntegerField(null=False)
 
     class Meta:
-        verbose_name = 'materia'
-        verbose_name_plural = 'materias'
         db_table = 'materia'
-        ordering = ['idMateria','nomMateria']
 
     def __str__(self):
-        return self.idMateria
+        return self.clave,self.materia,self.carga
 
-#modelo de materia docente
-class MateDispo(models.Model):
-    materia = models.ForeignKey(Page, null=False,on_delete=models.CASCADE)
+class DocenteMateria(models.Model):
+    materia = models.ForeignKey(Page,null=False,on_delete=models.CASCADE)
+    # docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE)
+    aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'materiaDisponible'
+        db_table = 'docenteMateria'
+
+    def __str__(self):
+        return self.materia,self.aula
 
 class Dia(models.Model):
-    nomDia = models.CharField(max_length=15)
-    
+    dia = models.CharField(max_length=45)
+
     class Meta:
         db_table = 'dia'
 
     def __str__(self):
-        return self.nomDia
-        
+        return self.dia
+
 class Hora(models.Model):
-    iniHora = models.CharField(max_length=10)
-    finHora = models.CharField(max_length=10)
-    
+    hora = models.CharField(max_length=45)
+
     class Meta:
         db_table = 'hora'
 
     def __str__(self):
-        return self.iniHora,self.finHora
-        
-class DispoHora(models.Model):
-    materia = models.ForeignKey(MateDispo,null=False,on_delete=models.CASCADE)
+        return self.hora
+
+class disponibilidad(models.Model):
+    # docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE)
     dia = models.ForeignKey(Dia,null=False,on_delete=models.CASCADE)
     hora = models.ForeignKey(Hora,null=False,on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'horaDisponible'
+        db_table = 'disponibilidad'
+
+    def __str__(self):
+        return self.dia,self.hora
