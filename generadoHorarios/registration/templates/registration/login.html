@@ -4,7 +4,29 @@
 {% block content %}
 <style>.errorlist{color:red;}</style>
 <main role="main">
-  <div class="container">
+  <div class="center">
+    <h1>Login</h1>
+    <form action="" method="post">{% csrf_token %}
+      <div class="txt_field">
+        <input type="text" name="username" autofocus maxlength="254" required id="id_username"/>
+        <span></span>
+        <label>Matricula</label>
+      </div>
+      <div class="txt_field">
+        <input type="password" name="password" required id="id_password" />
+        <span></span>
+        <label>Contrase&ntilde;a</label>
+      </div>
+      <div class="pass">¿Olvidaste tu contrase&ntilde;a?<a href="{% url 'password_reset' %}">aqui</a></div>
+      <input type="submit" class="btn btn-primary btn-block" value="Acceder">
+      <div class="signup_link">
+
+      </div>
+    </form>
+  </div>
+</main>
+
+  {% comment %} <div class="container">
     <div class="row mt-3">
       <div class="col-md-9 mx-auto mb-5">
         {% if 'register' in request.GET %}
@@ -31,6 +53,5 @@
         </form>
       </div>
     </div>
-  </div>
-</main>
+  </div> {% endcomment %}
 {% endblock %}
