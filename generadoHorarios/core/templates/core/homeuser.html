@@ -12,49 +12,117 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+        <script src= "https //kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>
     </head>
-    <script>
-        function mantener(){
-            if (document.getElementById("check").checked){
-                document.getElementById("check").checked = true
-            }
-        }
-    </script>
-    <body >
-        {% csrf_token %} 
-        <input type="checkbox" id="check" onChange="mantener()">
-        <!--Header area start-->
-        <header>
-            <label for="check">
-                <i class="fa-solid fa-bars" id="sidebar_btn"></i>
-            </label>
-            <div class="left_area">
-                <h3>UNE<span>DL</span></h3>
-            </div>
-            <div class="right_area">
-                <a href="{% url 'profile' %}" class="logout_btn"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} class="profile_image" alt=""></a>
-            </div>
-        </header>
-        <!--Header area end-->
-        <!--Slidebar start-->
-        <div class="sidebar">
-            <center>
+    <script></script>
+    <body id="body">
+    {% csrf_token %} 
+    <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+    </header>
+    
+    <div class="menu__side" id="menu__side">
+
+        <div class="name__page">
+            <h4></h4>
+        </div>
+
+        <div class="options__menu">
+            <a href="{% url 'homeUser' %}" class="selected">
+                <div class="option">
+                    <i class="fas fa-home" title="Inicio"></i>
+                    <h4>Inicio</h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="option">
+                    <i class="fa-sharp fa-solid fa-school-flag" title="Plantel"></i>
+                    <h4>Plantel</h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="option">
+                    <i class="fas fa-home" title="Aula"></i>
+                    <h4>Aula</h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="option">
+                    <i class="fas fa-home" title="Licenciatura"></i>
+                    <h4>Licenciatura</h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="option">
+                    <i class="fas fa-home" title="Semestre"></i>
+                    <h4>Semestre</h4>
+                </div>
+            </a>
+            <a href="{% url 'pages:pages' %}">
+                <div class="option">
+                    <i class="fa-sharp fa-solid fa-book" title="Materia"></i>
+                    <h4>Materia</h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="option">
+                    <i class="fas fa-home" title="Materia del docente"></i>
+                    <h4>Materia del docente</h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="option">
+                    <i class="fas fa-home" title="Disponibilidad"></i>
+                    <h4>Disponibilidad</h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="option">
+                    <i class="fas fa-home" title="Horario docente"></i>
+                    <h4>Horario docente</h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="option">
+                    <i class="fas fa-home" title="Docentes"></i>
+                    <h4>Docentes</h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="option">
+                    <i class="fas fa-home" title="Alumnos"></i>
+                    <h4>Alumnos</h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="option">
+                    <i class="fas fa-home" title="Horario docente"></i>
+                    <h4>Horario docente</h4>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <main>
+        {% block content %}{% endblock content %}
+    </main>
+                {% comment %} <a href="{% url 'profile' %}" class="logout_btn"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} class="profile_image" alt=""></a> {% endcomment %}
+       
+            {% comment %} <center>
                 <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} class="profile_image" alt="">
                 <h4>{{user}}</h4>
-            </center>
-            <a href="#"><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+            </center> {% endcomment %}
+            
             {% comment %} {% if  user.is.authenticated and request.user.profile.role != 'E'%}
             
             {% endif %} {% endcomment %}
-            <a href="{% url 'aulas:aulas' %}"><i class="fa-solid fa-landmark"></i><span>Aulas</span></a>
-            <a href="{% url 'pages:pages' %}"><i class="fa-solid fa-book"></i><span>Materia</span></a>
-            <a href="{% url 'pages:create' %}"><i class="fa-solid fa-chalkboard-user"></i><span>Clase</span></a>
-            <a href="#"><i class="fa-solid fa-person-chalkboard"></i><span>Lista de Docentes</span></a>
-            <a href="#"><i class="fa-solid fa-graduation-cap"></i><span>Lista de Alumnos</span></a>
-            <a style="margin-top:300px;" href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
-        </div>
+          
+
         <!--Slidebar end-->
-        <div class="content">
+        {% comment %} <div class="content">
             
             <div class="contCRUD">
                 {% block subTitle %}{% endblock subTitle %}
@@ -64,6 +132,7 @@
                 {% block content %}{% endblock content %}
             </div>
         
-        </div>
+        </div> {% endcomment %}
+        <script src="{% static 'core/js/userStyle.js' %}"></script>
     </body>
 </html>
