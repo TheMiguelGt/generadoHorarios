@@ -10,6 +10,8 @@
         <link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+        rel="stylesheet">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
         <script src= "https //kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>
@@ -17,98 +19,151 @@
     <script></script>
     <body id="body">
     {% csrf_token %} 
-    <header>
-        <div class="icon__menu">
-            <i class="fas fa-bars" id="btn_open"></i>
-        </div>
-    </header>
-    
-    <div class="menu__side" id="menu__side">
+    <div class="container">
+        <aside>
+            <div class="top">
+                <div class="logo">
+                    <img src="{% static 'core/img/logo.png' %}">
+                    
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">close</span>
+                </div>
+            </div>
+            <div class="sidebar" >
+                <a href="{% url 'homeUser' %}" class="{% if request.path == '/home/' %}active{% endif %}">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">school</span>
+                    <h3>Plantel</h3>
+                </a>
+                <a href="#" >
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Aulas</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">history_edu</span>
+                    <h3>Licenciaturas</h3>
+                </a>
+                <a href="{% url 'pages:pages' %}" class="{% if request.path == '/materias/' %}active{% endif %}">
+                    <span class="material-icons-sharp">library_books</span>
+                    <h3>Materias</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Materia del docente</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Horario</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Docentes</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Alumnos</h3>
+                </a>
+                <a href="{% url 'logout' %}">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+        <main>
+            <h1>{% block subtitle %}{% endblock subtitle %}</h1>
+            <div class="insights">
+                <div class="sales">
+                    <span class="material-icons-sharp">analytics</span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Materias asignadas</h3>
+                            <h1>221</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx='38' cy='38' r='38'></circle>
+                            </svg>
+                            <div class="number">
+                                <p>80%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-muted">owo</small>
+                </div>
+                {% comment %} FIN DEL MATERIAS ASIGNADAS {% endcomment %}
+                <div class="sales">
+                    <span class="material-icons-sharp">analytics</span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Horarios asignados</h3>
+                            <h1>201</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx='38' cy='38' r='38'></circle>
+                            </svg>
+                            <div class="number">
+                                <p>80%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-muted">owo</small>
+                </div>
+                {% comment %}  {% endcomment %}
+                <div class="sales">
+                    <span class="material-icons-sharp">analytics</span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Horarios asignados</h3>
+                            <h1>201</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx='38' cy='38' r='38'></circle>
+                            </svg>
+                            <div class="number">
+                                <p>80%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-muted">owo</small>
+                </div>
+            </div>
+            {% block content %}{% endblock content %}
+            <div class="list-div">
+                <h2>{% block tabletitle %}{% endblock tabletitle %}</h2>
+                <table>
+                    {% block table %}{% endblock table %}
+                </table>
+            </div>
+        </main>
 
-        <div class="name__page">
-            <h4></h4>
-        </div>
-
-        <div class="options__menu">
-            <a href="{% url 'homeUser' %}" class="selected">
-                <div class="option">
-                    <i class="fas fa-home" title="Inicio"></i>
-                    <h4>Inicio</h4>
+        {% comment %} FIN DEL MAIN {% endcomment %}
+        <div class="right">
+            <div class="top">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">menu</span>
+                <button>
+                <div class="theme-toggler">
+                    <span class="material-icons-sharp">light_mode</span>
+                    <span class="material-icons-sharp">dark_mode</span>
+                <div>
+                <div class="profile">
+                    <div class="info">
+                        <p><b>{{user}}<b></p>
+                            <small class="text-muted">Rol</small>
+                    </div>
+                    <div class="profile-photo">
+                        <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} alt="">
+                    </div>
                 </div>
-            </a>
-            <a href="#">
-                <div class="option">
-                    <i class="fa-sharp fa-solid fa-school-flag" title="Plantel"></i>
-                    <h4>Plantel</h4>
-                </div>
-            </a>
-            <a href="#">
-                <div class="option">
-                    <i class="fas fa-home" title="Aula"></i>
-                    <h4>Aula</h4>
-                </div>
-            </a>
-            <a href="#">
-                <div class="option">
-                    <i class="fas fa-home" title="Licenciatura"></i>
-                    <h4>Licenciatura</h4>
-                </div>
-            </a>
-            <a href="#">
-                <div class="option">
-                    <i class="fas fa-home" title="Semestre"></i>
-                    <h4>Semestre</h4>
-                </div>
-            </a>
-            <a href="{% url 'pages:pages' %}">
-                <div class="option">
-                    <i class="fa-sharp fa-solid fa-book" title="Materia"></i>
-                    <h4>Materia</h4>
-                </div>
-            </a>
-            <a href="#">
-                <div class="option">
-                    <i class="fas fa-home" title="Materia del docente"></i>
-                    <h4>Materia del docente</h4>
-                </div>
-            </a>
-            <a href="#">
-                <div class="option">
-                    <i class="fas fa-home" title="Disponibilidad"></i>
-                    <h4>Disponibilidad</h4>
-                </div>
-            </a>
-            <a href="#">
-                <div class="option">
-                    <i class="fas fa-home" title="Horario docente"></i>
-                    <h4>Horario docente</h4>
-                </div>
-            </a>
-            <a href="#">
-                <div class="option">
-                    <i class="fas fa-home" title="Docentes"></i>
-                    <h4>Docentes</h4>
-                </div>
-            </a>
-            <a href="#">
-                <div class="option">
-                    <i class="fas fa-home" title="Alumnos"></i>
-                    <h4>Alumnos</h4>
-                </div>
-            </a>
-            <a href="#">
-                <div class="option">
-                    <i class="fas fa-home" title="Horario docente"></i>
-                    <h4>Horario docente</h4>
-                </div>
-            </a>
-        </div>
-
+            <div>    
+        <div>
     </div>
-
-    <main>
-        {% block content %}{% endblock content %}
-    </main>
                 {% comment %} <a href="{% url 'profile' %}" class="logout_btn"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} class="profile_image" alt=""></a> {% endcomment %}
        
             {% comment %} <center>

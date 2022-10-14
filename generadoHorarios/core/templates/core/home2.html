@@ -1,6 +1,28 @@
 {% extends 'core/homeuser.html' %} 
 {% load static %} 
 {% block title %}Inicio{% endblock title %} 
+{% block subtitle %}Dashboard{% endblock subtitle %}
+{% block tabletitle %}Horarios escolares creados{% endblock tabletitle %}
 {% block content %}
-    uwu
+
 {% endblock content %}
+{% block table %}
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>Licenciatura</th>
+            <th>Plantel</th>
+            <th>Grado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="primary"></td>
+        </tr>
+    </tbody>
+{% endblock table %}
