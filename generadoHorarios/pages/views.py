@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.views.generic.list import ListView #crear una lista de paginas
 from django.views.generic.detail import DetailView #detalles de la pagina, solo para lectura
 from django.views.generic.edit import CreateView,UpdateView,DeleteView #crear nuevas vistas,actualizar y eliminar 
@@ -17,7 +18,7 @@ class StaffRequiredMixin(object): #clase base de todas las clases de py
 # Create your views here.
 class PageListView(ListView):#listar
     model = Page    #se obtiene el modelo de la app
-    paginate_by = 3 #paginacion de la lista, para mostrar de 3 en 3
+    paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3
 
 class PageDetailView(DetailView):#ver detalles
     model = Page
@@ -37,7 +38,8 @@ class PageUpdate(UpdateView):
     template_name_suffix = '_update_form' #se pasa un subfijo para usar otro formulario
 
     def get_success_url(self): #mostrar el formulario para ver los cambios
-        return reverse_lazy('pages:update', args=[self.object.id]) + '?ok' #se recrea la url, donde se le pasa el update y la clave primaria con el indicador 
+        success_url = reverse_lazy('pages:pages')
+        # return reverse_lazy('pages:update', args=[self.object.id]) + '?ok' #se recrea la url, donde se le pasa el update y la clave primaria con el indicador 
     
 @method_decorator(staff_member_required,name='dispatch')
 class PageDelete(DeleteView):#eliminar

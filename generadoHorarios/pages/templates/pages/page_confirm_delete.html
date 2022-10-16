@@ -1,15 +1,20 @@
-{% extends 'core/base.html' %}
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
-{% block title %}Borrar página{% endblock %}
+{% block title %}Materias{% endblock title %} 
+{% block subtitle %}Materias{% endblock subtitle %}
+{% block tabletitle %}Eliminar materia{% endblock tabletitle %}
 {% block content %}
-{% include 'pages/includes/pages_menu.html'%}
+  {% include "pages/includes/pages_menu.html" %}
+{% endblock content %}
+
+{% block table %}
 <main role="main">
   <div class="container">
     <div class="row mt-3">
       <div class="col-md-9 mx-auto">
         <div>
             <form action="" method="post">{% csrf_token %}
-                <p>¿Estas seguro de que quieres borrar "{{ object }}"?</p>
+                <p>¿Estas seguro de que quieres borrar ""?</p>
                 <input type="submit" value="Si, borrar la horario" />
             </form>
         </div>

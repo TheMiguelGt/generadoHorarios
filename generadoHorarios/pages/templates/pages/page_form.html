@@ -1,28 +1,47 @@
-{% extends 'core/homeuser.html' %}
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
-{% block title %}Crear materia{% endblock %}
-{% block subTitle %}<h3><span>Materias</span></h3>{% endblock subTitle %}
-{% block subMenu %}
-    <p><a href="#"><span>Home</span></a> > <a href="{% url 'pages:pages' %}" ><span>Materias</span></a> > <span class="aChoose">Crear materia</span></p>
-{% endblock subMenu %}
+{% block title %}Materias{% endblock title %} 
+{% block subtitle %}Materias{% endblock subtitle %}
+{% block tabletitle %}Crear nueva materia{% endblock tabletitle %}
+{% block agregarItem %}Agregar materia{% endblock agregarItem %}
 {% block content %}
-{% include 'pages/includes/pages_menu.html'%}
-<main role="main">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto">
-        <div>
-            <form action="" method="post">{% csrf_token %}<!--token para traer todo-->
-                
-                    {{ form.as_p }}<!--como lo va a traer-->
-                
-                <div class="text-center">
-                  <input type="submit" style="background: blue;" value="Crear materia" />
-                </div>
-            </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
+  {% include "pages/includes/pages_menu.html" %}
+{% endblock content %}
+
+{% block table %}
+<thead>
+  <tr>
+      <th></th>
+      <th></th>
+  </tr>
+</thead>
+<tbody>
+      <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Clave</b></label></td>
+        <td class="" ><input type="text" name="clave" class="txt-all" placeholder="Clave de la materia"></td>
+        </td>
+      </tr>
+      <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Nombre</b></label></td>
+        <td class="" ><input type="text" name="materia" class="txt-all" placeholder="Nombre de la materia"></td>
+      </tr>
+      <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Carga</b></label></td>
+        <td class="" ><input type="number" name="carga" class="txt-all" placeholder="Carga horaria"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="submit" id="btn-enviar"  value="Crear materia" /></td>
+      </tr>
+</tbody>
+{% comment %} <thead>
+  <tr>
+    
+  </tr>
+</thead>
+<tbody>
+      <tr>
+        <td class="">{{ form }}</td>
+        
+      </tr>
+</tbody> {% endcomment %}
 {% endblock %}

@@ -14,7 +14,7 @@
         rel="stylesheet">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-        <script src= "https //kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>
+        {% comment %} <script src= "https //kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script> {% endcomment %}
     </head>
     <script></script>
     <body id="body">
@@ -24,7 +24,7 @@
             <div class="top">
                 <div class="logo">
                     <img src="{% static 'core/img/logo.png' %}">
-                    
+                    <img id="letras" src="{% static 'core/img/letras.png' %}">
                 </div>
                 <div class="close" id="close-btn">
                     <span class="material-icons-sharp">close</span>
@@ -47,7 +47,7 @@
                     <span class="material-icons-sharp">history_edu</span>
                     <h3>Licenciaturas</h3>
                 </a>
-                <a href="{% url 'pages:pages' %}" class="{% if request.path == '/materias/' %}active{% endif %}">
+                <a href="{% url 'pages:pages' %}" class="{% if request.path == '/materias/' or request.path == '/materias/create/' or request.path == '/materias/update/<int:pk>/' or request.path == '/materias/delete/<int:pk>/' %}active{% endif %}">
                     <span class="material-icons-sharp">library_books</span>
                     <h3>Materias</h3>
                 </a>
@@ -133,13 +133,14 @@
                     <small class="text-muted">owo</small>
                 </div>
             </div>
-            {% block content %}{% endblock content %}
-            <div class="list-div">
-                <h2>{% block tabletitle %}{% endblock tabletitle %}</h2>
-                <table>
-                    {% block table %}{% endblock table %}
-                </table>
-            </div>
+            <form method="post">{% csrf_token %}
+                <div class="list-div">
+                    <h2>{% block tabletitle %}{% endblock tabletitle %}</h2>
+                    <table>
+                        {% block table %}{% endblock table %}
+                    </table>
+                </div>
+            </form>
         </main>
 
         {% comment %} FIN DEL MAIN {% endcomment %}
@@ -147,22 +148,97 @@
             <div class="top">
                 <button id="menu-btn">
                     <span class="material-icons-sharp">menu</span>
-                <button>
+                </button>
                 <div class="theme-toggler">
-                    <span class="material-icons-sharp">light_mode</span>
+                    <span class="material-icons-sharp active">light_mode</span>
                     <span class="material-icons-sharp">dark_mode</span>
-                <div>
+                </div>
                 <div class="profile">
                     <div class="info">
                         <p><b>{{user}}<b></p>
-                            <small class="text-muted">Rol</small>
+                        <small class="text-muted">Rol</small>
                     </div>
                     <div class="profile-photo">
-                        <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} alt="">
+                        <a href="{% url 'profile' %}"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} alt=""></a>
                     </div>
                 </div>
-            <div>    
-        <div>
+            </div>  
+            {% comment %} fin del top {% endcomment %}
+            <div class="recent-updates">
+                <h2>Actividades recientes</h2>
+                <div class="updates">
+                    {% comment %} bloque de actualizaciones {% endcomment %}
+                    <div class="update">
+                        <div class="profile-photo">
+                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} alt="">
+                        </div>
+                        <div class="message">
+                            <p><b>User name</b> nombre de la actividad que realizo o ajustes que hizo<p>
+                                <small class="text-muted">hace 2 minutos</small>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="profile-photo">
+                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} alt="">
+                        </div>
+                        <div class="message">
+                            <p><b>User name</b> nombre de la actividad que realizo o ajustes que hizo<p>
+                                <small class="text-muted">hace 2 minutos</small>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="profile-photo">
+                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} alt="">
+                        </div>
+                        <div class="message">
+                            <p><b>User name</b> nombre de la actividad que realizo o ajustes que hizo<p>
+                                <small class="text-muted">hace 2 minutos</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% comment %} fin de las actividades {% endcomment %}
+            <div class="sales-analytics">
+                <h2>Recomendaciones</h2>
+                <div class="item online">
+                    <div class="icon">
+                        <span class="material-icons-sharp">sentiment_satisfied</span>
+                    </div>
+                    <div class="right">
+                        <div class="info">
+                            <h3>Es necesario crear las materias</h3>
+                        </div>
+                        <h5 class="seccess"></h5>
+                        <h3></h3>
+                    </div>
+                </div>
+                <div class="item online">
+                    <div class="icon">
+                        <span class="material-icons-sharp">sentiment_satisfied</span>
+                    </div>
+                    <div class="right">
+                        <div class="info">
+                            <h3>Es necesario crear las materias</h3>
+                        </div>
+                        <h5 class="seccess"></h5>
+                        <h3></h3>
+                    </div>
+                </div>
+                <div class="item online">
+                    <div class="icon">
+                        <span class="material-icons-sharp">sentiment_satisfied</span>
+                    </div>
+                    <div class="right">
+                        <div class="info">
+                            <h3>Es necesario crear las materias</h3>
+                        </div>
+                        <h5 class="seccess"></h5>
+                        <h3></h3>
+                    </div>
+                </div>
+                {% block content %}{% endblock content %}
+            </div>
+        </div>
     </div>
                 {% comment %} <a href="{% url 'profile' %}" class="logout_btn"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} class="profile_image" alt=""></a> {% endcomment %}
        

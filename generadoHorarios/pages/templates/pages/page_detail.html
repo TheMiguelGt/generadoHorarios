@@ -1,11 +1,17 @@
-{% extends 'core/loPage.html' %}<!--En este script lo que hace es dar todo el contenido de la misma pagina que se creo-->
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
-{% block title %}{{page.title}}{% endblock title %} 
+{% block title %}Materias{% endblock title %} 
+{% block subtitle %}Materias{% endblock subtitle %}
+{% block tabletitle %}Detalles de la materia{% endblock tabletitle %}
 {% block content %}
+  {% include "pages/includes/pages_menu.html" %}
+{% endblock content %}
+
+{% block table %}
 {% include "pages/includes/pages_menu.html" %}<!--para incluir una parte del html-->
     <h2 >{{page.nomMateria}}</h2><!--se puede acceder con el nombre del modelo u object-->
     {{page.numHoras}}
     {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
         <p><a href="{% url 'pages:update' page.id %}">Editar</a></p>
     {% endif %}
-{% endblock content %}
+{% endblock table %}
