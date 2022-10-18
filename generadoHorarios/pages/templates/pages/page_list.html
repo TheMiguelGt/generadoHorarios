@@ -33,8 +33,8 @@
             <td class=""></td>
             <td class="">{{page.aula}}</td>
             {% if request.user.is_staff %}
-                <td class=""><a class="btn2" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp">edit</span></a></td>
-                <td class=""><a class="btn3" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp">delete</span></a></td>
+                <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
             {% endif %}
                 {% comment %} <a class="btn1" href="{% url 'pages:page' page.id page.nomMateria|slugify %}"><i class="fa-sharp fa-solid fa-circle-info"></i></a></td> {% endcomment %}
                 {% comment %} {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->

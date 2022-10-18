@@ -1,6 +1,6 @@
 from django.urls import path 
-from .views import AulaListView
+from .views import PlantelListView
 
-aulas_patterns = ([
-    path('',AulaListView.as_view(),name="aulas"),
-],'aulas')
+planteles_patterns = ([
+    path('',PlantelListView.as_view(),name="planteles"),
+],'planteles')

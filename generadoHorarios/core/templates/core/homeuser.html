@@ -35,7 +35,7 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="#">
+                <a href="{% url 'planteles:planteles' %}" class="{% if request.path == '/planteles/' %}active{% endif %}">
                     <span class="material-icons-sharp">school</span>
                     <h3>Plantel</h3>
                 </a>

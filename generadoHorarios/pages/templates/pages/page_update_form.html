@@ -8,25 +8,28 @@
 {% endblock content %}
 
 {% block table %}
-<main role="main">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto">
-        <div>
-          {% if 'ok' in request.GET %}
-            
-          {% endif %}
-          <form action="" method="post">{% csrf_token %}<!--token para traer todo-->
-                
-            {{ form.as_p }}<!--como lo va a traer-->
-        
-        <div class="text-center">
-          <input type="submit" style="background: blue;" value="Actualizar materia" />
-        </div>
-    </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
+<thead>
+  <tr>
+      <th></th>
+      <th></th>
+  </tr>
+</thead>
+<tbody>
+      <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Clave</b></label></td>
+        <td class="" ><input type="text" name="clave" class="txt-all" placeholder="Clave de la materia" value="{{page.clave}}"></td>
+        </td>
+      </tr>
+      <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Nombre</b></label></td>
+        <td class="" ><input type="text" name="materia" class="txt-all" placeholder="Nombre de la materia" value="{{page.materia}}"></td>
+      </tr>
+      <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Carga</b></label></td>
+        <td class="" ><input type="number" name="carga" class="txt-all" placeholder="Carga horaria" value="{{page.carga}}"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="submit" class="btn-editar"  value="Actualizar materia" /></td>
+      </tr>
+</tbody>
 {% endblock %}

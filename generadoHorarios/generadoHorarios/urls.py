@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from pages.urls import pages_patterns #se importa la tupla de pages
-from institucion.urls import aulas_patterns
+from institucion.urls import planteles_patterns
 from django.conf import settings
 
 urlpatterns = [
@@ -25,7 +25,7 @@ urlpatterns = [
     #core paths
     path('',include('core.urls')),
     #aulas
-    path('aulas/',include(aulas_patterns)),
+    path('planteles/',include(planteles_patterns)),
     #pages paths
     path('materias/',include(pages_patterns)),
     #Paths de auth
