@@ -1,0 +1,39 @@
+{% extends 'core/homeuser.html' %} 
+{% load static %}
+{% block title %}Registrar{% endblock %}
+{% block subtitle %}Coordinadores{% endblock subtitle %}
+{% block tabletitle %}Registrar coordinador{% endblock tabletitle %}
+{% block table %}
+<div class="login-page">
+    {% comment %} <img src="{% static 'images/login-background.PNG' %}" alt=""> {% endcomment %}
+    <div class="student-signup-form">
+      {% if registered %}
+      <h1>Thank you for registering.</h1>
+      {% else %}
+  
+      <form method="post">
+        {% csrf_token %}
+  
+        {{ coordina_profile_form.non_field_errors }}
+  
+        <p><label >Nombre</label>{{ coordina_profile_form.nombre }}</p>
+        <p> <label for="">Apellido paterno</label>  {{ coordina_profile_form.apepat }}</p>
+        <p> <label for="">Apellido materno</label>  {{ coordina_profile_form.apemat }}</p>
+        <p> <label for="">Email</label>{{ coordina_profile_form.email }}</p>
+  
+  
+        {{ user_form.non_field_errors }}
+  
+        <p> <label for="">matricula</label>{{ user_form.username }}</p>
+        <p> {{ user_form.username.help_text }}</p>
+        <p> <label for="">{{ user_form.password1.label_tag }}</label>{{ user_form.password1 }}</p>
+        <p> {{ user_form.password1.help_text }} </p>
+        <p> <label for="">{{ user_form.password2.label_tag }}</label>{{ user_form.password2 }}</p>
+        <p> {{ user_form.password2.help_text }} </p>
+        <input type="submit" name="" value="Registrar">
+      </form>
+      {% comment %} <a href="{% url 'classroom:login' %}">Already have an account.</a> {% endcomment %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock table %}

@@ -35,6 +35,7 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
+                {% if request.user.is_staff or request.user.is_admin %}
                 <a href="{% url 'planteles:planteles' %}" class="{% if request.path == '/planteles/' %}active{% endif %}">
                     <span class="material-icons-sharp">school</span>
                     <h3>Plantel</h3>
@@ -47,6 +48,7 @@
                     <span class="material-icons-sharp">history_edu</span>
                     <h3>Licenciaturas</h3>
                 </a>
+                {% endif %}
                 <a href="{% url 'pages:pages' %}" class="{% if request.path == '/materias/' or request.path == '/materias/create/' or request.path == '/materias/update/<int:pk>/' or request.path == '/materias/delete/<int:pk>/' %}active{% endif %}">
                     <span class="material-icons-sharp">library_books</span>
                     <h3>Materias</h3>
@@ -59,6 +61,14 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Horario</h3>
                 </a>
+                <a href="#" >
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Administradores</h3>
+                </a>
+                <a href="{% url 'usuarios:CoordinaSignUp' %}" class="{% if request.path == '/usuarios/coordina_signup/' %}active{% endif %}">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Coordinadores</h3>
+                </a>
                 <a href="#">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Docentes</h3>
@@ -67,7 +77,7 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Alumnos</h3>
                 </a>
-                <a href="{% url 'logout' %}">
+                <a href="{% url 'usuarios:logout' %}">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
                 </a>
@@ -156,10 +166,18 @@
                 <div class="profile">
                     <div class="info">
                         <p><b>{{user}}<b></p>
-                        <small class="text-muted">Rol</small>
+                        {% if request.user.is_staff or request.user.is_admin %}
+                            <small class="text-muted">Admin</small>
+                        {%elif request.user.is_coordina %}
+                            <small class="text-muted">Coordinador</small>
+                        {%elif request.user.is_docente %}
+                            <small class="text-muted">Docente</small>
+                        {%elif request.user.is_alumno %}
+                            <small class="text-muted">Alumno</small>
+                        {% endif %}
                     </div>
                     <div class="profile-photo">
-                        <a href="{% url 'profile' %}"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} alt=""></a>
+                        <a href="#"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt=""></a>
                     </div>
                 </div>
             </div>  

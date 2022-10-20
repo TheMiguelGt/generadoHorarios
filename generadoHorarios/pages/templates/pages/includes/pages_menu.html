@@ -4,7 +4,7 @@
 <link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}"> 
 <link href="{% static 'pages/css/custom_ckeditor.css' %}" rel="stylesheet"><!--modificar el content de ckeditor-->
 
-{% if request.user.is_staff %}
+{% if request.user.is_staff or request.user.is_coordina%}
   <a href="{% url 'pages:create' %}"><div class="item add-product">
     <div>
       <span class="material-icons-sharp">add</span>

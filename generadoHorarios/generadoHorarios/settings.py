@@ -28,22 +28,22 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'usuarios.User'
 
 # Application definition
 
 INSTALLED_APPS = [
-    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap4',
     'ckeditor',
     'core',
     'institucion',
     'pages.apps.PagesConfig',
+    'usuarios',
 ]
 
 MIDDLEWARE = [
@@ -152,8 +152,8 @@ CKEDITOR_CONFIGS = {
 }
 
 #auth redirects 
-LOGIN_REDIRECT_URL = 'homeUser' #buscara un pad con ese mismo nombre, en este caso nos mandaria al menu principal de materias
-LOGOUT_REDIRECT_URL = 'home'
+# LOGIN_REDIRECT_URL = 'homeUser' #buscara un pad con ese mismo nombre, en este caso nos mandaria al menu principal de materias
+# LOGOUT_REDIRECT_URL = 'home'
 
 #Emails 
 if DEBUG:
