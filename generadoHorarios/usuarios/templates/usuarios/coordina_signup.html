@@ -3,37 +3,56 @@
 {% block title %}Registrar{% endblock %}
 {% block subtitle %}Coordinadores{% endblock subtitle %}
 {% block tabletitle %}Registrar coordinador{% endblock tabletitle %}
+{% block content %}
+  {% include "usuarios/includes/usuarios_menu.html" %}
+{% endblock content %}
+
 {% block table %}
-<div class="login-page">
+{% csrf_token %}
+<thead>
+{% if registered %}
+  <th>Thank you for registering</th>
+{% else %}
+  <tr>
+      <th></th>
+      <th></th>
+  </tr>
+</thead>
+<tbody>
+  {{ user_form.non_field_errors }}
+  <tr>
+    <td class="" style="border-bottom: 0px solid black; width: 25%;"><labe ><b>Matricula</b></label></td>
+    <td class="" style="width: 75%;"><input type="text" name="username" class="txt-all" placeholder="Matricula de usuario"></td>
+  </tr>
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Contrase&ntilde;a 1</b></label></td>
+    <td class="" ><input type="password" name="password1" class="txt-all" placeholder="Contrase&ntilde;a"></td>
+  </tr>
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Contrase&ntilde;a 2</b></label></td>
+    <td class="" ><input type="password" name="password2" class="txt-all" placeholder="Confirmar contrase&ntilde;a"></td>
+  </tr>
+  {{ coordina_profile_form.non_field_errors }}
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Nombre</b></label></td>
+    <td class="" ><input type="text" name="nombre" class="txt-all" placeholder="Nombre"></td>
+  </tr>
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Apellido paterno</b></label></td>
+    <td class="" ><input type="text" name="apepat" class="txt-all" placeholder="Apellido paterno"></td>
+  </tr>
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Apellido materno</b></label></td>
+    <td class="" ><input type="text" name="apemat" class="txt-all" placeholder="Apellido materno"></td>
+  </tr>
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Correo</b></label></td>
+    <td class="" ><input type="text" name="email" class="txt-all" placeholder="Correo electronico"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><input type="submit" class="btn-enviar"  value="Registrar" /></td>
+  </tr>
+</tbody>
+{% endif %}
     {% comment %} <img src="{% static 'images/login-background.PNG' %}" alt=""> {% endcomment %}
-    <div class="student-signup-form">
-      {% if registered %}
-      <h1>Thank you for registering.</h1>
-      {% else %}
-  
-      <form method="post">
-        {% csrf_token %}
-  
-        {{ coordina_profile_form.non_field_errors }}
-  
-        <p><label >Nombre</label>{{ coordina_profile_form.nombre }}</p>
-        <p> <label for="">Apellido paterno</label>  {{ coordina_profile_form.apepat }}</p>
-        <p> <label for="">Apellido materno</label>  {{ coordina_profile_form.apemat }}</p>
-        <p> <label for="">Email</label>{{ coordina_profile_form.email }}</p>
-  
-  
-        {{ user_form.non_field_errors }}
-  
-        <p> <label for="">matricula</label>{{ user_form.username }}</p>
-        <p> {{ user_form.username.help_text }}</p>
-        <p> <label for="">{{ user_form.password1.label_tag }}</label>{{ user_form.password1 }}</p>
-        <p> {{ user_form.password1.help_text }} </p>
-        <p> <label for="">{{ user_form.password2.label_tag }}</label>{{ user_form.password2 }}</p>
-        <p> {{ user_form.password2.help_text }} </p>
-        <input type="submit" name="" value="Registrar">
-      </form>
-      {% comment %} <a href="{% url 'classroom:login' %}">Already have an account.</a> {% endcomment %}
-      {% endif %}
-    </div>
-  </div>
 {% endblock table %}

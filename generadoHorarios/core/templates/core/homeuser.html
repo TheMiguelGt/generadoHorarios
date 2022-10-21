@@ -6,6 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="{% static 'core/img/logo.png' %}">
         <title>{% block title %}{% endblock title %}</title>
         <link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
@@ -65,10 +66,12 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Administradores</h3>
                 </a>
-                <a href="{% url 'usuarios:CoordinaSignUp' %}" class="{% if request.path == '/usuarios/coordina_signup/' %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Coordinadores</h3>
-                </a>
+                {% if request.user.is_staff or request.user.is_admin %}
+                    <a href="{% url 'usuarios:coordinadores' %}" class="{% if request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/' %}active{% endif %}">
+                        <span class="material-icons-sharp">grid_view</span>
+                        <h3>Coordinadores</h3>
+                    </a>
+                {%endif%}
                 <a href="#">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Docentes</h3>
@@ -146,7 +149,7 @@
             <form method="post">{% csrf_token %}
                 <div class="list-div">
                     <h2>{% block tabletitle %}{% endblock tabletitle %}</h2>
-                    <table>
+                    <table width="100%">
                         {% block table %}{% endblock table %}
                     </table>
                 </div>
@@ -165,7 +168,7 @@
                 </div>
                 <div class="profile">
                     <div class="info">
-                        <p><b>{{user}}<b></p>
+                        <p>Hola!<b> {{user}}<b></p>
                         {% if request.user.is_staff or request.user.is_admin %}
                             <small class="text-muted">Admin</small>
                         {%elif request.user.is_coordina %}
@@ -188,7 +191,7 @@
                     {% comment %} bloque de actualizaciones {% endcomment %}
                     <div class="update">
                         <div class="profile-photo">
-                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} alt="">
+                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
                         </div>
                         <div class="message">
                             <p><b>User name</b> nombre de la actividad que realizo o ajustes que hizo<p>
@@ -197,7 +200,7 @@
                     </div>
                     <div class="update">
                         <div class="profile-photo">
-                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} alt="">
+                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
                         </div>
                         <div class="message">
                             <p><b>User name</b> nombre de la actividad que realizo o ajustes que hizo<p>
@@ -206,7 +209,7 @@
                     </div>
                     <div class="update">
                         <div class="profile-photo">
-                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'registration/img/imgUser.png' %}" {% endif %} alt="">
+                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
                         </div>
                         <div class="message">
                             <p><b>User name</b> nombre de la actividad que realizo o ajustes que hizo<p>

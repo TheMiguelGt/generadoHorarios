@@ -1,12 +1,14 @@
 import imp
 from django.shortcuts import render,get_list_or_404,redirect
 from django.views import generic
-from django.views.generic import View,TemplateView,ListView,DetailView,CreateView,UpdateView,DeleteView
+from django.views.generic.list import ListView
+from django.views.generic import View,TemplateView,DetailView,CreateView,UpdateView,DeleteView
+from django.views.generic.edit import UpdateView,DeleteView,CreateView
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import UserForm,AdminProfileForm,CoordinaProfileForm,DocenteProfileForm,AlumnoProfileForm,AdminProfileIUpdateForm,CoordinaProfileIUpdateForm,DocenteProfileIUpdateForm,AlumnoProfileIUpdateForm
-from django.urls import reverse
+from django.urls import reverse,reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from django.http import HttpResponseRedirect,HttpResponse
@@ -41,6 +43,16 @@ def CoordinaSignUp(request):
         coordina_profile_form = CoordinaProfileForm()
     
     return render(request,'usuarios/coordina_signup.html',{'user_form':user_form,'coordina_profile_form':coordina_profile_form,'registered':registered,'user_type':user_type})
+
+#list all corrdinators users
+class CoordinaListView(ListView):
+    model = Coordina
+    #paginate_by=8
+
+#delete coordinatior user
+class CoordinaDelete(DeleteView):
+    model = Coordina
+    success_url = reverse_lazy('usuarios:coordinadores')
 
 #login view
 def user_login(request):

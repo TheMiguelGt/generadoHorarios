@@ -1,0 +1,48 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Coordinadores{% endblock title %} 
+{% block subtitle %}Coordinadores{% endblock subtitle %}
+{% block tabletitle %}Listado de coordinadores{% endblock tabletitle %}
+{% block agregarItem %}Agregar corrdinador{% endblock agregarItem %}
+{% block content %}
+{% include "usuarios/includes/usuarios_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+{% if page_list.count == 0 %}
+    <thead>
+        <tr>
+            <th><h1>No hay coordinadores por mostrar, necesitas registrarlos</h1></th>
+        </tr>
+    </thead>
+{% else %}
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Matricula</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Licenciatura</th>
+            {% if request.user.is_staff or request.user.is_admin %}
+                <th colspan="2">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for coordina in coordina_list%}
+            <tr>
+                {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
+                <td class="">{{forloop.counter}}</td>
+                <td class="">{{coordina.user.username}}</td>
+                <td class="">{{coordina.nombre}} {{coordina.apepat}} {{coordina.apemat}}</td>
+                <td class="">{{coordina.email}}</td>
+                <td class=""></td>
+                {% if request.user.is_staff %}
+                    <td class=""><a class="btn-delete" href="{% url 'usuarios:deletecoordi' coordina.user_id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td> 
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endif %}
+
+{% endblock table %}

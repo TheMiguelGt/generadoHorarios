@@ -1,0 +1,39 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Coordinadores{% endblock title %} 
+{% block subtitle %}Coordinadores{% endblock subtitle %}
+{% block tabletitle %}Eliminar Coordinador{% endblock tabletitle %}
+{% block content %}
+  {% include "usuarios/includes/usuarios_menu.html" %}
+{% endblock content %}
+
+{% block table %}
+<thead>
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+        <tr>
+          <td class="" style="border-bottom: 0px solid black; width: 25%;"><labe ><b>Matricula</b></label></td>
+          <td class="" style="border-bottom: 0px solid black;"><labe >{% if user.id == coordina.user_id %}{{coordina.user.user_id}}{%else%}nel{% endif %}</label></td>
+          </td>
+        </tr>
+        <tr>
+          <td class="" style="border-bottom: 0px solid black; width: 25%;"><labe ><b>Nombre</b></label></td>
+            <td class="" style="border-bottom: 0px solid black;"><labe >{{coordina.nombre}} {{coordina.apepat}} {{coordina.apemat}}</label></td>
+        </tr>
+        <tr>
+          <td class="" style="border-bottom: 0px solid black; width: 25%;"><labe ><b>Correo</b></label></td>
+            <td class="" style="border-bottom: 0px solid black;"><labe >{{coordina.email}}</label></td>
+        </tr>
+        <tr>
+            <td class="" style="border-bottom: 0px solid black; width: 25%;"><labe ><b>Licenciatura</b></label></td>
+              <td class="" style="border-bottom: 0px solid black;"><labe ></label></td>
+          </tr>
+        <tr>
+          <td colspan="2"><input type="submit" class="btn-eliminar"  value="Eliminar coordinador" /></td>
+        </tr>
+  </tbody>
+{% endblock %}

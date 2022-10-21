@@ -9,41 +9,50 @@
 
 {% endblock content %}
 {% block table %}
-<thead>
-    <tr>
-        <th>Numero</th>
-        <th>ID Materia</th>
-        <th>Nombre de la Materia</th>
-        <th>Carga horaria</th>
-        <th>Grado</th>
-        <th>Aula</th>
-        {% if request.user.is_staff %}
-            <th colspan="2">Acciones</th>
-        {% endif %}
-    </tr>
-</thead>
-<tbody>
-    {% for page in page_list|dictsort:"id" %}
+{% if page_list.count == 0 %}
+    <thead>
         <tr>
-            {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
-            <td class="">{{forloop.counter}}</td>
-            <td class="">{{page.clave}}</td>
-            <td class="">{{page.materia}}</td>
-            <td class="">{{page.carga}}</td>
-            <td class=""></td>
-            <td class="">{{page.aula}}</td>
-            {% if request.user.is_staff %}
-                <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
-                <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
-            {% endif %}
-                {% comment %} <a class="btn1" href="{% url 'pages:page' page.id page.nomMateria|slugify %}"><i class="fa-sharp fa-solid fa-circle-info"></i></a></td> {% endcomment %}
-                {% comment %} {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
-                    <td><a class="btn2" href="{% url 'pages:update' page.id %}"><i class="fa-sharp fa-solid fa-pen"></i></a></td>
-                    <td><a class="btn3" href="{% url 'pages:delete' page.id %}"><i class="fa-solid fa-trash"></i></a></td>
-                {% endif %} {% endcomment %}
+            <th><h1>No hay materias por mostrar, necesitas crearlas</h1></th>
         </tr>
-    {% endfor %}
-</tbody>
+    </thead>
+{% else %}
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>ID Materia</th>
+            <th>Nombre de la Materia</th>
+            <th>Carga horaria</th>
+            <th>Grado</th>
+            <th>Aula</th>
+            {% if request.user.is_staff %}
+                <th colspan="2">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for page in page_list|dictsort:"id" %}
+            <tr>
+                {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
+                <td class="">{{forloop.counter}}</td>
+                <td class="">{{page.clave}}</td>
+                <td class="">{{page.materia}}</td>
+                <td class="">{{page.carga}}</td>
+                <td class=""></td>
+                <td class="">{{page.aula}}</td>
+                {% if request.user.is_staff %}
+                    <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                    <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                {% endif %}
+                    {% comment %} <a class="btn1" href="{% url 'pages:page' page.id page.nomMateria|slugify %}"><i class="fa-sharp fa-solid fa-circle-info"></i></a></td> {% endcomment %}
+                    {% comment %} {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
+                        <td><a class="btn2" href="{% url 'pages:update' page.id %}"><i class="fa-sharp fa-solid fa-pen"></i></a></td>
+                        <td><a class="btn3" href="{% url 'pages:delete' page.id %}"><i class="fa-solid fa-trash"></i></a></td>
+                    {% endif %} {% endcomment %}
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endif %}
+
 {% comment %} {% if is_paginated %}
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
