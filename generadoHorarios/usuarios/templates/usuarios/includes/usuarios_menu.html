@@ -5,15 +5,15 @@
 <link href="{% static 'pages/css/custom_ckeditor.css' %}" rel="stylesheet"><!--modificar el content de ckeditor-->
 
 {% if request.user.is_staff or request.user.is_coordina%}
-  {% if request.path == '/usuarios/' %}
+  {% if request.path == '/usuarios/coordina_list/' %}
     <a href="{% url 'usuarios:CoordinaSignUp' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
         <h3>Agregar</h3>
       </div>
     </div>
-  {%elif request.path == '/usuarios/coordina_signup/' %}
-    <a href="{% url 'pages:pages' %}"><div class="item add-product">
+  {%elif request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/delete/' %}
+    <a href="{% url 'usuarios:coordinadores' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>
         <h3>Listar</h3>

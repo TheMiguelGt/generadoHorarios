@@ -1,4 +1,7 @@
+from atexit import register
 import imp
+import profile
+from django import dispatch
 from django.shortcuts import render,get_list_or_404,redirect
 from django.views import generic
 from django.views.generic.list import ListView
@@ -12,11 +15,46 @@ from django.urls import reverse,reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from django.http import HttpResponseRedirect,HttpResponse
-from .models import Admin,Coordina,Docente,Alumno
+from .models import User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
 
-
 # Create your views here.
+# ----------------ADMINISTRADOR------------------
+#creation user admin
+def AdminSignUp(request):
+    user_type = 'administrador'
+    registered = False
+
+    if request.method == "POST":
+        user_form = UserForm(data = request.POST)
+        admin_profile_form = AdminProfileForm(data = request.POST)
+
+        if user_form.is_valid() and admin_profile_form.is_valid():
+            user = user_form.save()
+            user.is_admin = True
+            user.is_staff = True
+            user.is_superuser = True
+            user.save()
+
+            profile = admin_profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+
+            registered = True
+        else:
+            print(user_form.errors,admin_profile_form.errors)
+    else:
+        user_form = UserForm()
+        admin_profile_form = AdminProfileForm()
+
+    return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type})
+
+#Admin list view
+class AdminListView(ListView):
+    model = Admin
+
+# ----------------COORDINADOR------------------
+
 #creation profile coordina
 def CoordinaSignUp(request):
     user_type = 'coordinador'
@@ -50,9 +88,16 @@ class CoordinaListView(ListView):
     #paginate_by=8
 
 #delete coordinatior user
+@method_decorator(login_required, name='dispatch')
 class CoordinaDelete(DeleteView):
-    model = Coordina
+    model = User
+    awa = CoordinaListView
     success_url = reverse_lazy('usuarios:coordinadores')
+
+    def dispatch(self,request,*args,**kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request,*args,**kwargs)
+
 
 #login view
 def user_login(request):

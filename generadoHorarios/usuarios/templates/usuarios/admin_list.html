@@ -1,0 +1,40 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Administradores{% endblock title %} 
+{% block subtitle %}Administradores{% endblock subtitle %}
+{% block tabletitle %}Listado de administradores{% endblock tabletitle %}
+{% block agregarItem %}Agregar administrador{% endblock agregarItem %}
+{% block content %}
+{% include "usuarios/includes/usuarios_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+{% if admin_list.count == 0 %}
+    <thead>
+        <tr>
+            <th><h1>No hay administradores por mostrar, necesitas registrarlos</h1></th>
+        </tr>
+    </thead>
+{% else %}
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Matricula</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for admin in admin_list%}
+            <tr>
+                {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
+                <td class="">{{forloop.counter}}</td>
+                <td class="">{{admin.user.username}}</td>
+                <td class="">{{admin.nombre}} {{admin.apepat}} {{admin.apemat}}</td>
+                <td class="">{{admin.email}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endif %}
+
+{% endblock table %}

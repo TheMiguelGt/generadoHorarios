@@ -24,7 +24,6 @@ class AdminProfileForm(forms.ModelForm):
                 'nombre': forms.TextInput(attrs={'class':'txtform'}),
                 'password1': forms.TextInput(attrs={'class':'txtform'}),
                 'password2': forms.TextInput(attrs={'class':'txtform'}),
-                'password2': forms.EmailInput(attrs={'class':'txtform'}),
                 }
 
 #admin profile update
@@ -42,7 +41,6 @@ class CoordinaProfileForm(forms.ModelForm):
                 'nombre': forms.TextInput(attrs={'class':'txtform'}),
                 'password1': forms.TextInput(attrs={'class':'txtform'}),
                 'password2': forms.TextInput(attrs={'class':'txtform'}),
-                'password2': forms.EmailInput(attrs={'class':'txtform'}),
                 }
 
 #coordina profile update
@@ -60,7 +58,6 @@ class DocenteProfileForm(forms.ModelForm):
                 'nombre': forms.TextInput(attrs={'class':'txtform'}),
                 'password1': forms.TextInput(attrs={'class':'txtform'}),
                 'password2': forms.TextInput(attrs={'class':'txtform'}),
-                'password2': forms.EmailInput(attrs={'class':'txtform'}),
                 }
 
 #docente profile update
@@ -78,7 +75,6 @@ class AlumnoProfileForm(forms.ModelForm):
                 'nombre': forms.TextInput(attrs={'class':'txtform'}),
                 'password1': forms.TextInput(attrs={'class':'txtform'}),
                 'password2': forms.TextInput(attrs={'class':'txtform'}),
-                'password2': forms.EmailInput(attrs={'class':'txtform'}),
                 }
 
 #alumno profile update
