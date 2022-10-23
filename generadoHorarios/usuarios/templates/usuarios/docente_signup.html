@@ -1,8 +1,8 @@
 {% extends 'core/homeuser.html' %} 
 {% load static %}
-{% block title %}Registrar administrador{% endblock %}
-{% block subtitle %}Administrador{% endblock subtitle %}
-{% block tabletitle %}Registrar Administrador{% endblock tabletitle %}
+{% block title %}Registrar docente{% endblock %}
+{% block subtitle %}Docente{% endblock subtitle %}
+{% block tabletitle %}Registrar docente{% endblock tabletitle %}
 {% block content %}
   {% include "usuarios/includes/usuarios_menu.html" %}
 {% endblock content %}
@@ -11,7 +11,7 @@
 {% csrf_token %}
 <thead>
 {% if registered %}
-  <th><h1>Administrador creado exitosamente</h1></th>
+  <th><h1>El usuario se ha creado exitosamente</h1></th>
 {% else %}
   <tr>
       <th></th>
@@ -32,7 +32,7 @@
     <td class="" style="border-bottom: 0px solid black;"><labe ><b>Contrase&ntilde;a 2</b></label></td>
     <td class="" ><input type="password" name="password2" class="txt-all" placeholder="Confirmar contrase&ntilde;a"></td>
   </tr>
-  {{ admin_profile_form.non_field_errors }}
+  {{ docente_profile_form.non_field_errors }}
   <tr>
     <td class="" style="border-bottom: 0px solid black;"><labe ><b>Nombre</b></label></td>
     <td class="" ><input type="text" name="nombre" class="txt-all" placeholder="Nombre"></td>

@@ -5,13 +5,14 @@
 <link href="{% static 'pages/css/custom_ckeditor.css' %}" rel="stylesheet"><!--modificar el content de ckeditor-->
 
 {% if request.user.is_staff or request.user.is_coordina%}
+{% comment %} COORDINA {% endcomment %}
   {% if request.path == '/usuarios/coordina_list/' %}
     <a href="{% url 'usuarios:CoordinaSignUp' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
         <h3>Agregar</h3>
       </div>
-    </div>
+    </div></a> 
   {%elif request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/delete/' %}
     <a href="{% url 'usuarios:coordinadores' %}"><div class="item add-product">
       <div>
@@ -19,5 +20,21 @@
         <h3>Listar</h3>
       </div>
     </div></a> 
+  {% endif %}
+  {% comment %} DOCENTE {% endcomment %}
+  {% if request.path == '/usuarios/docente_list/' %}
+    <a href="{% url 'usuarios:DocenteSignUp' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div>
+  {%elif request.path == '/usuarios/docente_signup/' %}
+  <a href="{% url 'usuarios:docentes' %}"><div class="item add-product">
+    <div>
+      <span class="material-icons-sharp">format_list_bulleted</span>
+      <h3>Listar</h3>
+    </div>
+  </div></a> 
   {% endif %}
 {% endif %}

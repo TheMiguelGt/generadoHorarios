@@ -98,6 +98,38 @@ class CoordinaDelete(DeleteView):
         self.object = self.get_object()
         return super().dispatch(request,*args,**kwargs)
 
+#docente profile coordina
+def DocenteSignUp(request):
+    user_type = 'docente'
+    registered = False
+    
+    if request.method == "POST":
+        user_form = UserForm(data = request.POST)
+        docente_profile_form = DocenteProfileForm(data = request.POST)
+        
+        if user_form.is_valid() and docente_profile_form.is_valid():
+            user = user_form.save()
+            user.is_docente = True
+            user.save()
+            
+            profile = docente_profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            
+            registered = True
+        else:
+            print(user_form.errors,docente_profile_form.errors)
+    else:
+        user_form = UserForm()
+        docente_profile_form = DocenteProfileForm()
+    
+    return render(request,'usuarios/docente_signup.html',{'user_form':user_form,'docente_profile_form':docente_profile_form,'registered':registered,'user_type':user_type})
+
+#list all docente users
+class DocenteListView(ListView):
+    model = Docente
+    #paginate_by=8
+
 
 #login view
 def user_login(request):

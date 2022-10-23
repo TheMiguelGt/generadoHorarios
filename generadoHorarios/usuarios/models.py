@@ -10,6 +10,9 @@ class User(AbstractUser):
     is_coordina = models.BooleanField(default=False)
     is_docente = models.BooleanField(default=False)
     is_alumno = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'user_usuario'
     
 class Admin(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='Admin')
@@ -24,6 +27,9 @@ class Admin(models.Model):
     
     def __str__(self):
         return self.nombre,self.apepat,self.apemat
+
+    class Meta:
+        db_table = 'user_administrador'
     
 class Coordina(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='Coordinador')
@@ -38,6 +44,9 @@ class Coordina(models.Model):
     
     def __str__(self):
         return self.nombre,self.apepat,self.apemat
+
+    class Meta:
+        db_table = 'user_coordinador'
     
 class Docente(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='Docente')
@@ -53,6 +62,9 @@ class Docente(models.Model):
     def __str__(self):
         return self.nombre,self.apepat,self.apemat
 
+    class Meta:
+        db_table = 'user_docente'
+
 class Alumno(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='Alumno')
     nombre=models.CharField(max_length=50)
@@ -66,6 +78,9 @@ class Alumno(models.Model):
     
     def __str__(self):
         return self.nombre,self.apepat,self.apemat
+
+    class Meta:
+        db_table = 'user_alumno'
     
 
     

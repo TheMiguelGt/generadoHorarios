@@ -62,17 +62,18 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Horario</h3>
                 </a>
-                <a href="{% url 'usuarios:administradores' %}" class="{% if request.path == '/usuarios/admin_list/' %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Administradores</h3>
-                </a>
                 {% if request.user.is_staff or request.user.is_admin %}
-                    <a href="{% url 'usuarios:coordinadores' %}" class="{% if request.path == 'usuarios/coordina_signup/' or request.path == '/usuarios/coordina_list/' %}active{% endif %}">
+                    <a href="{% url 'usuarios:administradores' %}" class="{% if request.path == '/usuarios/admin_list/' %}active{% endif %}">
+                        <span class="material-icons-sharp">grid_view</span>
+                        <h3>Administradores</h3>
+                    </a>
+                    <a href="{% url 'usuarios:coordinadores' %}" class="{% if request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/coordina_list/' %}active{% endif %}">
                         <span class="material-icons-sharp">grid_view</span>
                         <h3>Coordinadores</h3>
                     </a>
                 {%endif%}
-                <a href="#">
+                {% if request.user.is_staff or request.user.is_admin  or request.user.is_coordina%}
+                <a href="{% url 'usuarios:docentes' %}" class="{% if request.path == '/usuarios/docente_signup/' or request.path == '/usuarios/docente_list/' %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Docentes</h3>
                 </a>
@@ -80,6 +81,7 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Alumnos</h3>
                 </a>
+                {%endif%}
                 <a href="{% url 'usuarios:logout' %}">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
@@ -168,11 +170,10 @@
                 </div>
                 <div class="profile">
                     <div class="info">
+                        <p>Hola!<b> {{user.username}}<b></p>
                         {% if request.user.is_staff or request.user.is_admin %}
-                            <p>Hola!<b> {{user.username}}<b></p>
                             <small class="text-muted">Admin</small>
                         {%elif request.user.is_coordina %}
-                            <p>Hola!<b> {{coordina.user.username}}<b></p>
                             <small class="text-muted">Coordinador</small>
                         {%elif request.user.is_docente %}
                             <small class="text-muted">Docente</small>

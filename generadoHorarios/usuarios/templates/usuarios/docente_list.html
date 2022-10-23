@@ -1,18 +1,18 @@
 {% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
-{% block title %}Lista de coordinadores{% endblock title %} 
-{% block subtitle %}Coordinadores{% endblock subtitle %}
-{% block tabletitle %}Listado de coordinadores{% endblock tabletitle %}
-{% block agregarItem %}Agregar coordinador{% endblock agregarItem %}
+{% block title %}Lista de docentes{% endblock title %} 
+{% block subtitle %}Docentes{% endblock subtitle %}
+{% block tabletitle %}Listado de docentes{% endblock tabletitle %}
+{% block agregarItem %}Agregar docente{% endblock agregarItem %}
 {% block content %}
 {% include "usuarios/includes/usuarios_menu.html" %}
 
 {% endblock content %}
 {% block table %}
-{% if coordina_list.count == 0 %}
+{% if docente_list.count == 0 %}
     <thead>
         <tr>
-            <th><h1>No hay coordinadores por mostrar, necesitas registrarlos</h1></th>
+            <th><h1>No hay docentes por mostrar, necesitas registrarlos</h1></th>
         </tr>
     </thead>
 {% else %}
@@ -29,16 +29,16 @@
         </tr>
     </thead>
     <tbody>
-        {% for coordina in coordina_list%}
+        {% for docente in docente_list%}
             <tr>
                 {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
                 <td class="">{{forloop.counter}}</td>
-                <td class="">{{coordina.user.username}}</td>
-                <td class="">{{coordina.nombre}} {{coordina.apepat}} {{coordina.apemat}}</td>
-                <td class="">{{coordina.email}}</td>
+                <td class="">{{docente.user.username}}</td>
+                <td class="">{{docente.nombre}} {{docente.apepat}} {{docente.apemat}}</td>
+                <td class="">{{docente.email}}</td>
                 <td class=""></td>
                 {% if request.user.is_staff %}
-                    <td class=""><a class="btn-delete" href="{% url 'usuarios:deletecoordi' coordina.user_id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td> 
+                    {% comment %} <td class=""><a class="btn-delete" href="{% url 'usuarios:deletecoordi' docente.user_id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>  {% endcomment %}
                 {% endif %}
             </tr>
         {% endfor %}
