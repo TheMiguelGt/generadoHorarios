@@ -1,6 +1,6 @@
 from django.urls import path 
 from usuarios import views
-from .views import CoordinaListView,CoordinaDelete,AdminListView,DocenteListView
+from .views import CoordinaListView,CoordinaDelete,AdminListView,DocenteListView,AlumnoListView
 
 app_name = 'usuarios'
 
@@ -17,4 +17,7 @@ urlpatterns = [
     #docente
     path('docente_signup/',views.DocenteSignUp,name="DocenteSignUp"),
     path('docente_list/',DocenteListView.as_view(),name='docentes'),
+    #alumno
+    path('alumno_signup/',views.AlumnoSignUp,name="AlumnoSignUp"),
+    path('alumno_list/',AlumnoListView.as_view(),name='alumnos'),
 ]

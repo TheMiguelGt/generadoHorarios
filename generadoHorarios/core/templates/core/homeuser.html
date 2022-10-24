@@ -36,6 +36,7 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
+                
                 {% if request.user.is_staff or request.user.is_admin %}
                 <a href="{% url 'planteles:planteles' %}" class="{% if request.path == '/planteles/' %}active{% endif %}">
                     <span class="material-icons-sharp">school</span>
@@ -77,11 +78,12 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Docentes</h3>
                 </a>
-                <a href="#">
+                <a href="{% url 'usuarios:alumnos' %}" class="{% if request.path == '/usuarios/alumno_signup/' or request.path == '/usuarios/alumno_list/' %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Alumnos</h3>
                 </a>
                 {%endif%}
+
                 <a href="{% url 'usuarios:logout' %}">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>

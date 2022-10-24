@@ -130,6 +130,38 @@ class DocenteListView(ListView):
     model = Docente
     #paginate_by=8
 
+#docente profile coordina
+def AlumnoSignUp(request):
+    user_type = 'alumno'
+    registered = False
+    
+    if request.method == "POST":
+        user_form = UserForm(data = request.POST)
+        alumno_profile_form = AlumnoProfileForm(data = request.POST)
+        
+        if user_form.is_valid() and alumno_profile_form.is_valid():
+            user = user_form.save()
+            user.is_alumno = True
+            user.save()
+            
+            profile = alumno_profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            
+            registered = True
+        else:
+            print(user_form.errors,alumno_profile_form.errors)
+    else:
+        user_form = UserForm()
+        alumno_profile_form = AlumnoProfileForm()
+    
+    return render(request,'usuarios/alumno_signup.html',{'user_form':user_form,'alumno_profile_form':alumno_profile_form,'registered':registered,'user_type':user_type})
+
+#list all docente users
+class AlumnoListView(ListView):
+    model = Alumno
+    #paginate_by=8
+
 
 #login view
 def user_login(request):

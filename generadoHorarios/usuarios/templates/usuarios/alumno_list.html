@@ -1,0 +1,48 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Lista de alumnos{% endblock title %} 
+{% block subtitle %}Alumnos{% endblock subtitle %}
+{% block tabletitle %}Listado de alumnos{% endblock tabletitle %}
+{% block agregarItem %}Agregar alumno{% endblock agregarItem %}
+{% block content %}
+{% include "usuarios/includes/usuarios_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+{% if alumno_list.count == 0 %}
+    <thead>
+        <tr>
+            <th><h1>No hay alumnos por mostrar, necesitas registrarlos</h1></th>
+        </tr>
+    </thead>
+{% else %}
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Matricula</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Licenciatura</th>
+            {% if request.user.is_staff or request.user.is_admin %}
+                <th colspan="2">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for alumno in alumno_list%}
+            <tr>
+                {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
+                <td class="">{{forloop.counter}}</td>
+                <td class="">{{alumno.user.username}}</td>
+                <td class="">{{alumno.nombre}} {{alumno.apepat}} {{alumno.apemat}}</td>
+                <td class="">{{alumno.email}}</td>
+                <td class=""></td>
+                {% if request.user.is_staff %}
+                    {% comment %} <td class=""><a class="btn-delete" href="{% url 'usuarios:deletecoordi' alumno.user_id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>  {% endcomment %}
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endif %}
+
+{% endblock table %}

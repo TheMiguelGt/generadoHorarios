@@ -13,7 +13,7 @@
         <h3>Agregar</h3>
       </div>
     </div></a> 
-  {%elif request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/delete/' %}
+  {% elif request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/delete/' %}
     <a href="{% url 'usuarios:coordinadores' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>
@@ -29,8 +29,24 @@
         <h3>Agregar</h3>
       </div>
     </div>
-  {%elif request.path == '/usuarios/docente_signup/' %}
+  {% elif request.path == '/usuarios/docente_signup/' %}
   <a href="{% url 'usuarios:docentes' %}"><div class="item add-product">
+    <div>
+      <span class="material-icons-sharp">format_list_bulleted</span>
+      <h3>Listar</h3>
+    </div>
+  </div></a> 
+  {% endif %}
+  {% comment %} ALUMNO {% endcomment %}
+  {% if request.path == '/usuarios/alumno_list/' %}
+    <a href="{% url 'usuarios:AlumnoSignUp' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div>
+  {% elif request.path == '/usuarios/alumno_signup/' %}
+  <a href="{% url 'usuarios:alumnos' %}"><div class="item add-product">
     <div>
       <span class="material-icons-sharp">format_list_bulleted</span>
       <h3>Listar</h3>

@@ -1,0 +1,58 @@
+{% extends 'core/homeuser.html' %} 
+{% load static %}
+{% block title %}Registrar alumno{% endblock %}
+{% block subtitle %}Alumno{% endblock subtitle %}
+{% block tabletitle %}Registrar Alumno{% endblock tabletitle %}
+{% block content %}
+  {% include "usuarios/includes/usuarios_menu.html" %}
+{% endblock content %}
+
+{% block table %}
+{% csrf_token %}
+<thead>
+{% if registered %}
+  <th><h1>Alumno creado exitosamente</h1></th>
+{% else %}
+  <tr>
+      <th></th>
+      <th></th>
+  </tr>
+</thead>
+<tbody>
+  {{ user_form.non_field_errors }}
+  <tr>
+    <td class="" style="border-bottom: 0px solid black; width: 25%;"><labe ><b>Matricula</b></label></td>
+    <td class="" style="width: 75%;"><input type="text" name="username" class="txt-all" placeholder="Matricula de usuario"></td>
+  </tr>
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Contrase&ntilde;a 1</b></label></td>
+    <td class="" ><input type="password" name="password1" class="txt-all" placeholder="Contrase&ntilde;a"></td>
+  </tr>
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Contrase&ntilde;a 2</b></label></td>
+    <td class="" ><input type="password" name="password2" class="txt-all" placeholder="Confirmar contrase&ntilde;a"></td>
+  </tr>
+  {{ alumno_profile_form.non_field_errors }}
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Nombre</b></label></td>
+    <td class="" ><input type="text" name="nombre" class="txt-all" placeholder="Nombre"></td>
+  </tr>
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Apellido paterno</b></label></td>
+    <td class="" ><input type="text" name="apepat" class="txt-all" placeholder="Apellido paterno"></td>
+  </tr>
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Apellido materno</b></label></td>
+    <td class="" ><input type="text" name="apemat" class="txt-all" placeholder="Apellido materno"></td>
+  </tr>
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Correo</b></label></td>
+    <td class="" ><input type="text" name="email" class="txt-all" placeholder="Correo electronico"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><input type="submit" class="btn-enviar"  value="Registrar" /></td>
+  </tr>
+</tbody>
+{% endif %}
+    {% comment %} <img src="{% static 'images/login-background.PNG' %}" alt=""> {% endcomment %}
+{% endblock table %}
