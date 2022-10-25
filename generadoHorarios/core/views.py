@@ -31,5 +31,16 @@ class HomePage2View(TemplateView):
 
     def get(self, request, *args, **kwargs):#importante traer los argumentos y clave valor
         return render(request,self.template_name,{'title':'homeUser'})
+    
+class UserPageView(TemplateView):
+    template_name = 'core/userhome1.html'
+    
+    @method_decorator(login_required)
+    def dispatch(self, request,*args,**kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):#importante traer los argumentos y clave valor
+        return render(request,self.template_name,{'title':'userPage'})
+    
 
     

@@ -1,5 +1,6 @@
 from atexit import register
 import imp
+from multiprocessing import context
 import profile
 from urllib import request
 from django import dispatch
@@ -18,6 +19,9 @@ from django.contrib.auth import authenticate,login,logout,update_session_auth_ha
 from django.http import HttpResponseRedirect,HttpResponse, JsonResponse
 from .models import History, User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
+from django.views.decorators.csrf import csrf_exempt
+from tablib import Dataset
+from .resources import AdminResource
 
 
 # Create your views here.
@@ -26,6 +30,15 @@ from django.contrib.auth.forms import PasswordChangeForm
 def AdminSignUp(request):
     user_type = 'administrador'
     registered = False
+    url = reverse('usuarios:administradores')
+
+    def post(self,request,*args,**kwargs):
+        data = {}
+        try:
+            data = Admin.objects.get(pk=request.POST['id']).toJSON()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
@@ -43,18 +56,44 @@ def AdminSignUp(request):
             profile.save()
 
             registered = True
-        else:
-            print(user_form.errors,admin_profile_form.errors)
+            
+            return HttpResponseRedirect(url)
     else:
         user_form = UserForm()
         admin_profile_form = AdminProfileForm()
-
+    
     return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type})
     
+# def importExcel(request):
+#     user_type = 'administrador'
+#     registered = False
+#     url = reverse('usuarios:administradores')
+    
+#     if request.method == 'POST':
+#         admin_resource = AdminResource()
+#         dataset = Dataset()
+#         new_admin = request.FILES['my_file']
+#         imported_data = dataset.load(new_admin.read(),format='xlsx')
+#         for data in imported_data:
+#             value = Admin(
+#                 data[0],
+#                 data[4],
+#                 data[5],
+#                 data[6],
+#                 data[7],
+#             )
+#             value.save()
+
+#     return render(request,'usuarios/admin_import.html')
 
 #Admin list view
 class AdminListView(ListView):
     model = Admin
+    paginate_by=8
+    
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)    
     
     def post(self,request,*args,**kwargs):
         data = {}
@@ -63,6 +102,11 @@ class AdminListView(ListView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
+        context['title'] = 'Listado de administradores'
+        return context
 
 # ----------------COORDINADOR------------------
 

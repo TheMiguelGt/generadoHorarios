@@ -1,0 +1,29 @@
+{% extends 'core/homeuser.html' %} 
+{% load static %}
+{% block title %}Registrar administrador{% endblock %}
+{% block subtitle %}Administrador{% endblock subtitle %}
+{% block tabletitle %}Registrar Administrador{% endblock tabletitle %}
+{% block content %}
+  {% include "usuarios/includes/usuarios_menu.html" %}
+{% endblock content %}
+
+{% block table %}
+{% csrf_token %}
+<thead>
+
+  <tr>
+      <th></th>
+      <th></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Importar datos</b></label></td>
+    <td ><input type="file" class="btn-enviar" name="my_file"  value="Registrar" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><input type="submit" class="btn-enviar"  value="Insertar datos" /></td>
+  </tr>
+</tbody>
+    
+{% endblock table %}

@@ -8,10 +8,29 @@
 {% include "pages/includes/pages_menu.html" %}
 
 {% endblock content %}
-{% if planteles_list.count == 0 %}
-    <thead>
-        <tr>
-            <th><h1>No hay planteles por mostrar, necesitas registrarlos</h1></th>
-        </tr>
-    </thead>
-{% endif %}
+{% block table %}
+    {% if plantel_list.count == 0 %}
+        <thead>
+            <tr>
+                <th><h1>No hay planteles por mostrar, necesitas registrarlos</h1></th>
+            </tr>
+        </thead>
+    {% else %}
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Clave</th>
+                <th>Plantel</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plantel in plantel_list|dictsort:"id" %}
+                <tr>
+                    <td class="">{{forloop.counter}}</td>
+                    <td class="">{{plantel.clave}}</td>
+                    <td class="">{{plantel.plantel}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    {% endif %}
+{% endblock table %}

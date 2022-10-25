@@ -46,3 +46,5 @@ class PageDelete(DeleteView):#eliminar
     model = Page 
     success_url = reverse_lazy('pages:pages')
     
+#create docente materia
+    

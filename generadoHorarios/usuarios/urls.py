@@ -1,6 +1,6 @@
 from django.urls import path 
 from usuarios import views
-from .views import CoordinaListView,CoordinaDelete,AdminListView,DocenteListView,AlumnoListView
+from .views import CoordinaListView,CoordinaDelete,AdminListView,AdminSignUp,DocenteListView,AlumnoListView
 
 app_name = 'usuarios'
 
@@ -9,6 +9,7 @@ urlpatterns = [
     path('logout/',views.user_logout,name="logout"),
     #admin
     path('admin_signup/',views.AdminSignUp,name="AdminSignUp"),
+    # path('admin_import/',views.importExcel,name="push_admin"),
     path('admin_list/',AdminListView.as_view(),name='administradores'),
     #coordina
     path('coordina_signup/',views.CoordinaSignUp,name="CoordinaSignUp"),

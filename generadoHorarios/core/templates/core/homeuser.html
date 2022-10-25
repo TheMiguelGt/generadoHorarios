@@ -15,6 +15,9 @@
         rel="stylesheet">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        {% comment %} ALERTAS {% endcomment %}
+        <script src="{% static 'core/lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
         {% comment %} <script src= "https //kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script> {% endcomment %}
     </head>
     <script></script>
@@ -59,31 +62,12 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Materia del docente</h3>
                 </a>
-                <a href="#">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Horario</h3>
-                </a>
                 {% if request.user.is_staff or request.user.is_admin %}
-                    <a href="{% url 'usuarios:administradores' %}" class="{% if request.path == '/usuarios/admin_list/' %}active{% endif %}">
-                        <span class="material-icons-sharp">grid_view</span>
-                        <h3>Administradores</h3>
-                    </a>
-                    <a href="{% url 'usuarios:coordinadores' %}" class="{% if request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/coordina_list/' %}active{% endif %}">
-                        <span class="material-icons-sharp">grid_view</span>
-                        <h3>Coordinadores</h3>
-                    </a>
-                {%endif%}
-                {% if request.user.is_staff or request.user.is_admin  or request.user.is_coordina%}
-                <a href="{% url 'usuarios:docentes' %}" class="{% if request.path == '/usuarios/docente_signup/' or request.path == '/usuarios/docente_list/' %}active{% endif %}">
+                <a href="{% url 'userPage' %}" class="{% if request.path == '/admn/' or request.path == '/usuarios/admin_list/' or request.path == '/usuarios/admin_signup/' or request.path == '/usuarios/coordina_list/' or request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/docente_list/' or request.path == '/usuarios/docente_signup/' or request.path == '/usuarios/alumno_list/' or request.path == '/usuarios/alumno_signup/' %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>
-                    <h3>Docentes</h3>
-                </a>
-                <a href="{% url 'usuarios:alumnos' %}" class="{% if request.path == '/usuarios/alumno_signup/' or request.path == '/usuarios/alumno_list/' %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Alumnos</h3>
+                    <h3>Administrar usuarios</h3>
                 </a>
                 {%endif%}
-
                 <a href="{% url 'usuarios:logout' %}">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
@@ -150,7 +134,7 @@
                     <small class="text-muted">owo</small>
                 </div>
             </div>
-            <form method="post">{% csrf_token %}
+            <form method="post" enctype="multipart/form-data">{% csrf_token %} 
                 <div class="list-div">
                     <h2>{% block tabletitle %}{% endblock tabletitle %}</h2>
                     <table width="100%">

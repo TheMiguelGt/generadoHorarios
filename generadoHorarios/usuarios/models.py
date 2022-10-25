@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.forms import model_to_dict
 from django.urls import reverse 
 from django.conf import settings
-from simple_history.models import HistoricalRecords
+# from simple_history.models import HistoricalRecords
 
 # Create your models here.
 class User(AbstractUser):

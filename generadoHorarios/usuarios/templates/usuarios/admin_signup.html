@@ -11,7 +11,14 @@
 {% csrf_token %}
 <thead>
 {% if registered %}
-  <th><h1>Administrador creado exitosamente</h1></th>
+  <script>
+    Swal.fire({
+      title: 'Con exito!',
+      text: 'El usuario de ha creado con exito',
+      icon: 'success',
+      url: '{% url 'usuarios:administradores' %}',
+    })
+  </script>
 {% else %}
   <tr>
       <th></th>
@@ -55,4 +62,49 @@
 </tbody>
 {% endif %}
     {% comment %} <img src="{% static 'images/login-background.PNG' %}" alt=""> {% endcomment %}
+    <script>
+      {% if user_form.errors %}
+        var errors = '';
+        {%for field in user_form %}
+            {% for error in field.errors %}
+
+                errors+='{{field}} {{error}}\n';
+
+            {% endfor %}
+            Swal.fire({
+                title: 'Error!',
+                text: errors,
+                icon: 'error',
+              })
+        {% endfor %}
+      {%endif%}
+
+      {% if user_form.errors %}
+        var errors = '';
+        {%for field in user_form %}
+            {% for error in field.errors %}
+
+                errors+='{{error}}\n';
+
+            {% endfor %}
+            Swal.fire({
+                title: 'Error!',
+                text: errors,
+                icon: 'error',
+              })
+        {% endfor %}
+      {%endif%}
+
+      {% comment %} click del boton de enviar {% endcomment %}
+      $('form').on('submit', function(e){
+        {% comment %} e.preventDefault(); {% endcomment %}
+        var parameters = $(this).serializeArray();
+        //alert(parameters)
+        {% comment %} $.ajax({
+          url: '{% url 'usuarios:AdminSignUp' %}',
+          type: 'POST',
+          data: {id:1},
+        }) {% endcomment %}
+      });
+    </script>
 {% endblock table %}

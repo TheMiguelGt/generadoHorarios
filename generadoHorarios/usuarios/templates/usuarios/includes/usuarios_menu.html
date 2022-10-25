@@ -14,11 +14,23 @@
     <h3>Agregar</h3>
   </div>
 </div></a> 
+<a href="{% url 'userPage' %}" class="btnTest"><div class="item add-product">
+  <div>
+    <span class="material-icons-sharp">manage_accounts</span>
+    <h3>Usuarios</h3>
+  </div>
+</div></a> 
 {% elif request.path == '/usuarios/admin_signup/' or request.path == '/usuarios/delete/' %}
 <a href="{% url 'usuarios:administradores' %}"><div class="item add-product">
   <div>
     <span class="material-icons-sharp">format_list_bulleted</span>
     <h3>Listar</h3>
+  </div>
+</div></a> 
+<a href="{% url 'userPage' %}" class="btnTest"><div class="item add-product">
+  <div>
+    <span class="material-icons-sharp">manage_accounts</span>
+    <h3>Usuarios</h3>
   </div>
 </div></a> 
 {% endif %}
@@ -30,11 +42,23 @@
         <h3>Agregar</h3>
       </div>
     </div></a> 
+    <a href="{% url 'userPage' %}" class="btnTest"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">manage_accounts</span>
+        <h3>Usuarios</h3>
+      </div>
+    </div></a> 
   {% elif request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/delete/' %}
     <a href="{% url 'usuarios:coordinadores' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>
         <h3>Listar</h3>
+      </div>
+    </div></a> 
+    <a href="{% url 'userPage' %}" class="btnTest"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">manage_accounts</span>
+        <h3>Usuarios</h3>
       </div>
     </div></a> 
   {% endif %}
@@ -46,11 +70,23 @@
         <h3>Agregar</h3>
       </div>
     </div>
+    <a href="{% url 'userPage' %}" class="btnTest"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">manage_accounts</span>
+        <h3>Usuarios</h3>
+      </div>
+    </div></a> 
   {% elif request.path == '/usuarios/docente_signup/' %}
   <a href="{% url 'usuarios:docentes' %}"><div class="item add-product">
     <div>
       <span class="material-icons-sharp">format_list_bulleted</span>
       <h3>Listar</h3>
+    </div>
+  </div></a> 
+  <a href="{% url 'userPage' %}" class="btnTest"><div class="item add-product">
+    <div>
+      <span class="material-icons-sharp">manage_accounts</span>
+      <h3>Usuarios</h3>
     </div>
   </div></a> 
   {% endif %}
@@ -62,11 +98,23 @@
         <h3>Agregar</h3>
       </div>
     </div>
+    <a href="{% url 'userPage' %}" class="btnTest"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">manage_accounts</span>
+        <h3>Usuarios</h3>
+      </div>
+    </div></a> 
   {% elif request.path == '/usuarios/alumno_signup/' %}
   <a href="{% url 'usuarios:alumnos' %}"><div class="item add-product">
     <div>
       <span class="material-icons-sharp">format_list_bulleted</span>
       <h3>Listar</h3>
+    </div>
+  </div></a> 
+  <a href="{% url 'userPage' %}" class="btnTest"><div class="item add-product">
+    <div>
+      <span class="material-icons-sharp">manage_accounts</span>
+      <h3>Usuarios</h3>
     </div>
   </div></a> 
   {% endif %}

@@ -1,0 +1,31 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Planteles{% endblock title %} 
+{% block subtitle %}Planteles{% endblock subtitle %}
+{% block tabletitle %}Agregar plantel{% endblock tabletitle %}
+{% block agregarItem %}Agregar plantel{% endblock agregarItem %}
+{% block content %}
+{% include "pages/includes/pages_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+<thead>
+    <tr>
+        <th width="30%"></th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Clave</b></label></td>
+      <td class="" ><input type="text" name="clave" class="txt-all" placeholder="Clave del plantel"></td>
+    </tr>
+    <tr>
+      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Plantel</b></label></td>
+      <td class="" ><input type="text" name="plantel" class="txt-all" placeholder="Nombre del plantel"></td>
+    </tr>
+    <tr>
+      <td colspan="2"><input type="submit" class="btn-enviar"  value="Crear materia" /></td>
+    </tr>
+  </tbody>
+{% endblock table %}
