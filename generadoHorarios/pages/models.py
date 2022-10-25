@@ -4,6 +4,7 @@ from turtle import update
 from django.db import models
 from ckeditor.fields import RichTextField 
 from institucion.models import Aula
+from usuarios.models import Docente
 
 # Create your models here.
 #modelo de materias
@@ -20,7 +21,7 @@ class Page(models.Model):
 
 class DocenteMateria(models.Model):
     materia = models.ForeignKey(Page,null=False,on_delete=models.CASCADE)
-    # docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE)
+    docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE)
     aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE)
 
     class Meta:
@@ -48,7 +49,7 @@ class Hora(models.Model):
         return self.hora
 
 class disponibilidad(models.Model):
-    # docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE)
+    docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE)
     dia = models.ForeignKey(Dia,null=False,on_delete=models.CASCADE)
     hora = models.ForeignKey(Hora,null=False,on_delete=models.CASCADE)
 

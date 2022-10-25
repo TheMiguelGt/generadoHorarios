@@ -23,7 +23,7 @@ class PageListView(ListView):#listar
 class PageDetailView(DetailView):#ver detalles
     model = Page
 
-@method_decorator(staff_member_required,name='dispatch')
+# @method_decorator(staff_member_required,name='dispatch')
 class PageCreate( CreateView):#crear
     model = Page
     form_class = PageForms #se pasa la clase que se creo 
@@ -31,7 +31,7 @@ class PageCreate( CreateView):#crear
     #def get_success_url(self): #metodo cuando se haya creado un nuevo horario, donde nos mandara al listado
      #   return reverse('pages:pages')
 
-@method_decorator(staff_member_required,name='dispatch')
+# @method_decorator(staff_member_required,name='dispatch')
 class PageUpdate(UpdateView):
     model = Page
     form_class = PageForms #campos para actualizar
@@ -41,7 +41,7 @@ class PageUpdate(UpdateView):
         # success_url = reverse_lazy('pages:pages')
         return reverse_lazy('pages:update', args=[self.object.id]) + '?ok' #se recrea la url, donde se le pasa el update y la clave primaria con el indicador 
     
-@method_decorator(staff_member_required,name='dispatch')
+# @method_decorator(staff_member_required,name='dispatch')
 class PageDelete(DeleteView):#eliminar
     model = Page 
     success_url = reverse_lazy('pages:pages')

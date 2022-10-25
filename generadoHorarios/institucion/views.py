@@ -1,4 +1,6 @@
+from django.urls import reverse_lazy
 from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -12,4 +14,8 @@ class StaffRequiredMixin(object):
 
 class PlantelListView(ListView):
     model = Plantel
-    paginate_by = 3 
+
+class PlantelCreate():
+    model = Plantel
+    succes_url = reverse_lazy('planteles:planteles')
+

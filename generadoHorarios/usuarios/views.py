@@ -1,6 +1,7 @@
 from atexit import register
 import imp
 import profile
+from urllib import request
 from django import dispatch
 from django.shortcuts import render,get_list_or_404,redirect
 from django.views import generic
@@ -14,9 +15,10 @@ from .forms import UserForm,AdminProfileForm,CoordinaProfileForm,DocenteProfileF
 from django.urls import reverse,reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
-from django.http import HttpResponseRedirect,HttpResponse
-from .models import User,Admin,Coordina,Docente,Alumno
+from django.http import HttpResponseRedirect,HttpResponse, JsonResponse
+from .models import History, User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
+
 
 # Create your views here.
 # ----------------ADMINISTRADOR------------------
@@ -48,10 +50,19 @@ def AdminSignUp(request):
         admin_profile_form = AdminProfileForm()
 
     return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type})
+    
 
 #Admin list view
 class AdminListView(ListView):
     model = Admin
+    
+    def post(self,request,*args,**kwargs):
+        data = {}
+        try:
+            data = Admin.objects.get(pk=request.POST['id']).toJSON()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
 # ----------------COORDINADOR------------------
 
