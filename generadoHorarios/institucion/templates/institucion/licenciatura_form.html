@@ -1,0 +1,15 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Licenciaturas{% endblock title %} 
+{% block subtitle %}Licenciaturas{% endblock subtitle %}
+{% block tabletitle %}Agregar licenciatura{% endblock tabletitle %}
+{% block agregarItem %}Agregar licenciatura{% endblock agregarItem %}
+{% block content %}
+{% include "institucion/includes/institucion_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+<thead>
+    {{form.as_table}}
+  </tbody>
+{% endblock table %}

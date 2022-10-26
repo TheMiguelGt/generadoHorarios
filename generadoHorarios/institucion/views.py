@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 from institucion.models import Plantel,Licenciatura
-from .forms import PlantelForms
+from .forms import PlantelForms,LicenciaturaForms
 
 # Create your views here.
 class StaffRequiredMixin(object):
@@ -32,18 +32,18 @@ class PlantelDelete(DeleteView):
 
 # START OF LICENCIATURA
 class LicenciaturaListView(ListView):
-    model = Plantel
+    model = Licenciatura
     
 class LicenciaturaDetailView(DetailView):
-    model = Plantel
+    model = Licenciatura
 
 class LicenciaturaCreate(CreateView):
-    model = Plantel
-    form_class = PlantelForms
+    model = Licenciatura
+    form_class = LicenciaturaForms
     succes_url = reverse_lazy('planteles:licenciaturas')
     
 class LicenciaturaDelete(DeleteView):
-    model = Plantel
+    model = Licenciatura
     success_url = reverse_lazy('planteles:licenciaturas')
 # END OF LICENCIATURA
 

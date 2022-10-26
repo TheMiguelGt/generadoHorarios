@@ -41,7 +41,7 @@
                 </a>
                 
                 {% if request.user.is_staff or request.user.is_admin %}
-                <a href="{% url 'planteles:planteles' %}" class="{% if request.path == '/insti/' or request.path == '/insti/create/' %}active{% endif %}">
+                <a href="{% url 'planteles:planteles' %}" class="{% if request.path == '/insti/plantel/' or request.path == '/insti/plantel/create/' %}active{% endif %}">
                     <span class="material-icons-sharp">school</span>
                     <h3>Plantel</h3>
                 </a>
@@ -49,7 +49,7 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Aulas</h3>
                 </a>
-                <a href="{% url 'planteles:licenciaturas' %}">
+                <a href="{% url 'planteles:licenciaturas' %}" class="{% if request.path == '/insti/licenciatura/' or request.path == '/insti/licenciatura/create/' %}active{% endif %}">
                     <span class="material-icons-sharp">history_edu</span>
                     <h3>Licenciaturas</h3>
                 </a>
@@ -134,7 +134,7 @@
                     <small class="text-muted">owo</small>
                 </div>
             </div>
-            <form method="post" enctype="multipart/form-data">{% csrf_token %} 
+            <form method="POST" enctype="multipart/form-data">{% csrf_token %} 
                 <div class="list-div">
                     <h2>{% block tabletitle %}{% endblock tabletitle %}</h2>
                     <table width="100%">

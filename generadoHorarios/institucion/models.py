@@ -15,13 +15,13 @@ class Plantel(models.Model):
 class Licenciatura(models.Model):
     clave = models.CharField(max_length=10,null=False)
     licenciatura = models.CharField(max_length=45)
-    plantel = models.ForeignKey(Plantel, null=False,on_delete=models.CASCADE)
+    plantel = models.ForeignKey(Plantel, null=False,on_delete=models.CASCADE,max_length=200)
 
     class Meta:
         db_table = 'licenciatura'
 
     def __str__(self):
-        return self.clave,self.licenciatura,self.plantel
+        return str(self.clave,self.licenciatura,self.plantel.plantel)
 
 class Semestre(models.Model):
     semestre = models.CharField(max_length=1)

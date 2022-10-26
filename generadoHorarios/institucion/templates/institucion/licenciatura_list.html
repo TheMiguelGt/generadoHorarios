@@ -1,0 +1,38 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Licenciaturas{% endblock title %} 
+{% block subtitle %}Licenciaturas{% endblock subtitle %}
+{% block tabletitle %}Listado de licenciaturas{% endblock tabletitle %}
+{% block agregarItem %}Agregar licenciatura{% endblock agregarItem %}
+{% block content %}
+{% include "institucion/includes/institucion_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+    {% if licenciatura_list.count == 0 %}
+        <thead>
+            <tr>
+                <th><h1>No hay licenciaturas por mostrar, necesitas registrarlos</h1></th>
+            </tr>
+        </thead>
+    {% else %}
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Clave</th>
+                <th>licenciatura</th>
+                <th>Plantel</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for licenciatura in licenciatura_list|dictsort:"id" %}
+                <tr>
+                    <td class="">{{forloop.counter}}</td>
+                    <td class="">{{licenciatura.clave}}</td>
+                    <td class="">{{licenciatura.licenciatura}}</td>
+                    {% comment %} <td class="">{{licenciatura.plantel}}</td> {% endcomment %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    {% endif %}
+{% endblock table %}
