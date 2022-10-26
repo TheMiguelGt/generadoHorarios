@@ -20,8 +20,8 @@ from django.http import HttpResponseRedirect,HttpResponse, JsonResponse
 from .models import History, User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
-from tablib import Dataset
-from .resources import AdminResource
+# from tablib import Dataset
+# from .resources import AdminResource
 
 
 # Create your views here.

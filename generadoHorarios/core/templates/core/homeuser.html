@@ -41,7 +41,7 @@
                 </a>
                 
                 {% if request.user.is_staff or request.user.is_admin %}
-                <a href="{% url 'planteles:planteles' %}" class="{% if request.path == '/planteles/' %}active{% endif %}">
+                <a href="{% url 'planteles:planteles' %}" class="{% if request.path == '/insti/' or request.path == '/insti/create/' %}active{% endif %}">
                     <span class="material-icons-sharp">school</span>
                     <h3>Plantel</h3>
                 </a>
@@ -49,7 +49,7 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Aulas</h3>
                 </a>
-                <a href="#">
+                <a href="{% url 'planteles:licenciaturas' %}">
                     <span class="material-icons-sharp">history_edu</span>
                     <h3>Licenciaturas</h3>
                 </a>

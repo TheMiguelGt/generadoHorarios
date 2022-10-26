@@ -40,11 +40,11 @@ class LicenciaturaDetailView(DetailView):
 class LicenciaturaCreate(CreateView):
     model = Plantel
     form_class = PlantelForms
-    succes_url = reverse_lazy('planteles:planteles')
+    succes_url = reverse_lazy('planteles:licenciaturas')
     
 class LicenciaturaDelete(DeleteView):
     model = Plantel
-    success_url = reverse_lazy('planteles:planteles')
+    success_url = reverse_lazy('planteles:licenciaturas')
 # END OF LICENCIATURA
 
 

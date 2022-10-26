@@ -25,7 +25,7 @@ urlpatterns = [
     #core paths
     path('',include('core.urls')),
     #aulas
-    path('planteles/',include(planteles_patterns)),
+    path('insti/',include(planteles_patterns)),
     #pages paths
     path('materias/',include(pages_patterns)),
     #Paths de auth
