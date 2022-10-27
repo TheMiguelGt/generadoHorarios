@@ -1,0 +1,36 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Semestres{% endblock title %} 
+{% block subtitle %}Semestres{% endblock subtitle %}
+{% block tabletitle %}Listado de semestres{% endblock tabletitle %}
+{% block agregarItem %}Agregar semestres{% endblock agregarItem %}
+{% block content %}
+{% include "institucion/includes/institucion_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+    {% if semestre_list.count == 0 %}
+        <thead>
+            <tr>
+                <th><h1>No hay semestres por mostrar, necesitas registrarlos</h1></th>
+            </tr>
+        </thead>
+    {% else %}
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Semestre</th>
+                <th>Licenciatura</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for semestre in semestre_list|dictsort:"id" %}
+                <tr>
+                    <td class="">{{forloop.counter}}</td>
+                    <td class="">{{semestre.semestre}}</td>
+                    <td class="">{{semestre.licenciatura}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    {% endif %}
+{% endblock table %}

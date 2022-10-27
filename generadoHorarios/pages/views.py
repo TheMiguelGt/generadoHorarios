@@ -6,7 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required #persona
 from django.utils.decorators import method_decorator #usar como decorador sus funciones
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
-from .models import Page
+from .models import Page,DocenteMateria
 from .forms import PageForms
 
 class StaffRequiredMixin(object): #clase base de todas las clases de py
@@ -47,4 +47,6 @@ class PageDelete(DeleteView):#eliminar
     success_url = reverse_lazy('pages:pages')
     
 #create docente materia
-    
+class DoceMateListView(ListView):#listar
+    model = DocenteMateria    #se obtiene el modelo de la app
+    paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3

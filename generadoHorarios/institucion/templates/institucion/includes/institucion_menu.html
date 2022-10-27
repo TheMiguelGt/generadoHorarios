@@ -19,8 +19,7 @@
         <h3>Listar</h3>
       </div>
     </div></a>
-  {% endif %}
-  {% if request.path == '/insti/licenciatura/' %}
+  {% elif request.path == '/insti/licenciatura/' %}
     <a href="{% url 'planteles:create1' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
@@ -34,8 +33,7 @@
         <h3>Listar</h3>
       </div>
     </div></a>
-  {% endif %}
-  {% if request.path == '/insti/aula/' %}
+  {% elif request.path == '/insti/aula/' %}
     <a href="{% url 'planteles:create2' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
@@ -44,6 +42,20 @@
     </div></a>
   {% elif request.path == '/insti/aula/create/' %}
     <a href="{% url 'planteles:aulas' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == '/insti/semestre/' %}
+    <a href="{% url 'planteles:create3' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == '/insti/semestre/create/' %}
+    <a href="{% url 'planteles:semestres' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>
         <h3>Listar</h3>

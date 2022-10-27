@@ -27,7 +27,7 @@ urlpatterns = [
     #aulas
     path('insti/',include(planteles_patterns)),
     #pages paths
-    path('materias/',include(pages_patterns)),
+    path('mate/',include(pages_patterns)),
     #Paths de auth
     path('accounts/',include('django.contrib.auth.urls')),
     path('usuarios/',include('usuarios.urls')),

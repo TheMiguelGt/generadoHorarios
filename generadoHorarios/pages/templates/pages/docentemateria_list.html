@@ -1,0 +1,33 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Docente materia{% endblock title %} 
+{% block subtitle %}Docente materia{% endblock subtitle %}
+{% block tabletitle %}Listado de materias del docente{% endblock tabletitle %}
+{% block agregarItem %}Agregar materia al docente{% endblock agregarItem %}
+{% block content %}
+{% include "pages/includes/pages_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+{% if docemate_list.count == 0 %}
+    <thead>
+        <tr>
+            <th><h1>No hay materias por mostrar, necesitas crearlas</h1></th>
+        </tr>
+    </thead>
+{% else %}
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>ID Materia</th>
+            
+            {% if request.user.is_staff %}
+                <th colspan="2">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+{% endif %}
+{% endblock table %}

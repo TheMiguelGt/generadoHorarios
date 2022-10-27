@@ -1,5 +1,5 @@
 from django.urls import path 
-from .views import PlantelListView,PlantelCreate,PlantelDelete,LicenciaturaListView,LicenciaturaCreate,AulaListView,AulaCreate
+from .views import PlantelListView,PlantelCreate,PlantelDelete,LicenciaturaListView,LicenciaturaCreate,AulaListView,AulaCreate,SemestreListView,SemestreCreate
 
 planteles_patterns = ([
     #planteles
@@ -11,4 +11,7 @@ planteles_patterns = ([
     #aula
     path('aula/',AulaListView.as_view(),name="aulas"),
     path('aula/create/',AulaCreate.as_view(),name='create2'),#path de crear
+    #semestre
+    path('semestre/',SemestreListView.as_view(),name="semestres"),
+    path('semestre/create/',SemestreCreate.as_view(),name='create3'),#path de crea
 ],'planteles')

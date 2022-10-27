@@ -1,0 +1,26 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Semestres{% endblock title %} 
+{% block subtitle %}Semestres{% endblock subtitle %}
+{% block tabletitle %}Agregar semestre{% endblock tabletitle %}
+{% block agregarItem %}Agregar semestre{% endblock agregarItem %}
+{% block content %}
+{% include "institucion/includes/institucion_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+<thead>
+<tr>
+    <th width="30%"></th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    {{form}}
+</tr>
+<tr>
+    <td colspan="2"><input type="submit" class="btn-enviar"  value="Registrar semestre" /></td>
+</tr>
+</tbody>
+{% endblock table %}

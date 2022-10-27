@@ -45,6 +45,10 @@
                     <span class="material-icons-sharp">school</span>
                     <h3>Plantel</h3>
                 </a>
+                <a href="{% url 'planteles:semestres' %}" class="{% if request.path == '/insti/semestre/' or request.path == '/insti/semestre/create/' %}active{% endif %}">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Semestres</h3>
+                </a>
                 <a href="{% url 'planteles:aulas' %}" class="{% if request.path == '/insti/aula/' or request.path == '/insti/aula/create/' %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Aulas</h3>
@@ -54,11 +58,11 @@
                     <h3>Licenciaturas</h3>
                 </a>
                 {% endif %}
-                <a href="{% url 'pages:pages' %}" class="{% if request.path == '/materias/' or request.path == '/materias/create/' or request.path == '/materias/update/<int:pk>/' or request.path == '/materias/delete/<int:pk>/' %}active{% endif %}">
+                <a href="{% url 'pages:pages' %}" class="{% if request.path == '/mate/materia/' or request.path == '/mate/materia/create/' or request.path == '/mate/materia/update/<int:pk>/' or request.path == '/mate/materia/delete/<int:pk>/' %}active{% endif %}">
                     <span class="material-icons-sharp">library_books</span>
                     <h3>Materias</h3>
                 </a>
-                <a href="#">
+                <a href="{% url 'pages:docemates' %}">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Materia del docente</h3>
                 </a>

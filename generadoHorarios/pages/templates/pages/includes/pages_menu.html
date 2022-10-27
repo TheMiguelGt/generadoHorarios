@@ -5,14 +5,14 @@
 <link href="{% static 'pages/css/custom_ckeditor.css' %}" rel="stylesheet"><!--modificar el content de ckeditor-->
 
 {% if request.user.is_staff or request.user.is_coordina%}
-  {% if request.path == '/materias/' %}
+  {% if request.path == '/mate/materia/' %}
     <a href="{% url 'pages:create' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
         <h3>Agregar</h3>
       </div>
     </div></a>
-  {% elif request.path == '/materias/create/' %}
+  {% elif request.path == '/mate/materia/create/' %}
     <a href="{% url 'pages:pages' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>

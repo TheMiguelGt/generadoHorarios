@@ -10,7 +10,8 @@ class Plantel(models.Model):
         db_table = 'plantel'
     
     def __str__(self):
-        return self.clave,self.plantel
+        template = '{0.clave} {0.plantel}'
+        return template.format(self)
 
 class Licenciatura(models.Model):
     clave = models.CharField(max_length=10,null=False)
@@ -21,7 +22,8 @@ class Licenciatura(models.Model):
         db_table = 'licenciatura'
 
     def __str__(self):
-        return self.clave,self.licenciatura,self.plantel.plantel
+        template = '{0.clave} {0.licenciatura} {0.plantel}'
+        return template.format(self)
 
 class Semestre(models.Model):
     semestre = models.CharField(max_length=1)
