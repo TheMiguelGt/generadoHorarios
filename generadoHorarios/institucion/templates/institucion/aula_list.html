@@ -1,0 +1,39 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Aulas{% endblock title %} 
+{% block subtitle %}Aulas{% endblock subtitle %}
+{% block tabletitle %}Listado de aulas{% endblock tabletitle %}
+{% block agregarItem %}Agregar aula{% endblock agregarItem %}
+{% block content %}
+{% include "institucion/includes/institucion_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+    {% if aula_list.count == 0 %}
+        <thead>
+            <tr>
+                <th><h1>No hay aulas por mostrar, necesitas registrarlos</h1></th>
+            </tr>
+        </thead>
+    {% else %}
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Clave</th>
+                <th>Piso</th>
+                <th>Plantel</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aula in aula_list|dictsort:"id" %}
+                <tr>
+                    <td class="">{{forloop.counter}}</td>
+                    <td class="">{{aula.clave}}</td>
+                    <td class="">{{aula.piso}}</td>
+                    <td class="">{{aula.plantel}}</td>
+                    {% comment %} <td class="">{{licenciatura.plantel}}</td> {% endcomment %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    {% endif %}
+{% endblock table %}

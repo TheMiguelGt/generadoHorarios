@@ -45,7 +45,7 @@
                     <span class="material-icons-sharp">school</span>
                     <h3>Plantel</h3>
                 </a>
-                <a href="#" >
+                <a href="{% url 'planteles:aulas' %}" class="{% if request.path == '/insti/aula/' or request.path == '/insti/aula/create/' %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Aulas</h3>
                 </a>

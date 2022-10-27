@@ -1,7 +1,7 @@
 from dataclasses import fields
 from tkinter import Widget
 from django import forms 
-from .models import Plantel,Licenciatura
+from .models import Plantel,Licenciatura,Aula
 
 class PlantelForms(forms.ModelForm):
     class Meta:
@@ -15,8 +15,8 @@ class LicenciaturaForms(forms.ModelForm):
     class Meta:
         model = Licenciatura
         fields = ['clave','plantel','licenciatura']
-        widget = {
-            'clave': forms.TextInput(attrs={'placeholder':'Clave del plantel'}),
-            'plantel': forms.TextInput(attrs={'placeholder':'Nombre del plantel'}),
-            'licenciatura': forms.NumberInput(attrs={'placeholder':'Nombre del licenciatura'}),
-        }
+
+class AulaForms(forms.ModelForm):
+    class Meta:
+        model = Aula
+        fields = ['clave','piso','plantel']

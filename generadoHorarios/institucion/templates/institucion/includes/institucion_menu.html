@@ -4,7 +4,7 @@
 <link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}"> 
 <link href="{% static 'pages/css/custom_ckeditor.css' %}" rel="stylesheet"><!--modificar el content de ckeditor-->
 
-{% if request.user.is_staff or request.user.is_coordina%}
+{% if request.user.is_staff %}
   {% if request.path == '/insti/plantel/' %}
     <a href="{% url 'planteles:create' %}"><div class="item add-product">
       <div>
@@ -14,6 +14,36 @@
     </div></a>
   {% elif request.path == '/insti/plantel/create/' %}
     <a href="{% url 'planteles:planteles' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+  {% endif %}
+  {% if request.path == '/insti/licenciatura/' %}
+    <a href="{% url 'planteles:create1' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == '/insti/licenciatura/create/' %}
+    <a href="{% url 'planteles:licenciaturas' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+  {% endif %}
+  {% if request.path == '/insti/aula/' %}
+    <a href="{% url 'planteles:create2' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == '/insti/aula/create/' %}
+    <a href="{% url 'planteles:aulas' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>
         <h3>Listar</h3>

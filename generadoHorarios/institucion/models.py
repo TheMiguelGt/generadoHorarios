@@ -21,7 +21,7 @@ class Licenciatura(models.Model):
         db_table = 'licenciatura'
 
     def __str__(self):
-        return str(self.clave,self.licenciatura,self.plantel.plantel)
+        return self.clave,self.licenciatura,self.plantel.plantel
 
 class Semestre(models.Model):
     semestre = models.CharField(max_length=1)
