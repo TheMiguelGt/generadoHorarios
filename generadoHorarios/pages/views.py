@@ -50,3 +50,7 @@ class PageDelete(DeleteView):#eliminar
 class DoceMateListView(ListView):#listar
     model = DocenteMateria    #se obtiene el modelo de la app
     paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3
+
+class DoceMateCreate(CreateView):
+    model = DocenteMateria
+    success_url = reverse_lazy('pages:docemates')

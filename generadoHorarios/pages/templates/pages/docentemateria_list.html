@@ -9,7 +9,7 @@
 
 {% endblock content %}
 {% block table %}
-{% if docemate_list.count == 0 %}
+{% if docentemateria_list.count == 0 %}
     <thead>
         <tr>
             <th><h1>No hay materias por mostrar, necesitas crearlas</h1></th>
@@ -19,15 +19,21 @@
     <thead>
         <tr>
             <th>Numero</th>
-            <th>ID Materia</th>
-            
+            <th>Materia</th>
+            <th>Docente</th>
+            <th>Aula</th>
             {% if request.user.is_staff %}
                 <th colspan="2">Acciones</th>
             {% endif %}
         </tr>
     </thead>
     <tbody>
-        
+        {% for docemate in docentemateria_list|dictsort:"id" %}
+            <td class="">{{forloop.counter}}</td>
+            <td class="">{{docentemateria.materia}}</td>
+            <td class="">{{docentemateria.docente}}</td>
+            <td class="">{{docentemateria.aula}}</td>
+        {% endfor %}
     </tbody>
 {% endif %}
 {% endblock table %}

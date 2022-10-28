@@ -1,7 +1,7 @@
 from dataclasses import fields
 from tkinter import Widget
 from django import forms 
-from .models import Page
+from .models import Page,DocenteMateria
 
 class PageForms(forms.ModelForm):
     
@@ -17,3 +17,8 @@ class PageForms(forms.ModelForm):
         labels = {
             'clave':'Clave', 'materia':'Nombre','carga':'Numero horas'#,'idDoce':''
         }
+
+class DoceMateForms(forms.ModelForm):
+    class Meta:
+        model = DocenteMateria
+        fields = ['materia','docente','aula']
