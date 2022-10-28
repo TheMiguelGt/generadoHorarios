@@ -1,0 +1,25 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Disponibilidad horaria{% endblock title %} 
+{% block subtitle %}Disponibilidad horaria{% endblock subtitle %}
+{% block tabletitle %}Registrar disponibilidad horaria del docente{% endblock tabletitle %}
+{% block content %}
+{% include "pages/includes/pages_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+<thead>
+  <tr>
+      <th width="30%"></th>
+      <th></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    {{form}}
+  </tr>
+  <tr>
+    <td colspan="2"><input type="submit" class="btn-enviar"  value="Registrar licenciatura" /></td>
+  </tr>
+</tbody>
+{% endblock table %}

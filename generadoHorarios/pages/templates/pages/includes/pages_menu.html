@@ -19,5 +19,33 @@
         <h3>Listar</h3>
       </div>
     </div></a>
+  {% elif request.path == '/mate/docemate/' %}
+    <a href="{% url 'pages:createm' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == '/mate/docemate/create/' %}
+    <a href="{% url 'pages:docemates' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == '/mate/disponibilidad/' %}
+    <a href="{% url 'pages:createdi' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == '/mate/disponibilidad/create/' %}
+    <a href="{% url 'pages:disponi' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
   {% endif %}
 {% endif %}

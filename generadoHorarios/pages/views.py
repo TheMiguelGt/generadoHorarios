@@ -1,3 +1,6 @@
+from multiprocessing import context
+from pydoc import render_doc
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.generic.list import ListView #crear una lista de paginas
 from django.views.generic.detail import DetailView #detalles de la pagina, solo para lectura
@@ -6,8 +9,10 @@ from django.contrib.admin.views.decorators import staff_member_required #persona
 from django.utils.decorators import method_decorator #usar como decorador sus funciones
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
-from .models import Page,DocenteMateria
-from .forms import PageForms
+from itertools import chain
+from operator import attrgetter
+from .models import Disponibilidad, Page,DocenteMateria,Dia,Hora
+from .forms import PageForms,DoceMateForms,DispoForms
 
 class StaffRequiredMixin(object): #clase base de todas las clases de py
     """El mixin requerira que sea miembro del staff"""
@@ -49,8 +54,29 @@ class PageDelete(DeleteView):#eliminar
 #create docente materia
 class DoceMateListView(ListView):#listar
     model = DocenteMateria    #se obtiene el modelo de la app
-    paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3
+    # paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3
 
 class DoceMateCreate(CreateView):
     model = DocenteMateria
+    form_class = DoceMateForms
     success_url = reverse_lazy('pages:docemates')
+    
+#Disponibilidad de horario docente
+class DispoListView(ListView):
+    model = Disponibilidad
+    
+    def get_queryset(self):
+        dia = Dia.objects.all()
+        return Disponibilidad.objects.all()
+    # paginate_by = 8
+    
+class DispoCreate(CreateView):
+    model = Disponibilidad
+    form_class = DispoForms
+    success_url = reverse_lazy('pages:disponi')
+
+#Horario
+def AlumnoSignUp(request):
+    user_type = 'alumno'
+    registered = False
+    return render(request,'mate/horario.html')

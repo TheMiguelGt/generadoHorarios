@@ -1,0 +1,26 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Docente materia{% endblock title %} 
+{% block subtitle %}Docente materia{% endblock subtitle %}
+{% block tabletitle %}Agregar materias al docente{% endblock tabletitle %}
+{% block agregarItem %}Agregar materia al docente{% endblock agregarItem %}
+{% block content %}
+{% include "pages/includes/pages_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+<thead>
+  <tr>
+      <th width="30%"></th>
+      <th></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    {{form}}
+  </tr>
+  <tr>
+    <td colspan="2"><input type="submit" class="btn-enviar"  value="Registrar licenciatura" /></td>
+  </tr>
+</tbody>
+{% endblock table %}

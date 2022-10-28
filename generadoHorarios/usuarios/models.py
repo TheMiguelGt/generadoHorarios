@@ -1,4 +1,5 @@
 from email.policy import default
+from re import template
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.forms import model_to_dict
@@ -68,7 +69,8 @@ class Docente(models.Model):
         return reverse("usuarios:docente_detail", kwargs={"pk": self.pk})
     
     def __str__(self):
-        return self.nombre,self.apepat,self.apemat
+        template = '{0.nombre} {0.apepat} {0.apemat}'
+        return template.format(self)
 
     class Meta:
         db_table = 'user_docente'

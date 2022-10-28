@@ -38,7 +38,7 @@
                 <td class="">{{page.materia}}</td>
                 <td class="">{{page.carga}}</td>
                 <td class=""></td>
-                <td class="">{{page.aula}}</td>
+                <td class=""></td>
                 {% if request.user.is_staff %}
                     <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                     <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>

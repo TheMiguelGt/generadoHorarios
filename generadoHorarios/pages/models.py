@@ -17,7 +17,8 @@ class Page(models.Model):
         db_table = 'materia'
 
     def __str__(self):
-        return self.clave,self.materia,self.carga
+        template = '{0.clave} {0.materia}'
+        return template.format(self)
 
 class DocenteMateria(models.Model):
     materia = models.ForeignKey(Page,null=False,on_delete=models.CASCADE)
@@ -37,18 +38,21 @@ class Dia(models.Model):
         db_table = 'dia'
 
     def __str__(self):
-        return self.dia
+        template = '{0.dia}'
+        return template.format(self)
 
 class Hora(models.Model):
-    hora = models.CharField(max_length=45)
+    iniHora = models.CharField(max_length=45)
+    finHora = models.CharField(max_length=45)
 
     class Meta:
         db_table = 'hora'
 
     def __str__(self):
-        return self.hora
+        template = '{0.iniHora} - {0.finHora}'
+        return template.format(self)
 
-class disponibilidad(models.Model):
+class Disponibilidad(models.Model):
     docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE)
     dia = models.ForeignKey(Dia,null=False,on_delete=models.CASCADE)
     hora = models.ForeignKey(Hora,null=False,on_delete=models.CASCADE)

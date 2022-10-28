@@ -1,40 +1,45 @@
 {% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
-{% block title %}Docente materia{% endblock title %} 
-{% block subtitle %}Docente materia{% endblock subtitle %}
-{% block tabletitle %}Listado de materias del docente{% endblock tabletitle %}
+{% block title %}Disponibilidad horaria{% endblock title %} 
+{% block subtitle %}Disponibilidad horaria{% endblock subtitle %}
+{% block tabletitle %}Listado de disponibilidad horaria del docente{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia al docente{% endblock agregarItem %}
 {% block content %}
 {% include "pages/includes/pages_menu.html" %}
 
 {% endblock content %}
 {% block table %}
-{% if docentemateria_list.count == 0 %}
+{% if disponibilidad_list.count == 0 %}
     <thead>
         <tr>
-            <th><h1>No hay materias por mostrar, necesitas crearlas</h1></th>
+            <th><h1>El docente a&uacute;n no ha seleccionado su disponibilidad horaria</h1></th>
         </tr>
     </thead>
 {% else %}
     <thead>
         <tr>
             <th>Numero</th>
-            <th>Materia</th>
+            <th>D&iacute;a</th>
+            <th>Hora</th>
             <th>Docente</th>
-            <th>Aula</th>
             {% if request.user.is_staff %}
                 <th colspan="2">Acciones</th>
             {% endif %}
         </tr>
     </thead>
     <tbody>
-        {% for docemate in docentemateria_list|dictsort:"id" %}
+        {% for disponibilidad in disponibilidad_list%}
             <tr>
                 <td class="">{{forloop.counter}}</td>
-                <td class="">{{docemate.materia}}</td>
-                <td class="">{{docemate.docente}}</td>
-                <td class="">{{docemate.aula}}</td>
+                <td class="">{{disponibilidad.dia}}</td>
+                <td class="">{{disponibilidad.hora}}</td>
+                <td class="">{{disponibilidad.docente}}</td>
             </tr>
+        {% endfor %}
+        {% for dia in object_list %}
+        <tr>
+            <td class="">{{dia.dia}}</td>
+        </tr>
         {% endfor %}
     </tbody>
 {% endif %}
