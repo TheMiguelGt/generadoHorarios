@@ -12,6 +12,7 @@ from django.views.generic.edit import UpdateView,DeleteView,CreateView
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from pages.models import Dia
 from .forms import UserForm,AdminProfileForm,CoordinaProfileForm,DocenteProfileForm,AlumnoProfileForm,AdminProfileIUpdateForm,CoordinaProfileIUpdateForm,DocenteProfileIUpdateForm,AlumnoProfileIUpdateForm
 from django.urls import reverse,reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -20,11 +21,26 @@ from django.http import HttpResponseRedirect,HttpResponse, JsonResponse
 from .models import History, User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
+from pages.models import Dia,Hora,Disponibilidad
 # from tablib import Dataset
 # from .resources import AdminResource
 
 
 # Create your views here.
+
+# ----------------Horario------------------
+#tabla del horario
+def horarioEsc(request):
+    dias = Dia.objects.all().values()
+    horas = Hora.objects.all().values()
+    dispo = Disponibilidad.objects.all().values()
+    context = {
+        'dias':dias,
+        'horas':horas,
+        'dispo':dispo,
+    }
+    return render(request,'usuarios/horario.html',context)
+
 # ----------------ADMINISTRADOR------------------
 #creation user admin
 def AdminSignUp(request):
@@ -146,8 +162,11 @@ class CoordinaListView(ListView):
 @method_decorator(login_required, name='dispatch')
 class CoordinaDelete(DeleteView):
     model = User
-    awa = CoordinaListView
-    success_url = reverse_lazy('usuarios:coordinadores')
+    coordis = Coordina.objects.all().values()
+    context = {
+        'coordis':coordis,
+    }
+    success_url = reverse_lazy('usuarios:coordinadores',context)
 
     def dispatch(self,request,*args,**kwargs):
         self.object = self.get_object()

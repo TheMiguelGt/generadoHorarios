@@ -21,4 +21,6 @@ urlpatterns = [
     #alumno
     path('alumno_signup/',views.AlumnoSignUp,name="AlumnoSignUp"),
     path('alumno_list/',AlumnoListView.as_view(),name='alumnos'),
+    #horario
+    path('horario_esc/',views.horarioEsc,name="horario")
 ]

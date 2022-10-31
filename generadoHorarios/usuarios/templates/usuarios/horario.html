@@ -1,0 +1,39 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Disponibilidad horaria{% endblock title %} 
+{% block subtitle %}Disponibilidad horaria{% endblock subtitle %}
+{% block tabletitle %}Listado de disponibilidad horaria del docente{% endblock tabletitle %}
+{% block agregarItem %}Agregar materia al docente{% endblock agregarItem %}
+{% block content %}
+{% include "pages/includes/pages_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+<thead>
+    <tr>
+        <th>Horario <br> disponible</th>
+        {% for x in dias %}
+        <th>{{x.dia}}</th>
+        {% endfor %}
+    </tr>
+<tbody>
+    {% for i in horas %}
+    {% comment %} {% for x in dias %}
+    {% for a in dispo %} {% endcomment %}
+    <tr>
+        <td class="">{{i.finHora}} - {{i.iniHora}}</td>
+        {% comment %} {% if x.dias == a.dia %}
+        <td class=""></td>
+        <td class=""></td>
+        <td class=""></td>
+        <td class=""></td>
+        <td class=""></td>
+        <td class=""></td>
+        {% endif %} {% endcomment %}
+    </tr>
+    {% endfor %}
+    {% comment %} {% endfor %}
+    {% endfor %} {% endcomment %}
+</tbody>
+</thead>
+{% endblock table %}

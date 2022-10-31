@@ -16,6 +16,4 @@ pages_patterns = ([ #se crea una tupla
     #DISPONIBILIDAD DOCENTE
     path('disponibilidad/',DispoListView.as_view(), name='disponi'),
     path('disponibilidad/create/',DispoCreate.as_view(),name='createdi'),
-    #HORARIO
-    path('horario/',views.AlumnoSignUp,name="horario"),
 ],'pages')
