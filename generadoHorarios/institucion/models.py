@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 class Plantel(models.Model):
     clave = models.CharField(max_length=10,null=False)
-    plantel = models.CharField(max_length=45)
+    plantel = models.CharField(max_length=200)
 
     class Meta:
         db_table = 'plantel'
@@ -23,7 +23,7 @@ class Licenciatura(models.Model):
         db_table = 'licenciatura'
 
     def __str__(self):
-        template = '{0.licenciatura} en el {0.plantel}'
+        template = '{0.licenciatura}'
         return template.format(self)
 
 class Semestre(models.Model):
@@ -45,7 +45,7 @@ class Aula(models.Model):
         db_table = 'aula'
 
     def __str__(self):
-        template = '{0.clave} en el {0.plantel}'
+        template = '{0.clave} en {0.plantel}'
         return template.format(self)
 
 
