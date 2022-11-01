@@ -1,3 +1,4 @@
+from asyncore import write
 from atexit import register
 import imp
 from multiprocessing import context
@@ -22,6 +23,7 @@ from .models import History, User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
 from pages.models import Dia,Hora,Disponibilidad
+import csv,datetime
 # from tablib import Dataset
 # from .resources import AdminResource
 
@@ -33,13 +35,28 @@ from pages.models import Dia,Hora,Disponibilidad
 def horarioEsc(request):
     dias = Dia.objects.all().values()
     horas = Hora.objects.all().values()
-    dispo = Disponibilidad.objects.all().values()
     context = {
         'dias':dias,
         'horas':horas,
-        'dispo':dispo,
+        # 'dispo':dispo,
     }
     return render(request,'usuarios/horario.html',context)
+
+def export_csv(request):
+    response =HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Horario'+\
+        str(datetime.datetime.now())+'.csv'
+    
+    # dias = Dia.objects.all().values()
+    writer = csv.writer(response)
+    writer.writerow(['Horario disponible','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'])
+   
+    horas = Hora.objects.all()
+    for hora in horas:
+        writer.writerow([hora.iniHora+" - "+hora.finHora])
+        
+    
+    return response
 
 # ----------------ADMINISTRADOR------------------
 #creation user admin

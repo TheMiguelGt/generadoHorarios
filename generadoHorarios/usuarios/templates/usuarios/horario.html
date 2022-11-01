@@ -9,6 +9,7 @@
 
 {% endblock content %}
 {% block table %}
+<a href="{% url 'usuarios:export-csv' %}">Export csv</a>
 <thead>
     <tr>
         <th>Horario <br> disponible</th>
@@ -21,7 +22,7 @@
     {% comment %} {% for x in dias %}
     {% for a in dispo %} {% endcomment %}
     <tr>
-        <td class="">{{i.finHora}} - {{i.iniHora}}</td>
+        <td class="">{{i.iniHora}} - {{i.finHora}}</td>
         {% comment %} {% if x.dias == a.dia %}
         <td class=""></td>
         <td class=""></td>
