@@ -13,28 +13,19 @@
 <thead>
     <tr>
         <th>Horario <br> disponible</th>
-        {% for x in dias %}
-        <th>{{x.dia}}</th>
+        {% for r in pubs %}
+            <th>{{r.dia}}</th>
         {% endfor %}
     </tr>
 <tbody>
-    {% for i in horas %}
-    {% comment %} {% for x in dias %}
-    {% for a in dispo %} {% endcomment %}
     <tr>
-        <td class="">{{i.iniHora}} - {{i.finHora}}</td>
-        {% comment %} {% if x.dias == a.dia %}
-        <td class=""></td>
-        <td class=""></td>
-        <td class=""></td>
-        <td class=""></td>
-        <td class=""></td>
-        <td class=""></td>
-        {% endif %} {% endcomment %}
+        {% for r in pubs %}
+            <td>{{r.hora}}</td>
+        
+        {% comment %} <td class="">{{r.hora}}</td> {% endcomment %}
     </tr>
-    {% endfor %}
-    {% comment %} {% endfor %}
-    {% endfor %} {% endcomment %}
+        {% endfor %}
+    
 </tbody>
 </thead>
 {% endblock table %}

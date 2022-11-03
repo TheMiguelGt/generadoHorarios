@@ -23,6 +23,8 @@ from .models import History, User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
 from pages.models import Dia,Hora,Disponibilidad
+from .models import Docente
+from django.db.models import Count,Max
 import csv,datetime
 # from tablib import Dataset
 # from .resources import AdminResource
@@ -35,10 +37,15 @@ import csv,datetime
 def horarioEsc(request):
     dias = Dia.objects.all().values()
     horas = Hora.objects.all().values()
+
+    pubs = Disponibilidad.objects.select_related('dia','hora').order_by('dia','hora')
+    # print(pubs)
     context = {
         'dias':dias,
         'horas':horas,
         # 'dispo':dispo,
+        'pubs':pubs,
+        
     }
     return render(request,'usuarios/horario.html',context)
 

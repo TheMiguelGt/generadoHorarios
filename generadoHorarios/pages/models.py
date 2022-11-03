@@ -53,12 +53,12 @@ class Hora(models.Model):
         return template.format(self)
 
 class Disponibilidad(models.Model):
-    docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE)
-    dia = models.ForeignKey(Dia,null=False,on_delete=models.CASCADE)
-    hora = models.ForeignKey(Hora,null=False,on_delete=models.CASCADE)
+    docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE,related_name='doces')
+    dia = models.ForeignKey(Dia,null=False,on_delete=models.CASCADE,related_name='days')
+    hora = models.ForeignKey(Hora,null=False,on_delete=models.CASCADE,related_name='hours')
 
     class Meta:
         db_table = 'disponibilidad'
 
     def __str__(self):
-        return self.dia,self.hora
+        return self.dia,self.hora,self.docente
