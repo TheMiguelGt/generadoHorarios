@@ -1,8 +1,9 @@
 from asyncore import write
 from atexit import register
 import imp
-from multiprocessing import context
+from multiprocessing import connection, context
 import profile
+from unittest import result
 from urllib import request
 from django import dispatch
 from django.shortcuts import render,get_list_or_404,redirect
@@ -35,17 +36,16 @@ import csv,datetime
 # ----------------Horario------------------
 #tabla del horario
 def horarioEsc(request):
-    dias = Dia.objects.all().values()
+    dias = Dia.objects.all().values('days').annotate(tot=Count('dia')).order_by('dia').distinct()
+    print(dias.query)
     horas = Hora.objects.all().values()
-
-    pubs = Disponibilidad.objects.select_related('dia','hora').order_by('dia','hora')
-    # print(pubs)
+    pubs = Disponibilidad.objects.select_related('dia','hora').annotate(tot=Count('dia__id')).order_by('dia','hora')
+    print(pubs.query)
     context = {
         'dias':dias,
         'horas':horas,
         # 'dispo':dispo,
         'pubs':pubs,
-        
     }
     return render(request,'usuarios/horario.html',context)
 

@@ -16,6 +16,9 @@
         {% for r in pubs %}
             <th>{{r.dia}}</th>
         {% endfor %}
+        {% comment %} {% for h in dias %}
+            <th>{{h.days}}</th>
+        {% endfor %} {% endcomment %}
     </tr>
 <tbody>
     <tr>
@@ -25,7 +28,6 @@
         {% comment %} <td class="">{{r.hora}}</td> {% endcomment %}
     </tr>
         {% endfor %}
-    
 </tbody>
 </thead>
 {% endblock table %}
