@@ -5,6 +5,7 @@ from django.db import models
 from ckeditor.fields import RichTextField 
 from institucion.models import Aula
 from usuarios.models import Docente
+from simple_history.models import HistoricalRecords
 
 # Create your models here.
 #modelo de materias
@@ -12,6 +13,7 @@ class Page(models.Model):
     clave = models.CharField(max_length=10,null=False)
     materia = models.CharField(max_length=45, verbose_name="Nombre de la materia")
     carga = models.IntegerField(null=False)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = 'materia'
@@ -24,6 +26,7 @@ class DocenteMateria(models.Model):
     materia = models.ForeignKey(Page,null=False,on_delete=models.CASCADE)
     docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE)
     aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = 'docenteMateria'
@@ -33,6 +36,7 @@ class DocenteMateria(models.Model):
 
 class Dia(models.Model):
     dia = models.CharField(max_length=45)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = 'dia'
@@ -44,6 +48,7 @@ class Dia(models.Model):
 class Hora(models.Model):
     iniHora = models.CharField(max_length=45)
     finHora = models.CharField(max_length=45)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = 'hora'
@@ -56,6 +61,7 @@ class Disponibilidad(models.Model):
     docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE,related_name='doces')
     dia = models.ForeignKey(Dia,null=False,on_delete=models.CASCADE,related_name='days')
     hora = models.ForeignKey(Hora,null=False,on_delete=models.CASCADE,related_name='hours')
+    history = HistoricalRecords()
 
     class Meta:
         db_table = 'disponibilidad'

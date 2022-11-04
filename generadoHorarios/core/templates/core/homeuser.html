@@ -187,36 +187,24 @@
             {% comment %} fin del top {% endcomment %}
             <div class="recent-updates">
                 <h2>Actividades recientes</h2>
-                <div class="updates">
-                    {% comment %} bloque de actualizaciones {% endcomment %}
-                    <div class="update">
-                        <div class="profile-photo">
-                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+                {% if request.path == '/home/' %}
+                    <div class="updates">
+                        {% comment %} bloque de actualizaciones {% endcomment %}
+                        {% for r in page_obj %}
+                        <div class="update">
+                            <div class="profile-photo">
+                                <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+                            </div>
+                            <div class="message">
+                                <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio la materia {% elif r.history_type == '-' %} elimino la materia {% elif r.history_type == '~' %} edito la materia {% endif %} {{r.materia}}<p>
+                                    <small class="text-muted">{{r.history_date}}</small>
+                            </div>
                         </div>
-                        <div class="message">
-                            <p><b>User name</b> nombre de la actividad que realizo o ajustes que hizo<p>
-                                <small class="text-muted">hace 2 minutos</small>
-                        </div>
+                        {% endfor %}
                     </div>
-                    <div class="update">
-                        <div class="profile-photo">
-                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>User name</b> nombre de la actividad que realizo o ajustes que hizo<p>
-                                <small class="text-muted">hace 2 minutos</small>
-                        </div>
-                    </div>
-                    <div class="update">
-                        <div class="profile-photo">
-                            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>User name</b> nombre de la actividad que realizo o ajustes que hizo<p>
-                                <small class="text-muted">hace 2 minutos</small>
-                        </div>
-                    </div>
-                </div>
+                {% else %}
+                <div class="updates">{% block history %}{% endblock history %}</div>
+                {% endif %}
             </div>
             {% comment %} fin de las actividades {% endcomment %}
             <div class="sales-analytics">

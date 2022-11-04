@@ -13,6 +13,7 @@ from itertools import chain
 from operator import attrgetter
 from .models import Disponibilidad, Page,DocenteMateria,Dia,Hora
 from .forms import PageForms,DoceMateForms,DispoForms
+from django.core.paginator import Paginator
 
 class StaffRequiredMixin(object): #clase base de todas las clases de py
     """El mixin requerira que sea miembro del staff"""
@@ -21,9 +22,18 @@ class StaffRequiredMixin(object): #clase base de todas las clases de py
         return super(StaffRequiredMixin,self).dispatch(request,*args,**kwargs)
 
 # Create your views here.
-class PageListView(ListView):#listar
-    model = Page    #se obtiene el modelo de la app
-    paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3
+def PageListView(request):#listar
+    model = Page.objects.all()    #se obtiene el modelo de la app
+    histo = Page.history.all()
+    paginator = Paginator(histo,3)
+    
+    print(histo.query)
+    print(model.query)
+    page_number = request.GET.get('pages')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request,'pages/page_list.html',{'page_obj': page_obj,'model':model})
+    
 
 class PageDetailView(DetailView):#ver detalles
     model = Page

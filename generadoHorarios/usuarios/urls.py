@@ -24,5 +24,5 @@ urlpatterns = [
     #horario
     path('horario_esc/',views.horarioEsc,name="horario"),
     #export_csv
-    path('export_csv/',views.export_csv,name="export-csv"),
+    path('export_csv/',views.export_csv,name="export-csv"),    
 ]

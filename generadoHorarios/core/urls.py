@@ -1,9 +1,11 @@
-from django.urls import path 
-from .views import HomePageView,HomePage2View,UserPageView
+from django.urls import path
+
+from core import views 
+from .views import HomePageView,UserPageView
 
 urlpatterns = [
      #core paths
      path('',HomePageView.as_view(),name="home"),#vista del home
-     path('home/',HomePage2View.as_view(),name="homeUser"),
+     path('home/',views.homePage2View,name="homeUser"),
      path('admn/',UserPageView.as_view(),name="userPage"),
 ]

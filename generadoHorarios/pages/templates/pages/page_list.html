@@ -1,5 +1,6 @@
 {% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
+<link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
 {% block title %}Materias{% endblock title %} 
 {% block subtitle %}Materias{% endblock subtitle %}
 {% block tabletitle %}Listado de materias{% endblock tabletitle %}
@@ -8,8 +9,23 @@
 {% include "pages/includes/pages_menu.html" %}
 
 {% endblock content %}
+
+{% block history %}
+{% for r in page_obj %}
+<div class="update">
+    <div class="profile-photo">
+        <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+    </div>
+    <div class="message">
+        <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio la materia {% elif r.history_type == '-' %} elimino la materia {% elif r.history_type == '~' %} edito la materia {% endif %} {{r.materia}}<p>
+            <small class="text-muted">{{r.history_date}}</small>
+    </div>
+</div>
+{% endfor %}
+{% endblock history %}
+
 {% block table %}
-{% if page_list.count == 0 %}
+{% if model.count == 0 %}
     <thead>
         <tr>
             <th><h1>No hay materias por mostrar, necesitas crearlas</h1></th>
@@ -30,7 +46,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for page in page_list|dictsort:"id" %}
+        {% for page in model|dictsort:"id" %}
             <tr>
                 {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
                 <td class="">{{forloop.counter}}</td>

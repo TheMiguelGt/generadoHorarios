@@ -16,9 +16,10 @@ django-mssql-backend = "*"
 mysqlclient = "*"
 django-bootstrap4 = "*"
 django-bootstrap5 = "*"
-django-simple-history = "*"
+django-simple-history = "==3.0.0"
 django-import-export = {editable = true, git = "https://github.com/django-import-export/django-import-export.git"}
 django-group-by = "*"
+testpypi = "*"
 
 [dev-packages]
 

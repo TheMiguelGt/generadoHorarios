@@ -1,0 +1,14 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+
+{% block histo %}
+<div class="update">
+    <div class="profile-photo">
+        <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+    </div>
+    <div class="message">
+        <p><b>User name</b> nombre de la actividad que realizo o ajustes que hizo<p>
+            <small class="text-muted">hace 2 minutos</small>
+    </div>
+</div>
+{% endblock histo %}

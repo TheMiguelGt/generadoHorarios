@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from django.forms import model_to_dict
 from django.urls import reverse 
 from django.conf import settings
-# from simple_history.models import HistoricalRecords
+from simple_history.models import HistoricalRecords
 
 # Create your models here.
 class User(AbstractUser):
@@ -46,6 +46,7 @@ class Coordina(models.Model):
     apemat=models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
     coordina_profile_pic = models.ImageField(upload_to="usuarios/cordina_profile_pic",blank=True)
+    history = HistoricalRecords()
     
     def get_absolute_url(self):
         return reverse("usuarios:coordina_detail", kwargs={"pk": self.pk})
@@ -64,6 +65,7 @@ class Docente(models.Model):
     apemat=models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
     docente_profile_pic = models.ImageField(upload_to="usuarios/docente_profile_pic",blank=True)
+    history = HistoricalRecords()
     
     def get_absolute_url(self):
         return reverse("usuarios:docente_detail", kwargs={"pk": self.pk})
@@ -83,6 +85,7 @@ class Alumno(models.Model):
     apemat=models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
     alumno_profile_pic = models.ImageField(upload_to="usuarios/alumno_profile_pic",blank=True)
+    history = HistoricalRecords()
     
     def get_absolute_url(self):
         return reverse("usuarios:alumno_detail", kwargs={"pk": self.pk})

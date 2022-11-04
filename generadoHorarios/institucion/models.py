@@ -1,11 +1,13 @@
 from pyexpat import model
 from re import template
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 # Create your models here.
 class Plantel(models.Model):
     clave = models.CharField(max_length=10,null=False)
     plantel = models.CharField(max_length=200)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = 'plantel'
@@ -18,6 +20,7 @@ class Licenciatura(models.Model):
     clave = models.CharField(max_length=10,null=False)
     licenciatura = models.CharField(max_length=45)
     plantel = models.ForeignKey(Plantel, null=False,on_delete=models.CASCADE,max_length=200)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = 'licenciatura'
@@ -29,6 +32,7 @@ class Licenciatura(models.Model):
 class Semestre(models.Model):
     semestre = models.CharField(max_length=1)
     licenciatura = models.ForeignKey(Licenciatura,null=False,on_delete=models.CASCADE)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = 'semestre'
@@ -40,6 +44,7 @@ class Aula(models.Model):
     clave = models.CharField(max_length=10,null=False)
     piso = models.CharField(max_length=2)
     plantel = models.ForeignKey(Plantel, null=False,on_delete=models.CASCADE)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = 'aula'
