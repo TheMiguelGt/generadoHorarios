@@ -58,7 +58,9 @@
                     <h3>Licenciaturas</h3>
                 </a>
                 {% endif %}
-                <a href="{% url 'pages:pages' %}" class="{% if request.path == '/mate/materia/' or request.path == '/mate/materia/create/' or request.path == '/mate/materia/update/<int:pk>/' or request.path == '/mate/materia/delete/<int:pk>/' %}active{% endif %}">
+                {% url 'pages:update' page.id as my_view %}
+                {% url 'pages:delete' page.id as my_view1 %}
+                <a href="{% url 'pages:pages' %}" class="{% if request.path == '/mate/materia/' or request.path == '/mate/materia/create/' or request.path == my_view or request.path == my_view1 %}active{% endif %}">
                     <span class="material-icons-sharp">library_books</span>
                     <h3>Materias</h3>
                 </a>
@@ -186,7 +188,7 @@
             </div>  
             {% comment %} fin del top {% endcomment %}
             <div class="recent-updates">
-                <h2>Actividades recientes</h2>
+                <h2>Historial de actividades {% block activi %}{% endblock activi %}</h2>
                 {% if request.path == '/home/' %}
                     <div class="updates">
                         {% comment %} bloque de actualizaciones {% endcomment %}

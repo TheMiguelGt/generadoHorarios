@@ -1,6 +1,6 @@
 from django.urls import path
 from pages import views
-from .views import PageDetailView,PageCreate,PageUpdate,PageDelete,DoceMateListView,DoceMateCreate,DispoListView,DispoCreate
+from .views import PageDetailView,PageCreate,PageUpdate,PageDelete,DoceMateCreate,DispoListView,DispoCreate
 
 pages_patterns = ([ #se crea una tupla
     #MATERIAS
@@ -10,7 +10,7 @@ pages_patterns = ([ #se crea una tupla
     path('materia/update/<int:pk>/',PageUpdate.as_view(),name="update"),#se manda la pagina actualizada o que se actualizara
     path('materia/delete/<int:pk>/',PageDelete.as_view(),name="delete"),
     #DOCENTE MATERIA
-    path('docemate/',DoceMateListView.as_view(), name='docemates'),
+    path('docemate/',views.DoceMateListView, name='docemates'),
     path('docemate/create/',DoceMateCreate.as_view(),name='createm'),
     #DISPONIBILIDAD DOCENTE
     path('disponibilidad/',DispoListView.as_view(), name='disponi'),

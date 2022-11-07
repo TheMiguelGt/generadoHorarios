@@ -4,6 +4,8 @@
 <link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}"> 
 <link href="{% static 'pages/css/custom_ckeditor.css' %}" rel="stylesheet"><!--modificar el content de ckeditor-->
 
+{% url 'pages:update' page.id as my_view %}
+{% url 'pages:delete' page.id as my_view1 %}
 {% if request.user.is_staff or request.user.is_coordina%}
   {% if request.path == '/mate/materia/' %}
     <a href="{% url 'pages:create' %}"><div class="item add-product">
@@ -13,6 +15,19 @@
       </div>
     </div></a>
   {% elif request.path == '/mate/materia/create/' %}
+    <a href="{% url 'pages:pages' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == my_view or request.path == my_view1 %}
+    <a href="{% url 'pages:create' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
     <a href="{% url 'pages:pages' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>

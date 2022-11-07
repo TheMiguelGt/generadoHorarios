@@ -1,15 +1,42 @@
 {% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
 {% block title %}Docente materia{% endblock title %} 
-{% block subtitle %}Docente materia{% endblock subtitle %}
+{% block activi %}en docente materia{% endblock activi %}
 {% block tabletitle %}Listado de materias del docente{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia al docente{% endblock agregarItem %}
 {% block content %}
 {% include "pages/includes/pages_menu.html" %}
 
 {% endblock content %}
+
+{% block history %}
+{% if page_obj.count == 0 %}
+<div class="update">
+  <div class="profile-photo">
+      
+  </div>
+  <div class="message">
+      <p><h2>Aun no hay cambios</h2> <p>
+          <small class="text-muted"></small>
+  </div>
+</div>
+{% else %}
+{% for r in page_obj %}
+<div class="update">
+  <div class="profile-photo">
+      <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+  </div>
+  <div class="message">
+      <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio la materia del docente {% elif r.history_type == '-' %} elimino la materia del docente {% elif r.history_type == '~' %} edito la materia del docente {% endif %} {{r.materia_id}} {{r.docente_id}}<p>
+          <small class="text-muted">{{r.history_date}}</small>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock history %}
+
 {% block table %}
-{% if docentemateria_list.count == 0 %}
+{% if model.count == 0 %}
     <thead>
         <tr>
             <th><h1>No hay materias por mostrar, necesitas crearlas</h1></th>
@@ -28,7 +55,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for docemate in docentemateria_list|dictsort:"id" %}
+        {% for docemate in model|dictsort:"id" %}
             <tr>
                 <td class="">{{forloop.counter}}</td>
                 <td class="">{{docemate.materia}}</td>

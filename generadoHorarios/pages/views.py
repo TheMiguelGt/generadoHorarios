@@ -43,6 +43,11 @@ class PageCreate( CreateView):#crear
     model = Page
     form_class = PageForms #se pasa la clase que se creo 
     success_url = reverse_lazy('pages:pages') #se puede hacer de dos maneras 
+
+    def get_context_data(self, **kwargs): 
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Page.history.all()
+        return context
     #def get_success_url(self): #metodo cuando se haya creado un nuevo horario, donde nos mandara al listado
      #   return reverse('pages:pages')
 
@@ -52,19 +57,47 @@ class PageUpdate(UpdateView):
     form_class = PageForms #campos para actualizar
     template_name_suffix = '_update_form' #se pasa un subfijo para usar otro formulario
 
+    def get_context_data(self, **kwargs): 
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Page.history.all()
+        return context
+
     def get_success_url(self): #mostrar el formulario para ver los cambios
         # success_url = reverse_lazy('pages:pages')
         return reverse_lazy('pages:update', args=[self.object.id]) + '?ok' #se recrea la url, donde se le pasa el update y la clave primaria con el indicador 
-    
+
 # @method_decorator(staff_member_required,name='dispatch')
 class PageDelete(DeleteView):#eliminar
     model = Page 
     success_url = reverse_lazy('pages:pages')
+
+    def get_context_data(self, **kwargs): 
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Page.history.all()
+        return context
     
 #create docente materia
-class DoceMateListView(ListView):#listar
-    model = DocenteMateria    #se obtiene el modelo de la app
+def DoceMateListView(request):#listar
+    model = DocenteMateria.objects.all()   #se obtiene el modelo de la app
+    histo = DocenteMateria.history.all()
+    paginator = Paginator(histo,3)
+    print(histo.query)
+
+    page_number = request.GET.get('docemates')
+    page_obj = paginator.get_page(page_number)
+    return render(request,'pages/docentemateria_list.html',{'page_obj':page_obj,'model':model})
     # paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3
+    
+    # def get_context_data(self, **kwargs): 
+    #     context = super().get_context_data(**kwargs)
+    #     context['history_list'] = DocenteMateria.history.all()
+    #     print(context)
+    #     return context
+
+    # def get_context_data(self, **kwargs): 
+    #     context = super().get_context_data(**kwargs)
+    #     context['history_list'] = Page.history.all()
+    #     return context
 
 class DoceMateCreate(CreateView):
     model = DocenteMateria
