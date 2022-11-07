@@ -6,6 +6,10 @@
 
 {% url 'pages:update' page.id as my_view %}
 {% url 'pages:delete' page.id as my_view1 %}
+{% url 'pages:doceupdate' docentemateria.id as my_view2 %}
+{% url 'pages:docedel' docentemateria.id as my_view3 %}
+{% url 'pages:dispoupdate' disponibilidad.id as my_view4 %}
+{% url 'pages:dispodel' disponibilidad.id as my_view5 %}
 {% if request.user.is_staff or request.user.is_coordina%}
   {% if request.path == '/mate/materia/' %}
     <a href="{% url 'pages:create' %}"><div class="item add-product">
@@ -48,6 +52,19 @@
         <h3>Listar</h3>
       </div>
     </div></a>
+  {% elif request.path == my_view2 or request.path == my_view3 %}
+    <a href="{% url 'pages:docemates' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+    <a href="{% url 'pages:createm' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
   {% elif request.path == '/mate/disponibilidad/' %}
     <a href="{% url 'pages:createdi' %}"><div class="item add-product">
       <div>
@@ -60,6 +77,19 @@
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>
         <h3>Listar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == my_view4 or request.path == my_view5 %}
+    <a href="{% url 'pages:disponi' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+    <a href="{% url 'pages:createdi' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
       </div>
     </div></a>
   {% endif %}

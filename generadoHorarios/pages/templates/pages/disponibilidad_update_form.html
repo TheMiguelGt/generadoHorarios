@@ -3,7 +3,8 @@
 {% block title %}Disponibilidad horaria{% endblock title %} 
 {% block subtitle %}Disponibilidad horaria{% endblock subtitle %}
 {% block activi %}en disponibilidad horaria{% endblock activi %}
-{% block tabletitle %}Registrar disponibilidad horaria del docente{% endblock tabletitle %}
+{% block tabletitle %}Actualizar disponibilidad horaria{% endblock tabletitle %}
+{% block agregarItem %}Actualizar disponibilidad horaria{% endblock agregarItem %}
 {% block content %}
 {% include "pages/includes/pages_menu.html" %}
 
@@ -36,17 +37,17 @@
 
 {% block table %}
 <thead>
-  <tr>
-      <th width="30%"></th>
-      <th></th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    {{form}}
-  </tr>
-  <tr>
-    <td colspan="2"><input type="submit" class="btn-enviar"  value="Registrar licenciatura" /></td>
-  </tr>
-</tbody>
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {{form.as_table}}
+    </tr>
+    <tr>
+        <td colspan="2"><input type="submit" class="btn-editar"  value="Actualizar disponibilidad horaria" /></td>
+    </tr>
+  </tbody>
 {% endblock table %}

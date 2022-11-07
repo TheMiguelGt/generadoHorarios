@@ -1,6 +1,7 @@
 {% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
 {% block title %}Docente materia{% endblock title %} 
+{% block subtitle %}Docente materia{% endblock subtitle %}
 {% block activi %}en docente materia{% endblock activi %}
 {% block tabletitle %}Listado de materias del docente{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia al docente{% endblock agregarItem %}
@@ -27,7 +28,7 @@
       <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
   </div>
   <div class="message">
-      <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio la materia del docente {% elif r.history_type == '-' %} elimino la materia del docente {% elif r.history_type == '~' %} edito la materia del docente {% endif %} {{r.materia_id}} {{r.docente_id}}<p>
+      <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito la {% endif %} {{r.materia}} con {{r.docente}}<p>
           <small class="text-muted">{{r.history_date}}</small>
   </div>
 </div>
@@ -39,7 +40,7 @@
 {% if model.count == 0 %}
     <thead>
         <tr>
-            <th><h1>No hay materias por mostrar, necesitas crearlas</h1></th>
+            <th><h1>Aun no se ha asignado una materia al docente</h1></th>
         </tr>
     </thead>
 {% else %}
@@ -61,6 +62,10 @@
                 <td class="">{{docemate.materia}}</td>
                 <td class="">{{docemate.docente}}</td>
                 <td class="">{{docemate.aula}}</td>
+                {% if request.user.is_staff %}
+                    <td class=""><a class="btn-update" href="{% url 'pages:doceupdate' docemate.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                    <td class=""><a class="btn-delete" href="{% url 'pages:docedel' docemate.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                {% endif %}
             </tr>
         {% endfor %}
     </tbody>
