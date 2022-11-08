@@ -2,12 +2,39 @@
 {% load static %}
 {% block title %}Disponibilidad horaria{% endblock title %} 
 {% block subtitle %}Disponibilidad horaria{% endblock subtitle %}
+{% block activi %}en disponibilidad horaria{% endblock activi %}
 {% block tabletitle %}Listado de disponibilidad horaria del docente{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia al docente{% endblock agregarItem %}
 {% block content %}
 {% include "pages/includes/pages_menu.html" %}
 
 {% endblock content %}
+
+{% block history %}
+{% if history_list.count == 0 %}
+<div class="update">
+  <div class="profile-photo">
+      
+  </div>
+  <div class="message">
+      <p><h2>Aun no hay cambios</h2> <p>
+          <small class="text-muted"></small>
+  </div>
+</div>
+{% else %}
+{% for r in history_list %}
+<div class="update">
+  <div class="profile-photo">
+      <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+  </div>
+  <div class="message">
+    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito a {% endif %} a {{r.docente}} con el d&iacute;a {{r.dia}} y hora {{r.hora}}<p>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock history %}
+
 {% block table %}
 {% if disponibilidad_list.count == 0 %}
     <thead>
@@ -34,6 +61,10 @@
                 <td class="">{{disponibilidad.dia}}</td>
                 <td class="">{{disponibilidad.hora}}</td>
                 <td class="">{{disponibilidad.docente}}</td>
+                {% if request.user.is_staff %}
+                    <td class=""><a class="btn-update" href="{% url 'pages:dispoupdate' disponibilidad.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                    <td class=""><a class="btn-delete" href="{% url 'pages:dispodel' disponibilidad.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                {% endif %}
             </tr>
         {% endfor %}
     </tbody>
