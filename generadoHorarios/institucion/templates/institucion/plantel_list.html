@@ -2,12 +2,39 @@
 {% load static %}
 {% block title %}Planteles{% endblock title %} 
 {% block subtitle %}Planteles{% endblock subtitle %}
+{% block activi %}en planteles{% endblock activi %}
 {% block tabletitle %}Listado de planteles{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia{% endblock agregarItem %}
 {% block content %}
 {% include "institucion/includes/institucion_menu.html" %}
 
 {% endblock content %}
+
+{% block history %}
+{% if history_list.count == 0 %}
+<div class="update">
+  <div class="profile-photo">
+      
+  </div>
+  <div class="message">
+      <p><h2>Aun no hay cambios</h2> <p>
+          <small class="text-muted"></small>
+  </div>
+</div>
+{% else %}
+{% for r in history_list %}
+<div class="update">
+  <div class="profile-photo">
+      <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+  </div>
+  <div class="message">
+    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito a {% endif %} el plantel {{r.clave}} {{r.plantel}}<p>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock history %}
+
 {% block table %}
     {% if plantel_list.count == 0 %}
         <thead>
@@ -21,6 +48,9 @@
                 <th>No.</th>
                 <th>Clave</th>
                 <th>Plantel</th>
+                {% if request.user.is_staff %}
+                    <th colspan="2">Acciones</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -29,6 +59,10 @@
                     <td class="">{{forloop.counter}}</td>
                     <td class="">{{plantel.clave}}</td>
                     <td class="">{{plantel.plantel}}</td>
+                    {% if request.user.is_staff %}
+                        <td class=""><a class="btn-update" href="{% url 'planteles:planupdate' plantel.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                        <td class=""><a class="btn-delete" href="#"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>

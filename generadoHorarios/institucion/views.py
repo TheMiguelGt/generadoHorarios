@@ -16,6 +16,12 @@ class StaffRequiredMixin(object):
 # START OF PLANTELES
 class PlantelListView(ListView):
     model = Plantel
+    paginate_by = 8
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Plantel.history.all()
+        return context
     
 class PlantelDetailView(DetailView):
     model = Plantel
@@ -25,14 +31,42 @@ class PlantelCreate(CreateView):
     form_class = PlantelForms
     success_url = reverse_lazy('planteles:planteles')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Plantel.history.all()
+        return context
+
+class PlantelUpdate(UpdateView):
+    model = Plantel
+    form_class = PlantelForms
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Plantel.history.all()
+        return context
+    
+    def get_success_url(self):
+        return reverse_lazy('pages:planupdate',args=[self.object.id]) + '?ok'
+    
 class PlantelDelete(DeleteView):
     model = Plantel
     success_url = reverse_lazy('planteles:planteles')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Plantel.history.all()
+        return context
 # END OF PLANTELES
 
 # START OF LICENCIATURA
 class LicenciaturaListView(ListView):
     model = Licenciatura
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        return context
     
 class LicenciaturaDetailView(DetailView):
     model = Licenciatura
@@ -41,11 +75,33 @@ class LicenciaturaCreate(CreateView):
     model = Licenciatura
     form_class = LicenciaturaForms
     success_url = reverse_lazy('planteles:licenciaturas')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        return context
     
-    
+class LicenciaturaUpdate(UpdateView):
+    model = Licenciatura
+    form_class = LicenciaturaForms
+    template_name_suffix = '_update_form'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('planteles:licenciupdate',args=[self.object.id]) + '?ok'
+
 class LicenciaturaDelete(DeleteView):
     model = Licenciatura
     success_url = reverse_lazy('planteles:licenciaturas')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        return context
 # END OF LICENCIATURA
 
 # START OF AULA

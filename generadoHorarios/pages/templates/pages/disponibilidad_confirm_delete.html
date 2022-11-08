@@ -3,10 +3,9 @@
 {% block title %}Disponibilidad horaria{% endblock title %} 
 {% block subtitle %}Disponibilidad horaria{% endblock subtitle %}
 {% block activi %}en disponibilidad horaria{% endblock activi %}
-{% block tabletitle %}Registrar disponibilidad horaria del docente{% endblock tabletitle %}
+{% block tabletitle %}Eliminar disponibilidad horaria{% endblock tabletitle %}
 {% block content %}
-{% include "pages/includes/pages_menu.html" %}
-
+  {% include "pages/includes/pages_menu.html" %}
 {% endblock content %}
 
 {% block history %}
@@ -35,18 +34,29 @@
 {% endblock history %}
 
 {% block table %}
+
 <thead>
   <tr>
-      <th width="30%"></th>
+      <th></th>
       <th></th>
   </tr>
 </thead>
 <tbody>
-  <tr>
-    {{form}}
-  </tr>
-  <tr>
-    <td colspan="2"><input type="submit" class="btn-enviar"  value="Registrar licenciatura" /></td>
-  </tr>
+    <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Docente</b></label></td>
+        <td class="" style="border-bottom: 0px solid black;"><labe >{{disponibilidad.docente}}</label></td>
+        </td>
+      </tr>
+      <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>D&iacute;a</b></label></td>
+          <td class="" style="border-bottom: 0px solid black;"><labe >{{disponibilidad.dia}}</label></td>
+      </tr>
+      <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Hora</b></label></td>
+          <td class="" style="border-bottom: 0px solid black;"><labe >{{disponibilidad.hora}}</label></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="submit" class="btn-eliminar"  value="Eliminar materia" /></td>
+      </tr>
 </tbody>
-{% endblock table %}
+{% endblock %}

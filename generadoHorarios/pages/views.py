@@ -79,7 +79,7 @@ class PageDelete(DeleteView):#eliminar
 #create docente materia
 def DoceMateListView(request):#listar
     model = DocenteMateria.objects.all()   #se obtiene el modelo de la app
-    histo = DocenteMateria.history.all()
+    histo = DocenteMateria.history.select_related('materia','docente')
     paginator = Paginator(histo,3)
     print(histo.query)
 
@@ -87,36 +87,79 @@ def DoceMateListView(request):#listar
     page_obj = paginator.get_page(page_number)
     return render(request,'pages/docentemateria_list.html',{'page_obj':page_obj,'model':model})
     # paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3
-    
-    # def get_context_data(self, **kwargs): 
-    #     context = super().get_context_data(**kwargs)
-    #     context['history_list'] = DocenteMateria.history.all()
-    #     print(context)
-    #     return context
 
-    # def get_context_data(self, **kwargs): 
-    #     context = super().get_context_data(**kwargs)
-    #     context['history_list'] = Page.history.all()
-    #     return context
+class DoceMateDetail(DetailView):
+    model = DocenteMateria
 
 class DoceMateCreate(CreateView):
     model = DocenteMateria
     form_class = DoceMateForms
     success_url = reverse_lazy('pages:docemates')
     
+class DoceMateUpdate(UpdateView):
+    model = DocenteMateria
+    form_class = DoceMateForms
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = DocenteMateria.history.select_related('materia','docente')
+        return context 
+    
+    def get_success_url(self):
+        return reverse_lazy('pages:doceupdate',args=[self.object.id]) + '?ok'
+
+class DoceMateDelete(DeleteView):
+    model = DocenteMateria
+    success_url = reverse_lazy('pages:docemates')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = DocenteMateria.history.select_related('materia','docente')
+        return context 
+    
 #Disponibilidad de horario docente
 class DispoListView(ListView):
     model = Disponibilidad
+    paginate_by = 8
     
-    def get_queryset(self):
-        dia = Dia.objects.all()
-        return Disponibilidad.objects.all()
-    # paginate_by = 8
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        return context
     
 class DispoCreate(CreateView):
     model = Disponibilidad
     form_class = DispoForms
     success_url = reverse_lazy('pages:disponi')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        return context
+    
+class DispoUpdate(UpdateView):
+    model = Disponibilidad
+    form_class = DispoForms
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        return context
+    
+    def get_success_url(self):
+        return reverse_lazy('pages:dispoupdate',args=[self.object.id]) + '?ok'
+
+class DispoDelete(DeleteView):
+    model = Disponibilidad
+    success_url = reverse_lazy('pages:disponi')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        return context
+    
 
 #Horario
 def AlumnoSignUp(request):

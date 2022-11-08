@@ -23,9 +23,9 @@ class Page(models.Model):
         return template.format(self)
 
 class DocenteMateria(models.Model):
-    materia = models.ForeignKey(Page,null=False,on_delete=models.CASCADE)
-    docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE)
-    aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE)
+    materia = models.ForeignKey(Page,null=False,on_delete=models.CASCADE,related_name='matdoce')
+    docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE,related_name='docedoce')
+    aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE,related_name='auladoce')
     history = HistoricalRecords()
 
     class Meta:
