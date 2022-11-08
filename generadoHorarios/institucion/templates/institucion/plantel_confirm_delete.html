@@ -3,8 +3,8 @@
 {% block title %}Planteles{% endblock title %} 
 {% block subtitle %}Planteles{% endblock subtitle %}
 {% block activi %}en planteles{% endblock activi %}
-{% block tabletitle %}Actualizar plantel{% endblock tabletitle %}
-{% block agregarItem %}Actualizar plantel{% endblock agregarItem %}
+{% block tabletitle %}Eliminar plantel{% endblock tabletitle %}
+{% block agregarItem %}Eliminar plantel{% endblock agregarItem %}
 {% block content %}
 {% include "institucion/includes/institucion_menu.html" %}
 
@@ -45,10 +45,16 @@
   </thead>
   <tbody>
     <tr>
-      {{form.as_table}}
-    </tr>
-    <tr>
-        <td colspan="2"><input type="submit" class="btn-editar"  value="Actualizar materia del docente" /></td>
-    </tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Clave</b></label></td>
+        <td class="" style="border-bottom: 0px solid black;"><labe >{{plantel.clave}}</label></td>
+        </td>
+      </tr>
+      <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Plantel</b></label></td>
+          <td class="" style="border-bottom: 0px solid black;"><labe >{{plantel.plantel}}</label></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="submit" class="btn-eliminar"  value="Eliminar materia" /></td>
+      </tr>
   </tbody>
 {% endblock table %}
