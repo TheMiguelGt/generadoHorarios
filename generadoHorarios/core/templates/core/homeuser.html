@@ -47,6 +47,8 @@
                 {% url 'pages:dispodel' disponibilidad.id as my_view5 %}
                 {% url 'planteles:planupdate' plantel.id as view1 %}
                 {% url 'planteles:plandel' plantel.id as view2 %}
+                {% url 'planteles:licenupdate' licenciatura.id as view3 %}
+                {% url 'planteles:licendel' licenciatura.id as view4 %}
                 {% if request.user.is_staff or request.user.is_admin %}
                 <a href="{% url 'planteles:planteles' %}" class="{% if request.path == '/insti/plantel/' or request.path == '/insti/plantel/create/' or request.path == view1 or request.path == view2 %}active{% endif %}">
                     <span class="material-icons-sharp">school</span>
@@ -60,7 +62,7 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Aulas</h3>
                 </a>
-                <a href="{% url 'planteles:licenciaturas' %}" class="{% if request.path == '/insti/licenciatura/' or request.path == '/insti/licenciatura/create/' %}active{% endif %}">
+                <a href="{% url 'planteles:licenciaturas' %}" class="{% if request.path == '/insti/licenciatura/' or request.path == '/insti/licenciatura/create/' or request.path == my_view3 or request.path == my_view4 %}active{% endif %}">
                     <span class="material-icons-sharp">history_edu</span>
                     <h3>Licenciaturas</h3>
                 </a>

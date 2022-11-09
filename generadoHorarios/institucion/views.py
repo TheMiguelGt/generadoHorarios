@@ -107,6 +107,12 @@ class LicenciaturaDelete(DeleteView):
 # START OF AULA
 class AulaListView(ListView):
     model = Aula
+    paginate_by = 8
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        return context
     
 # class AulaDetailView(DetailView):
 #     model = Aula
@@ -115,28 +121,75 @@ class AulaCreate(CreateView):
     model = Aula
     form_class = AulaForms
     success_url = reverse_lazy('planteles:aulas')
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        return context
     
-# class AulaDelete(DeleteView):
-#     model = Aula
-#     success_url = reverse_lazy('planteles:aulas')
-# END OF AULA
+class AulaUpdate(UpdateView):
+    model = Aula
+    form_class = AulaForms
+    tempalte_name_suffix = '_update_form'
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        return context
+    
+    def get_success_url(self):
+        return reverse_lazy('planteles:aulaupdate',args=[self.object.id]) + '?ok'
+
+class AulaDelete(DeleteView):
+    model = Aula
+    success_url = reverse_lazy('planteles:aulas')
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        return context
 
 # START OF AULA
 class SemestreListView(ListView):
     model = Semestre
-    
-# class AulaDetailView(DetailView):
-#     model = Aula
+    paginate_by = 8
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Semestre.history.select_related('semestre','licenciatura')
+        return context
 
 class SemestreCreate(CreateView):
     model = Semestre
     form_class = SemestreForms
     success_url = reverse_lazy('planteles:semestres')
-    
-# class AulaDelete(DeleteView):
-#     model = Aula
-#     success_url = reverse_lazy('planteles:aulas')
-# END OF AULA
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Semestre.history.select_related('semestre','licenciatura')
+        return context
+
+class SemestreUpdate(UpdateView):
+    model = Semestre
+    form_class = SemestreForms
+    template_name_suffix = '_update_form'
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('planteles:semeupdate',args=[self.object.id]) + '?ok'
+
+class SemestreDelete(DeleteView):
+    model = Semestre
+    success_url = reverse_lazy('planteles:semestres')
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        return context
 
     
 
