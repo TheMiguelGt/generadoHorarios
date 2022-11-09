@@ -28,7 +28,7 @@
       <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
   </div>
   <div class="message">
-      <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito la {% endif %} {{r.materia}} con {{r.docente}}<p>
+      <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito {% endif %} la {{r.materia}} con {{r.docente}}<p>
           <small class="text-muted">{{r.history_date}}</small>
   </div>
 </div>

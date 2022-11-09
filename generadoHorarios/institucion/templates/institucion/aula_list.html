@@ -2,12 +2,39 @@
 {% load static %}
 {% block title %}Aulas{% endblock title %} 
 {% block subtitle %}Aulas{% endblock subtitle %}
+{% block activi %}en aulas{% endblock activi %}
 {% block tabletitle %}Listado de aulas{% endblock tabletitle %}
 {% block agregarItem %}Agregar aula{% endblock agregarItem %}
 {% block content %}
 {% include "institucion/includes/institucion_menu.html" %}
 
 {% endblock content %}
+
+{% block history %}
+{% if history_list.count == 0 %}
+<div class="update">
+  <div class="profile-photo">
+      
+  </div>
+  <div class="message">
+      <p><h2>Aun no hay cambios</h2> <p>
+          <small class="text-muted"></small>
+  </div>
+</div>
+{% else %}
+{% for r in history_list %}
+<div class="update">
+  <div class="profile-photo">
+      <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+  </div>
+  <div class="message">
+    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito {% endif %} el plantel {{r.clave}} {{r.plantel}} con el piso {{r.piso}}<p>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock history %}
+
 {% block table %}
     {% if aula_list.count == 0 %}
         <thead>
@@ -22,6 +49,9 @@
                 <th>Clave</th>
                 <th>Piso</th>
                 <th>Plantel</th>
+                {% if request.user.is_staff %}
+                    <th colspan="2">Acciones</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -31,7 +61,10 @@
                     <td class="">{{aula.clave}}</td>
                     <td class="">{{aula.piso}}</td>
                     <td class="">{{aula.plantel}}</td>
-                    {% comment %} <td class="">{{licenciatura.plantel}}</td> {% endcomment %}
+                    {% if request.user.is_staff %}
+                        <td class=""><a class="btn-update" href="{% url 'planteles:aulaupdate' aula.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                        <td class=""><a class="btn-delete" href="{% url 'planteles:auladel' aula.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>

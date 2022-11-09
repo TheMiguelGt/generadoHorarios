@@ -1,10 +1,10 @@
 {% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
-{% block title %}Licenciaturas{% endblock title %} 
-{% block activi %}en licenciaturas{% endblock activi %}
-{% block subtitle %}Licenciaturas{% endblock subtitle %}
-{% block tabletitle %}Actualizar licenciatura{% endblock tabletitle %}
-{% block agregarItem %}Actualizar licenciatura{% endblock agregarItem %}
+{% block title %}Semestres{% endblock title %} 
+{% block subtitle %}Semestres{% endblock subtitle %}
+{% block activi %}en semestre{% endblock activi %}
+{% block tabletitle %}Actualizar semestre{% endblock tabletitle %}
+{% block agregarItem %}Actualizar semestre{% endblock agregarItem %}
 {% block content %}
 {% include "institucion/includes/institucion_menu.html" %}
 
@@ -28,7 +28,7 @@
       <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
   </div>
   <div class="message">
-    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito a {% endif %} {{r.licenciatura}} en el plantel {{r.plantel}}<p>
+    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito {% endif %} el semestre {{r.semestre}} de la {{r.licenciatura}}<p>
   </div>
 </div>
 {% endfor %}
@@ -37,17 +37,17 @@
 
 {% block table %}
 <thead>
-    <tr>
-        <th></th>
-        <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      {{form.as_table}}
-    </tr>
-    <tr>
-        <td colspan="2"><input type="submit" class="btn-editar"  value="Actualizar licenciatura" /></td>
-    </tr>
-  </tbody>
+<tr>
+    <th width="30%"></th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    {{form.as_table}}
+</tr>
+<tr>
+    <td colspan="2"><input type="submit" class="btn-editar"  value="Actualizar semestre" /></td>
+</tr>
+</tbody>
 {% endblock table %}

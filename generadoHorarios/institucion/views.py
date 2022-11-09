@@ -65,7 +65,7 @@ class LicenciaturaListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        context['history_list'] = Licenciatura.history.select_related('plantel')
         return context
     
 class LicenciaturaDetailView(DetailView):
@@ -78,7 +78,7 @@ class LicenciaturaCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        context['history_list'] = Licenciatura.history.select_related('plantel')
         return context
     
 class LicenciaturaUpdate(UpdateView):
@@ -88,7 +88,7 @@ class LicenciaturaUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        context['history_list'] = Licenciatura.history.select_related('plantel')
         return context
 
     def get_success_url(self):
@@ -100,7 +100,7 @@ class LicenciaturaDelete(DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        context['history_list'] = Licenciatura.history.select_related('plantel')
         return context
 # END OF LICENCIATURA
 
@@ -111,7 +111,7 @@ class AulaListView(ListView):
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        context['history_list'] = Aula.history.select_related('plantel')
         return context
     
 # class AulaDetailView(DetailView):
@@ -124,39 +124,39 @@ class AulaCreate(CreateView):
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        context['history_list'] = Aula.history.select_related('plantel')
         return context
     
 class AulaUpdate(UpdateView):
     model = Aula
     form_class = AulaForms
-    tempalte_name_suffix = '_update_form'
-
+    template_name_suffix = '_update_form'
+    
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        context['history_list'] = Aula.history.select_related('plantel')
         return context
-    
+
     def get_success_url(self):
         return reverse_lazy('planteles:aulaupdate',args=[self.object.id]) + '?ok'
-
+    
 class AulaDelete(DeleteView):
     model = Aula
     success_url = reverse_lazy('planteles:aulas')
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        context['history_list'] = Aula.history.select_related('plantel')
         return context
 
-# START OF AULA
+# START OF semestre
 class SemestreListView(ListView):
     model = Semestre
     paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Semestre.history.select_related('semestre','licenciatura')
+        context['history_list'] = Semestre.history.select_related('licenciatura')
         return context
 
 class SemestreCreate(CreateView):
@@ -166,7 +166,7 @@ class SemestreCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Semestre.history.select_related('semestre','licenciatura')
+        context['history_list'] = Semestre.history.select_related('licenciatura')
         return context
 
 class SemestreUpdate(UpdateView):
@@ -176,7 +176,7 @@ class SemestreUpdate(UpdateView):
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        context['history_list'] = Semestre.history.select_related('licenciatura')
         return context
 
     def get_success_url(self):
@@ -188,7 +188,7 @@ class SemestreDelete(DeleteView):
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Aula.history.select_related('clave','piso','plantel')
+        context['history_list'] = Semestre.history.select_related('licenciatura')
         return context
 
     
