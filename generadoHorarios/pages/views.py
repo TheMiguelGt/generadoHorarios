@@ -22,17 +22,14 @@ class StaffRequiredMixin(object): #clase base de todas las clases de py
         return super(StaffRequiredMixin,self).dispatch(request,*args,**kwargs)
 
 # Create your views here.
-def PageListView(request):#listar
-    model = Page.objects.all()    #se obtiene el modelo de la app
-    histo = Page.history.all()
-    paginator = Paginator(histo,3)
+class PageListView(ListView):#listar
+    model = Page   #se obtiene el modelo de la app
+    paginate_by = 8
     
-    print(histo.query)
-    print(model.query)
-    page_number = request.GET.get('pages')
-    page_obj = paginator.get_page(page_number)
-    
-    return render(request,'pages/page_list.html',{'page_obj': page_obj,'model':model})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_obj'] = Page.history.all()
+        return context
     
 
 class PageDetailView(DetailView):#ver detalles

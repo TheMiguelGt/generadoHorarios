@@ -16,30 +16,24 @@
         {% for r in dias %}
             <th>{{r.dia}}</th>
         {% endfor %}
-        {% comment %} {% for h in dias %}
-            <th>{{h.days}}</th>
-        {% endfor %} {% endcomment %}
     </tr>
-<tbody>
-    <tr>
-            {% for r in horas %}
-            <tr>
-                <th>awa</th>
-            
-            
-                    
+<tbody>         
+         
             {% for r in pubs %}
-                {% if r.dia_id == 1 and r.hora_id == 1 %}
-                    <th>{{r.docente}}</th>
-                {% elif r.dia_id == 2 and r.hora_id == 1 %}
-                    <th>{{r.docente}}</th>
+            <tr> 
+                <td>{{r.hora_id}} - {{r.hora}}</td>
+                {% if r.dia_id == 1 %}
+                    <td>{{r.docente}} - {{r.docente_id}}</td>
+                {% elif r.dia_id == 2 %}
+                    <td>{{r.docente}} - {{r.docente_id}}</td>
+                    <td>{{r.docente}} - {{r.docente_id}}</td>
+                {% elif r.dia_id == 3 %}
+                    <td>{{r.docente}} - {{r.docente_id}}</td>
+                    <td>{{r.docente}} - {{r.docente_id}}</td>
                 {% endif %}
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
-        {% comment %} <td class="">{{r.hora}}</td> {% endcomment %}
-    </tr>
-       
+    
 </tbody>
 </thead>
 {% endblock table %}

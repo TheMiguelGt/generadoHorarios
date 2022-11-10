@@ -40,7 +40,7 @@ def horarioEsc(request):
     print(dias.query)
     horas = Hora.objects.all().order_by('id').distinct()
     print(horas.query)
-    pubs = Disponibilidad.objects.select_related('dia','hora','docente').annotate(tot=Count('dia__id')).order_by('dia','hora')
+    pubs = Disponibilidad.objects.select_related('dia','hora','docente').annotate(tot=Count('hora')).order_by('hora__id','dia__id')
     print(pubs.query)
     context = {
         'dias':dias,

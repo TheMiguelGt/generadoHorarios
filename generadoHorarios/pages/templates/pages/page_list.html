@@ -38,7 +38,7 @@
 {% endblock history %}
 
 {% block table %}
-{% if model.count == 0 %}
+{% if page_list.count == 0 %}
     <thead>
         <tr>
             <th><h1>No hay materias por mostrar, necesitas crearlas</h1></th>
@@ -59,7 +59,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for page in model|dictsort:"id" %}
+        {% for page in page_list|dictsort:"id" %}
             <tr>
                 {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
                 <td class="">{{forloop.counter}}</td>
