@@ -27,8 +27,8 @@ from pages.models import Dia,Hora,Disponibilidad
 from .models import Docente
 from django.db.models import Count,Max
 import csv,datetime
-# from tablib import Dataset
-# from .resources import AdminResource
+from tablib import Dataset
+from .resources import AdminResource
 
 
 # Create your views here.
@@ -36,10 +36,11 @@ import csv,datetime
 # ----------------Horario------------------
 #tabla del horario
 def horarioEsc(request):
-    dias = Dia.objects.all().values('days').annotate(tot=Count('dia')).order_by('dia').distinct()
+    dias = Dia.objects.all().order_by('id').distinct()
     print(dias.query)
-    horas = Hora.objects.all().values()
-    pubs = Disponibilidad.objects.select_related('dia','hora').annotate(tot=Count('dia__id')).order_by('dia','hora')
+    horas = Hora.objects.all().order_by('id').distinct()
+    print(horas.query)
+    pubs = Disponibilidad.objects.select_related('dia','hora','docente').annotate(tot=Count('dia__id')).order_by('dia','hora')
     print(pubs.query)
     context = {
         'dias':dias,
@@ -104,27 +105,22 @@ def AdminSignUp(request):
     
     return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type})
     
-# def importExcel(request):
-#     user_type = 'administrador'
-#     registered = False
-#     url = reverse('usuarios:administradores')
-    
-#     if request.method == 'POST':
-#         admin_resource = AdminResource()
-#         dataset = Dataset()
-#         new_admin = request.FILES['my_file']
-#         imported_data = dataset.load(new_admin.read(),format='xlsx')
-#         for data in imported_data:
-#             value = Admin(
-#                 data[0],
-#                 data[4],
-#                 data[5],
-#                 data[6],
-#                 data[7],
-#             )
-#             value.save()
+def importExcel(request):
+    if request.method == 'POST':
+        user_resource = AdminResource()
+        dataset = Dataset()
+        new_admins = request.FILES['my_file']
+        imported_data = dataset.load(new_admins.read(),format='xlsx')
+        for data in imported_data:
+            value = Admin(
+                data[0],
+                data[1],
+                data[2],
+                data[3],
+            )
+            value.save()
 
-#     return render(request,'usuarios/admin_import.html')
+    return render(request,'usuarios/admin_signup.html')
 
 #Admin list view
 class AdminListView(ListView):

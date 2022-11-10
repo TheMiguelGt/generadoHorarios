@@ -13,7 +13,7 @@
 <thead>
     <tr>
         <th>Horario <br> disponible</th>
-        {% for r in pubs %}
+        {% for r in dias %}
             <th>{{r.dia}}</th>
         {% endfor %}
         {% comment %} {% for h in dias %}
@@ -22,12 +22,24 @@
     </tr>
 <tbody>
     <tr>
-        {% for r in pubs %}
-            <td>{{r.hora}}</td>
-        
+            {% for r in horas %}
+            <tr>
+                <th>awa</th>
+            
+            
+                    
+            {% for r in pubs %}
+                {% if r.dia_id == 1 and r.hora_id == 1 %}
+                    <th>{{r.docente}}</th>
+                {% elif r.dia_id == 2 and r.hora_id == 1 %}
+                    <th>{{r.docente}}</th>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
         {% comment %} <td class="">{{r.hora}}</td> {% endcomment %}
     </tr>
-        {% endfor %}
+       
 </tbody>
 </thead>
 {% endblock table %}

@@ -11,7 +11,7 @@ planteles_patterns = ([
     path('licenciatura/',LicenciaturaListView.as_view(),name="licenciaturas"),
     path('licenciatura/create/',LicenciaturaCreate.as_view(),name='create1'),#path de crear
     path('licenciatura/update/<int:pk>/',LicenciaturaUpdate.as_view(),name="licenupdate"),
-    path('licenciatura/delete/<int:pk>/',LicenciaturaDelete.as_view(),name="licendel"),
+    path('licenciatura/delete/<int:pk>/',LicenciaturaDelete.as_view(),name="licendele"),
     #aula
     path('aula/',AulaListView.as_view(),name="aulas"),
     path('aula/create/',AulaCreate.as_view(),name='create2'),#path de crear
