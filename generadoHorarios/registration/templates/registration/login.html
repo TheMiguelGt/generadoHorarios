@@ -1,0 +1,27 @@
+{% extends 'core/user.html' %} 
+{% load static %}
+{% block title %}Iniciar sesion{% endblock %}
+{% block content %}
+<div class="login-page">
+    {% comment %} <img src="{% static 'images/login-background.PNG' %}" alt=""> {% endcomment %}
+    <div class="login-form">
+      <div class="avatar">
+        {% comment %} <img src="{% static 'images/login-avatar.PNG' %}" alt=""> {% endcomment %}
+      </div>
+      <h1>Login</h1>
+      <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <p>Username:</p>
+        <input type="text" name="username" placeholder="matricula de usuario">
+        <br>
+        <br>
+        <p>Password:</p>
+        <input type="password" name="password" placeholder="contrasena">
+        <br>
+        <br>
+        <input class="btn btn-primary" type="submit" name="" value="Login">
+      </form>
+      {% comment %} <a href="{% url 'classroom:signup' %}">Don't have an account.</a> {% endcomment %}
+    </div>
+  </div>
+{% endblock content %}

@@ -9,6 +9,7 @@ urlpatterns = [
     path('logout/',views.user_logout,name="logout"),
     #admin
     path('admin_signup/',views.AdminSignUp,name="AdminSignUp"),
+    path('update/admin/<int:pk>/',views.AdminUpdateView,name="admin_update"),
     # path('admin_import/',views.importExcel,name="push_admin"),
     path('admin_list/',AdminListView.as_view(),name='administradores'),
     #coordina

@@ -33,6 +33,7 @@ AUTH_USER_MODEL = 'usuarios.User'
 # Application definition
 
 INSTALLED_APPS = [
+    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -154,9 +155,9 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-#auth redirects 
-# LOGIN_REDIRECT_URL = 'homeUser' #buscara un pad con ese mismo nombre, en este caso nos mandaria al menu principal de materias
-# LOGOUT_REDIRECT_URL = 'home'
+# auth redirects 
+LOGIN_REDIRECT_URL = 'homeUser' #buscara un pad con ese mismo nombre, en este caso nos mandaria al menu principal de materias
+LOGOUT_REDIRECT_URL = 'login'
 
 #Emails 
 if DEBUG:

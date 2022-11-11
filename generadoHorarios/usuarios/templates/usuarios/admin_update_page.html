@@ -1,0 +1,27 @@
+{% extends 'core/homeuser.html' %} 
+{% load static %}
+{% block title %}Perfil{% endblock %}
+{% block subtitle %}Perfil administrador{% endblock subtitle %}
+{% block tabletitle %}Perfil administrador{% endblock tabletitle %}
+{% block content %}
+  {% include "usuarios/includes/usuarios_menu.html" %}
+{% endblock content %}
+
+{% block table %}
+<form enctype="multipart/form-data" method="post">
+<thead>
+<tr>
+    <th></th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    {{form.as_table}}
+</tr>
+<tr>
+    <td colspan="2"><input type="submit" class="btn-editar"  value="Actualizar disponibilidad horaria" /></td>
+</tr>
+</tbody>
+</form>
+{% endblock table %}
