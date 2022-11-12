@@ -26,7 +26,7 @@
       <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
   </div>
   <div class="message">
-    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito a {% endif %} a {{r.docente}} con el d&iacute;a {{r.dia}} con el horario {{r.hora}}<p>
+    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito a {% endif %} a {{r.docente}} con el d&iacute;a {{r.dia}} y hora {{r.hora}}<p>
   </div>
 </div>
 {% endfor %}

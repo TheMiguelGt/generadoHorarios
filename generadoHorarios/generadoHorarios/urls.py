@@ -30,6 +30,7 @@ urlpatterns = [
     path('mate/',include(pages_patterns)),
     #Paths de auth
     path('accounts/',include('django.contrib.auth.urls')),
+    path('usuarios/',include('usuarios.urls')),
 ]
 
 if settings.DEBUG:

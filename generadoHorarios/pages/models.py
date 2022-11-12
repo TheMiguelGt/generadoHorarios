@@ -54,7 +54,7 @@ class Hora(models.Model):
         db_table = 'hora'
 
     def __str__(self):
-        template = '{0.iniHora} - {0.finHora}'
+        template = '{0.finHora} - {0.iniHora}'
         return template.format(self)
 
 class Disponibilidad(models.Model):

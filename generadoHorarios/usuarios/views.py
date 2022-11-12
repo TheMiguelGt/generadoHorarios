@@ -24,10 +24,8 @@ from .models import History, User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
 from pages.models import Dia,Hora,Disponibilidad
-from .models import Docente,Admin,Coordina
-from usuarios import models
-from django.db.models import Count,Max,Avg
-from django.db.models import Exists,OuterRef
+from .models import Docente
+from django.db.models import Count,Max
 import csv,datetime
 from tablib import Dataset
 from .resources import AdminResource
@@ -39,14 +37,15 @@ from .resources import AdminResource
 #tabla del horario
 def horarioEsc(request):
     dias = Dia.objects.all().order_by('id').distinct()
-    # print(dias.query)
+    print(dias.query)
     horas = Hora.objects.all().order_by('id').distinct()
-    # print(horas.query)
+    print(horas.query)
     pubs = Disponibilidad.objects.select_related('dia','hora','docente').annotate(tot=Count('hora')).order_by('hora__id','dia__id')
-    # print(pubs.query)
+    print(pubs.query)
     context = {
         'dias':dias,
         'horas':horas,
+        # 'dispo':dispo,
         'pubs':pubs,
     }
     return render(request,'usuarios/horario.html',context)
@@ -60,7 +59,6 @@ def export_csv(request):
     writer = csv.writer(response)
     writer.writerow(['Horario disponible','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'])
    
-    # pubs = Disponibilidad.objects.select_related('dia','hora','docente').annotate(tot=Count('hora')).order_by('hora__id','dia__id')
     horas = Hora.objects.all()
     for hora in horas:
         writer.writerow([hora.iniHora+" - "+hora.finHora])
@@ -73,6 +71,7 @@ def export_csv(request):
 def AdminSignUp(request):
     user_type = 'administrador'
     registered = False
+    url = reverse('usuarios:administradores')
 
     def post(self,request,*args,**kwargs):
         data = {}
@@ -99,6 +98,7 @@ def AdminSignUp(request):
 
             registered = True
             
+            return HttpResponseRedirect(url)
     else:
         user_form = UserForm()
         admin_profile_form = AdminProfileForm()
@@ -144,22 +144,6 @@ class AdminListView(ListView):
         context['title'] = 'Listado de administradores'
         return context
 
-
-@login_required
-def AdminUpdateView(request,pk):
-    profile_updated = False
-    admin = get_list_or_404(models.Admin,pk=pk)
-    if request.method == "POST":
-        form = AdminProfileIUpdateForm()
-        if form.is_valid():
-            profile = form.save(commit=False)
-            if 'admin_profile_pic' in request.FILES:
-                profile.admin_profile_pic = request.FILES['admin_profile_pic']
-            profile.save()
-            profile_updated = True
-    else:
-        form = AdminProfileIUpdateForm()
-    return render(request,'usuarios/admin_update_page.html',{'profile_updated':profile_updated,'form':form})
 # ----------------COORDINADOR------------------
 
 #creation profile coordina
