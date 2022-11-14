@@ -40,6 +40,7 @@ class PageCreate( CreateView):#crear
     model = Page
     form_class = PageForms #se pasa la clase que se creo 
     success_url = reverse_lazy('pages:pages') #se puede hacer de dos maneras 
+    paginate_by = 8
 
     def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs)

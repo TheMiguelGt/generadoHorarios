@@ -1,5 +1,6 @@
 from asyncore import write
 from atexit import register
+from http.client import responses
 import imp
 from multiprocessing import connection, context
 import profile
@@ -30,6 +31,7 @@ import csv,datetime
 from tablib import Dataset
 from .resources import AdminResource
 from usuarios import models
+from django.contrib import messages
 
 
 # Create your views here.
@@ -63,7 +65,6 @@ def export_csv(request):
     horas = Hora.objects.all()
     for hora in horas:
         writer.writerow([hora.iniHora+" - "+hora.finHora])
-        
     
     return response
 
@@ -72,16 +73,7 @@ def export_csv(request):
 def AdminSignUp(request):
     user_type = 'administrador'
     registered = False
-    url = reverse('usuarios:administradores')
-
-    def post(self,request,*args,**kwargs):
-        data = {}
-        try:
-            data = Admin.objects.get(pk=request.POST['id']).toJSON()
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
-
+    
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
         admin_profile_form = AdminProfileForm(data = request.POST)
@@ -98,9 +90,20 @@ def AdminSignUp(request):
             profile.save()
 
             registered = True
+            
+            messages.success(request, "Administrador creado con exito")
+            return HttpResponseRedirect(reverse('usuarios:administradores'))
     else:
         user_form = UserForm()
         admin_profile_form = AdminProfileForm()
+
+    def post(self,request,*args,**kwargs):
+        data = {}
+        try:
+            data = Admin.objects.get(pk=request.POST['id']).toJSON()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
     
     return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type})
     
@@ -146,33 +149,22 @@ class AdminListView(ListView):
 class AdminDetailView(LoginRequiredMixin,DetailView):
     context_object_name = "admin"
     model = models.Admin
-    template_mname = 'usuarios/admin_detail_page.html'
+    template_name = 'usuarios/admin_detail_page.html'
 
 @login_required
-def AdminUpdateView(request):
-
-    try:
-        user_profile = Admin.objects.get(user=request.user)
-    except Admin.DoesNotExist:
-        return HttpResponse("usuario invalido!")
-
+def AdminUpdateView(request,pk):
+    profile_updated = False
     if request.method == "POST":
-        admin_update = AdminProfileIUpdateForm(data=request.POST,instance=user_profile)
-
-        if admin_update.is_valid():
-            admin_profile = admin_update.save(commit=False)
-
-            if 'picture' in request.FILES:
-                admin_profile = request.FILES['picture']
-            
-            admin_profile.save()
-        else:
-            print(admin_update.errors)
+        form = AdminProfileIUpdateForm(data = request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            if 'admin_profile_pic' in request.FILES:
+                profile.admin_profile_pic = request.FILES['admin_profile_pic']
+            profile.save()
+            profile_updated = True
     else:
-        admin_update = AdminProfileIUpdateForm(instance=user_profile)
-
-    return render(request,'usuarios/admin_update.html',{'admin_update':admin_update})
-
+        form = AdminProfileIUpdateForm()
+    return render(request,'usuarios/admin_update.html',{'profile_updated':profile_updated,'form':form})
 # ----------------COORDINADOR------------------
 
 #creation profile coordina

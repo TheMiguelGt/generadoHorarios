@@ -2,11 +2,21 @@
 {% load static %}
 
 {% block table %}
-<form id="admin_update" method="POST" action="/userprofile/update_user/">
+<thead>
+    <tr>
+        <th>
+          {{form.as_table}}
+        </th>
+        <th>
+            <input class="btn-editar" type="SUBMIT" name="submit" value="Update"/>
+        </th>
+    </tr>
+  </thead>
+{% comment %} <form id="admin_update" method="POST" action="/userprofile/update_user/">
     {% csrf_token %}
     <img src="{% static 'usuarios/img/imgUser.png' %}" alt="">
-    {{ admin_update.as_p }}
+    {{ profile_updated.as_p }}
     <br />
-    <input type="SUBMIT" name="submit" value="Update"/>
-</form>
+    
+</form> {% endcomment %}
 {% endblock table %}

@@ -12,7 +12,7 @@ urlpatterns = [
     # path('admin_import/',views.importExcel,name="push_admin"),
     path('admin_list/',AdminListView.as_view(),name='administradores'),
     path('admin/<int:pk>/',views.AdminDetailView.as_view(),name="admin_detail"),
-    path('admin/update/',views.AdminUpdateView,name="admin_update"),
+    path('admin/update/<int:pk>/',views.AdminUpdateView,name="admin_update"),
     #coordina
     path('coordina_signup/',views.CoordinaSignUp,name="CoordinaSignUp"),
     path('coordina_list/',CoordinaListView.as_view(),name='coordinadores'),
