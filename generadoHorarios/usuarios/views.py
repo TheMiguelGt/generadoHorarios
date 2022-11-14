@@ -29,6 +29,7 @@ from django.db.models import Count,Max
 import csv,datetime
 from tablib import Dataset
 from .resources import AdminResource
+from usuarios import models
 
 
 # Create your views here.
@@ -97,8 +98,6 @@ def AdminSignUp(request):
             profile.save()
 
             registered = True
-            
-            return HttpResponseRedirect(url)
     else:
         user_form = UserForm()
         admin_profile_form = AdminProfileForm()
@@ -143,6 +142,36 @@ class AdminListView(ListView):
         return super().get_context_data(**kwargs)
         context['title'] = 'Listado de administradores'
         return context
+
+class AdminDetailView(LoginRequiredMixin,DetailView):
+    context_object_name = "admin"
+    model = models.Admin
+    template_mname = 'usuarios/admin_detail_page.html'
+
+@login_required
+def AdminUpdateView(request):
+
+    try:
+        user_profile = Admin.objects.get(user=request.user)
+    except Admin.DoesNotExist:
+        return HttpResponse("usuario invalido!")
+
+    if request.method == "POST":
+        admin_update = AdminProfileIUpdateForm(data=request.POST,instance=user_profile)
+
+        if admin_update.is_valid():
+            admin_profile = admin_update.save(commit=False)
+
+            if 'picture' in request.FILES:
+                admin_profile = request.FILES['picture']
+            
+            admin_profile.save()
+        else:
+            print(admin_update.errors)
+    else:
+        admin_update = AdminProfileIUpdateForm(instance=user_profile)
+
+    return render(request,'usuarios/admin_update.html',{'admin_update':admin_update})
 
 # ----------------COORDINADOR------------------
 

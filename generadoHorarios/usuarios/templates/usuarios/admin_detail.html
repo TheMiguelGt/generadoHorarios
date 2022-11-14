@@ -1,0 +1,28 @@
+{% extends 'core/homeuser.html' %} 
+{% load static %}
+
+{% block table %}
+<div class="profile">
+    <img src="{% static 'images/profile-background-3.PNG' %}" alt="">
+    <div class="profile-box">
+      {% if student.student_profile_pic %}
+        <img src="">
+      {% else %}
+        <img src="{% static 'usuarios/img/imgUser.png' %}" alt="">
+      {% endif %}
+      <div class="profile-details">
+        <h1>{{ student.name }}</h1>
+        <br>
+        <p><i class="far fa-user"></i> Username: {{ admin.user.username }}</p>
+        <p><i class="far fa-phone"></i> Phone: {{ admin.phone }}</p>
+        {% if request.user.is_admin %}
+        <p><i class="far fa-phone"></i> Rol: admin</p>
+        {% else %}
+        <p><i class="far fa-phone"></i> Rol: popo</p>
+        {% endif %}
+        <p><i class="far fa-envelope-open-text"></i> Email ID: {{ admin.email }}</p>
+        <a href="{% url 'usuarios:admin_update'%}"> <p class="edit-button">Edit Profile</p> </a> 
+      </div>
+    </div>
+  </div>
+{% endblock table %}

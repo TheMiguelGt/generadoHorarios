@@ -10,6 +10,7 @@
 {% endblock content %}
 {% block table %}
 <a href="{% url 'usuarios:export-csv' %}">Export csv</a>
+{% regroup pubs by hora as hora_list %}
 <thead>
     <tr>
         <th>Horario <br> disponible</th>
@@ -19,18 +20,12 @@
     </tr>
 <tbody>         
          
-            {% for r in pubs %}
+            {% for hora in hora_list %}
             <tr> 
-                <td>{{r.hora_id}} - {{r.hora}}</td>
-                {% if r.dia_id == 1 %}
-                    <td>{{r.docente}} - {{r.docente_id}}</td>
-                {% elif r.dia_id == 2 %}
-                    <td>{{r.docente}} - {{r.docente_id}}</td>
-                    <td>{{r.docente}} - {{r.docente_id}}</td>
-                {% elif r.dia_id == 3 %}
-                    <td>{{r.docente}} - {{r.docente_id}}</td>
-                    <td>{{r.docente}} - {{r.docente_id}}</td>
-                {% endif %}
+                <td>{{hora.grouper}}</td>
+                {% for doce in hora.list %}
+                    <td>{{doce.docente}}</td>
+                {% endfor %}
             </tr>
             {% endfor %}
     
