@@ -73,15 +73,15 @@
             {% endfor %}
             Swal.fire({
                 title: 'Error!',
-                text: errors,
+                text: "Es necesario llenar todos los campos",
                 icon: 'error',
               })
         {% endfor %}
       {%endif%}
 
-      {% if user_form.errors %}
+      {% if admin_profile_form.errors %}
         var errors = '';
-        {%for field in user_form %}
+        {%for field in admin_profile_form %}
             {% for error in field.errors %}
 
                 errors+='{{error}}\n';
@@ -89,7 +89,7 @@
             {% endfor %}
             Swal.fire({
                 title: 'Error!',
-                text: errors,
+                text: "Es necesario llenar todos los campos",
                 icon: 'error',
               })
         {% endfor %}

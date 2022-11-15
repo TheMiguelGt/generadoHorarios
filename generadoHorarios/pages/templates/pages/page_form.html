@@ -59,15 +59,19 @@
     <td colspan="2"><input type="submit" class="btn-enviar"  value="Crear materia" /></td>
   </tr>
 </tbody>
-{% comment %} <thead>
-  <tr>
-    
-  </tr>
-</thead>
-<tbody>
-      <tr>
-        <td class="">{{ form }}</td>
-        
-      </tr>
-</tbody> {% endcomment %}
+<script>
+{% if form.errors %}
+var errors = '';
+  {% for field in form %}
+    {% for error in field.errors %}
+      errors+='{{error}}\n';
+    {% endfor %}
+  {% endfor %}
+    Swal.fire({
+      title: 'Error!',
+      text: errors,
+      icon: 'error',
+    })
+{% endif %}
+</script>
 {% endblock %}

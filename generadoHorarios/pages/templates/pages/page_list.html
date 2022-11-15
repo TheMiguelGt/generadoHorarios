@@ -11,6 +11,18 @@
 
 {% endblock content %}
 
+{% if messages %}
+{% for m in messages %}
+    <script>
+    Swal.fire({
+      title: 'Con exito!',
+      text: '{{m}}',
+      icon: 'success',
+    })
+    </script>
+{% endfor %}
+{% endif %}
+
 {% block history %}
 {% if page_obj.count == 0 %}
     <div class="update">

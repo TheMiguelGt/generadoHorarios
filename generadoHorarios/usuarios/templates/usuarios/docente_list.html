@@ -9,6 +9,19 @@
 
 {% endblock content %}
 {% block table %}
+
+{% if messages %}
+{% for m in messages %}
+    <script>
+    Swal.fire({
+      title: 'Con exito!',
+      text: '{{m}}',
+      icon: 'success',
+    })
+    </script>
+{% endfor %}
+{% endif %}
+
 {% if docente_list.count == 0 %}
     <thead>
         <tr>

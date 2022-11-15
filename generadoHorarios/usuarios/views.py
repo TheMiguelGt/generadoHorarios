@@ -186,6 +186,9 @@ def CoordinaSignUp(request):
             profile.save()
             
             registered = True
+
+            messages.success(request, "Coordinador creado con exito")
+            return HttpResponseRedirect(reverse('usuarios:coordinadores'))
         else:
             print(user_form.errors,coordina_profile_form.errors)
     else:
@@ -232,8 +235,9 @@ def DocenteSignUp(request):
             profile.save()
             
             registered = True
-        else:
-            print(user_form.errors,docente_profile_form.errors)
+
+            messages.success(request, "Docente creado con exito")
+            return HttpResponseRedirect(reverse('usuarios:docentes'))
     else:
         user_form = UserForm()
         docente_profile_form = DocenteProfileForm()

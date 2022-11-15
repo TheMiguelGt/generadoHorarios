@@ -14,6 +14,7 @@ from operator import attrgetter
 from .models import Disponibilidad, Page,DocenteMateria,Dia,Hora
 from .forms import PageForms,DoceMateForms,DispoForms
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 class StaffRequiredMixin(object): #clase base de todas las clases de py
     """El mixin requerira que sea miembro del staff"""
@@ -30,8 +31,15 @@ class PageListView(ListView):#listar
         context = super().get_context_data(**kwargs)
         context['page_obj'] = Page.history.all()
         return context
-    
 
+    def post(self,request,*args,**kwargs):
+        data = {}
+        try:
+            data = Page.objects.get(pk=request.POST['id']).toJSON()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+    
 class PageDetailView(DetailView):#ver detalles
     model = Page
 

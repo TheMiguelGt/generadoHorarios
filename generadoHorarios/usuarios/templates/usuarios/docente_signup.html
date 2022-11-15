@@ -55,4 +55,38 @@
 </tbody>
 {% endif %}
     {% comment %} <img src="{% static 'images/login-background.PNG' %}" alt=""> {% endcomment %}
+
+<script>
+{% if user_form.errors %}
+  var errors = '';
+  {%for field in user_form %}
+      {% for error in field.errors %}
+
+          errors+='{{field}} {{error}}\n';
+
+      {% endfor %}
+      Swal.fire({
+          title: 'Error!',
+          text: "Es necesario llenar todos los campos",
+          icon: 'error',
+        })
+  {% endfor %}
+{%endif%}
+
+{% if docente_profile_form.errors %}
+  var errors = '';
+  {%for field in docente_profile_form %}
+      {% for error in field.errors %}
+
+          errors+='{{error}}\n';
+
+      {% endfor %}
+      Swal.fire({
+          title: 'Error!',
+          text: "Es necesario llenar todos los campos",
+          icon: 'error',
+        })
+  {% endfor %}
+{%endif%}
+</script>
 {% endblock table %}
