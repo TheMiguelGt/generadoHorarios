@@ -10,19 +10,6 @@
 {% include "pages/includes/pages_menu.html" %}
 
 {% endblock content %}
-
-{% if messages %}
-{% for m in messages %}
-    <script>
-    Swal.fire({
-      title: 'Con exito!',
-      text: '{{m}}',
-      icon: 'success',
-    })
-    </script>
-{% endfor %}
-{% endif %}
-
 {% block history %}
 {% if page_obj.count == 0 %}
     <div class="update">
@@ -57,6 +44,15 @@
         </tr>
     </thead>
 {% else %}
+    {% if messages %}
+    {% for message in messages %}
+        <div class="text-center alert alert-{{ message.tags }}">
+            {{ message|safe }}
+        </div>
+    {% endfor %}
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
     <thead>
         <tr>
             <th>Numero</th>
@@ -92,6 +88,7 @@
             </tr>
         {% endfor %}
     </tbody>
+</form>
 {% endif %}
 
 {% comment %} {% if is_paginated %}

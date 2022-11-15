@@ -15,6 +15,7 @@ from .models import Disponibilidad, Page,DocenteMateria,Dia,Hora
 from .forms import PageForms,DoceMateForms,DispoForms
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 
 class StaffRequiredMixin(object): #clase base de todas las clases de py
     """El mixin requerira que sea miembro del staff"""
@@ -26,6 +27,7 @@ class StaffRequiredMixin(object): #clase base de todas las clases de py
 class PageListView(ListView):#listar
     model = Page   #se obtiene el modelo de la app
     paginate_by = 8
+    
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,18 +46,36 @@ class PageDetailView(DetailView):#ver detalles
     model = Page
 
 # @method_decorator(staff_member_required,name='dispatch')
-class PageCreate( CreateView):#crear
+class PageCreate(SuccessMessageMixin, CreateView):#crear
     model = Page
     form_class = PageForms #se pasa la clase que se creo 
     success_url = reverse_lazy('pages:pages') #se puede hacer de dos maneras 
-    paginate_by = 8
+    template_name = 'pages/page_form.html'
+    success_message = "Materia creada con exito"
+    
+    def post(self,request,*args,**kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                forms = self.get_form()
+                if forms.is_valid():
+                    forms.save()
+                else:
+                    data['error'] = forms.errors
+            else:
+                data['error'] = 'No ha ingresado ningun dato'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
-    def get_context_data(self, **kwargs): 
+    def get_context_data(self,**kwargs): 
         context = super().get_context_data(**kwargs)
         context['history_list'] = Page.history.all()
+        context['action'] = 'add'
+        context['list_url'] = '/mate/materia/'
+        
         return context
-    #def get_success_url(self): #metodo cuando se haya creado un nuevo horario, donde nos mandara al listado
-     #   return reverse('pages:pages')
 
 # @method_decorator(staff_member_required,name='dispatch')
 class PageUpdate(UpdateView):
@@ -87,6 +107,7 @@ def DoceMateListView(request):#listar
     model = DocenteMateria.objects.all()   #se obtiene el modelo de la app
     histo = DocenteMateria.history.select_related('materia','docente')
     paginator = Paginator(histo,3)
+    print(paginator)
     print(histo.query)
 
     page_number = request.GET.get('docemates')

@@ -10,7 +10,7 @@ from simple_history.models import HistoricalRecords
 # Create your models here.
 #modelo de materias
 class Page(models.Model):
-    clave = models.CharField(max_length=10,null=False)
+    clave = models.CharField(max_length=10,null=False,unique=True)
     materia = models.CharField(max_length=45, verbose_name="Nombre de la materia")
     carga = models.IntegerField(null=False)
     history = HistoricalRecords()
