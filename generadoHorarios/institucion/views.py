@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 from institucion.models import Aula, Plantel,Licenciatura, Semestre
 from .forms import PlantelForms,LicenciaturaForms,AulaForms,SemestreForms
+from pages.models import Page,Disponibilidad,DocenteMateria
 
 # Create your views here.
 class StaffRequiredMixin(object):
@@ -21,6 +22,9 @@ class PlantelListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Plantel.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 class PlantelDetailView(DetailView):
@@ -34,6 +38,9 @@ class PlantelCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Plantel.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
 class PlantelUpdate(UpdateView):
@@ -44,6 +51,9 @@ class PlantelUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Plantel.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
     def get_success_url(self):
@@ -56,6 +66,9 @@ class PlantelDelete(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Plantel.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 # END OF PLANTELES
 
@@ -66,6 +79,9 @@ class LicenciaturaListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Licenciatura.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 class LicenciaturaDetailView(DetailView):
@@ -79,6 +95,9 @@ class LicenciaturaCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Licenciatura.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 class LicenciaturaUpdate(UpdateView):
@@ -89,6 +108,9 @@ class LicenciaturaUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Licenciatura.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
     def get_success_url(self):
@@ -101,6 +123,9 @@ class LicenciaturaDelete(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Licenciatura.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 # END OF LICENCIATURA
 
@@ -112,6 +137,9 @@ class AulaListView(ListView):
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Aula.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 # class AulaDetailView(DetailView):

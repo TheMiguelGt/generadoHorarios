@@ -97,21 +97,5 @@ class Alumno(models.Model):
         db_table = 'user_alumno'
         default_permissions = ('change','view')
 
-class History(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    time = models.DateTimeField(auto_now=True)
-    type = models.CharField(max_length=50)
-    prev = models.CharField(max_length=50)
-    new = models.CharField(max_length=50)
-
-    @property
-    def _history_user(self):
-        return self.user
-
-    def __str__(self):
-        return self.user,self.time,self.type
-
-    class Meta:
-        db_table = 'user_history'
 
     

@@ -453,7 +453,7 @@ main .list-div a{
     padding: 0.6rem;
     color: var(--color-white);
     border-radius: 50%;
-    background: var(--color-warning);
+    background: var(--color-success);
     display: flex;
 }
 .right .sales-analytics .add-product{

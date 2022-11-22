@@ -3,7 +3,7 @@ from django.shortcuts import render
 from multiprocessing import context
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
-from pages.models import Page
+from pages.models import Page,Disponibilidad,DocenteMateria
 from django.core.paginator import Paginator
 
 # Create your views here.
@@ -27,12 +27,15 @@ class HomeUserView(TemplateView): #se crea una clase para poder hacer la vista d
 def homePage2View(request):
     histo = Page.history.all()
     paginator = Paginator(histo,3)
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
     
-    print(histo.query)
-    print(paginator.num_pages)
+
+    print(pages.query)
     page_number = request.GET.get('homeUser')
     page_obj = paginator.get_page(page_number)
-    return render(request,'core/home2.html',{'page_obj': page_obj})
+    return render(request,'core/home2.html',{'page_obj': page_obj,'pages':pages,'disponi':disponi,'matedo':matedo})
     
 class UserPageView(TemplateView):
     template_name = 'core/userhome1.html'

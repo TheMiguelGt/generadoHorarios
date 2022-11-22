@@ -21,7 +21,7 @@ from django.urls import reverse,reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from django.http import HttpResponseRedirect,HttpResponse, JsonResponse
-from .models import History, User,Admin,Coordina,Docente,Alumno
+from .models import User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
 from pages.models import Dia,Hora,Disponibilidad
