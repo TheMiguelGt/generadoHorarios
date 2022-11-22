@@ -153,6 +153,9 @@ class AulaCreate(CreateView):
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Aula.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 class AulaUpdate(UpdateView):
@@ -163,6 +166,9 @@ class AulaUpdate(UpdateView):
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Aula.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
     def get_success_url(self):
@@ -175,6 +181,9 @@ class AulaDelete(DeleteView):
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Aula.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
 # START OF semestre
@@ -185,6 +194,9 @@ class SemestreListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Semestre.history.select_related('licenciatura')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
 class SemestreCreate(CreateView):
@@ -195,6 +207,9 @@ class SemestreCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Semestre.history.select_related('licenciatura')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
 class SemestreUpdate(UpdateView):
@@ -205,6 +220,9 @@ class SemestreUpdate(UpdateView):
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Semestre.history.select_related('licenciatura')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
     def get_success_url(self):
@@ -217,6 +235,9 @@ class SemestreDelete(DeleteView):
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Semestre.history.select_related('licenciatura')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
     

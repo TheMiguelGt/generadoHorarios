@@ -1,7 +1,10 @@
 from multiprocessing import context
 from pydoc import render_doc
+from re import search
+from urllib import request
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.views import View
 from django.views.generic.list import ListView #crear una lista de paginas
 from django.views.generic.detail import DetailView #detalles de la pagina, solo para lectura
 from django.views.generic.edit import CreateView,UpdateView,DeleteView #crear nuevas vistas,actualizar y eliminar 
@@ -28,10 +31,12 @@ class PageListView(ListView):#listar
     model = Page   #se obtiene el modelo de la app
     paginate_by = 8
     
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_obj'] = Page.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
     def post(self,request,*args,**kwargs):
@@ -72,6 +77,9 @@ class PageCreate(SuccessMessageMixin, CreateView):#crear
     def get_context_data(self,**kwargs): 
         context = super().get_context_data(**kwargs)
         context['history_list'] = Page.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         context['action'] = 'add'
         context['list_url'] = '/mate/materia/'
         

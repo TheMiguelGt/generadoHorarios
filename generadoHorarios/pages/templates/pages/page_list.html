@@ -51,8 +51,10 @@
         </div>
     {% endfor %}
     {% endif %}
-    <form method="POST">
+<form method="POST" action="{% url 'pages:pages' %}">
         {% csrf_token %}
+        <input class="" type="search" placeholder="Buscar materia" name="searched" >
+        <input class="" type="submit" value="Buscar" />
     <thead>
         <tr>
             <th>Numero</th>
