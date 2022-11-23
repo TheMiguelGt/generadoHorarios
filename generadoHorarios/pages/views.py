@@ -94,6 +94,9 @@ class PageUpdate(UpdateView):
     def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs)
         context['history_list'] = Page.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
     def get_success_url(self): #mostrar el formulario para ver los cambios
@@ -108,6 +111,9 @@ class PageDelete(DeleteView):#eliminar
     def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs)
         context['history_list'] = Page.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 #create docente materia
@@ -130,6 +136,13 @@ class DoceMateCreate(CreateView):
     model = DocenteMateria
     form_class = DoceMateForms
     success_url = reverse_lazy('pages:docemates')
+
+    def get_context_data(self, **kwargs): 
+        context = super().get_context_data(**kwargs)
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        return context
     
 class DoceMateUpdate(UpdateView):
     model = DocenteMateria
@@ -139,6 +152,9 @@ class DoceMateUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = DocenteMateria.history.select_related('materia','docente')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context 
     
     def get_success_url(self):
@@ -151,6 +167,9 @@ class DoceMateDelete(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = DocenteMateria.history.select_related('materia','docente')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context 
     
 #Disponibilidad de horario docente
@@ -161,6 +180,9 @@ class DispoListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 class DispoCreate(CreateView):
@@ -171,6 +193,9 @@ class DispoCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 class DispoUpdate(UpdateView):
@@ -181,6 +206,9 @@ class DispoUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
     def get_success_url(self):
@@ -193,6 +221,9 @@ class DispoDelete(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 
