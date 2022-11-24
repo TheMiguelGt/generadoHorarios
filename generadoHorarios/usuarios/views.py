@@ -147,6 +147,9 @@ class AdminListView(ListView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs)
         context['title'] = 'Listado de administradores'
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
 class AdminDetailView(LoginRequiredMixin,DetailView):
