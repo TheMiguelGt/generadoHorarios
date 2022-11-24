@@ -19,6 +19,7 @@ from .forms import PageForms,DoceMateForms,DispoForms
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 
 class StaffRequiredMixin(object): #clase base de todas las clases de py
     """El mixin requerira que sea miembro del staff"""
@@ -38,6 +39,18 @@ class PageListView(ListView):#listar
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
         return context
+
+    def get(self,request,*args,**kwargs):
+        query = request.GET.get("q",None)
+        qs = Page.objects.all()
+        if query is not None:
+            qs = qs.filter(Q(clave__icontains=query) |
+                           Q(materia__icontains=query)
+                           )
+        context = {
+            "object_list":qs,
+        }
+        return render(request,'pages/page_list.html',context)
 
     def post(self,request,*args,**kwargs):
         data = {}
@@ -114,13 +127,16 @@ class PageDelete(DeleteView):#eliminar
 def DoceMateListView(request):#listar
     model = DocenteMateria.objects.all()   #se obtiene el modelo de la app
     histo = DocenteMateria.history.select_related('materia','docente')
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
     paginator = Paginator(histo,3)
     print(paginator)
     print(histo.query)
 
     page_number = request.GET.get('docemates')
     page_obj = paginator.get_page(page_number)
-    return render(request,'pages/docentemateria_list.html',{'page_obj':page_obj,'model':model})
+    return render(request,'pages/docentemateria_list.html',{'page_obj':page_obj,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
     # paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3
 
 class DoceMateDetail(DetailView):
@@ -131,6 +147,17 @@ class DoceMateCreate(CreateView):
     form_class = DoceMateForms
     success_url = reverse_lazy('pages:docemates')
     
+    def get_context_data(self,**kwargs): 
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = DocenteMateria.history.select_related('materia','docente')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['action'] = 'add'
+        context['list_url'] = '/mate/materia/'
+        
+        return context
+    
 class DoceMateUpdate(UpdateView):
     model = DocenteMateria
     form_class = DoceMateForms
@@ -139,6 +166,9 @@ class DoceMateUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = DocenteMateria.history.select_related('materia','docente')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context 
     
     def get_success_url(self):
@@ -151,6 +181,9 @@ class DoceMateDelete(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = DocenteMateria.history.select_related('materia','docente')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context 
     
 #Disponibilidad de horario docente
@@ -161,6 +194,9 @@ class DispoListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 class DispoCreate(CreateView):
@@ -171,6 +207,9 @@ class DispoCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 class DispoUpdate(UpdateView):
@@ -181,6 +220,9 @@ class DispoUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
     def get_success_url(self):
@@ -193,6 +235,9 @@ class DispoDelete(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 

@@ -16,7 +16,7 @@ class Page(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'materia'
+        db_table = 'pages_materia'
 
     def __str__(self):
         template = '{0.clave} {0.materia}'
@@ -29,7 +29,7 @@ class DocenteMateria(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'docenteMateria'
+        db_table = 'pages_docenteMateria'
 
     def __str__(self):
         return self.materia,self.aula
@@ -39,7 +39,7 @@ class Dia(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'dia'
+        db_table = 'pages_dia'
 
     def __str__(self):
         template = '{0.dia}'
@@ -51,7 +51,7 @@ class Hora(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'hora'
+        db_table = 'pages_hora'
 
     def __str__(self):
         template = '{0.iniHora} - {0.finHora}'
@@ -64,7 +64,7 @@ class Disponibilidad(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'disponibilidad'
+        db_table = 'pages_disponibilidad'
 
     def __str__(self):
         return self.dia,self.hora,self.docente

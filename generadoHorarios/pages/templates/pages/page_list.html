@@ -51,10 +51,11 @@
         </div>
     {% endfor %}
     {% endif %}
-<form method="POST" action="{% url 'pages:pages' %}">
+<form method="GET" action="{% url 'pages:pages' %}">
         {% csrf_token %}
         <input class="" type="search" placeholder="Buscar materia" name="searched" >
         <input class="" type="submit" value="Buscar" />
+</form>
     <thead>
         <tr>
             <th>Numero</th>
@@ -69,18 +70,18 @@
         </tr>
     </thead>
     <tbody>
-        {% for page in page_list|dictsort:"id" %}
+        {% for object in object_list|dictsort:"id" %}
             <tr>
                 {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
                 <td class="">{{forloop.counter}}</td>
-                <td class="">{{page.clave}}</td>
-                <td class="">{{page.materia}}</td>
-                <td class="">{{page.carga}}</td>
+                <td class="">{{object.clave}}</td>
+                <td class="">{{object.materia}}</td>
+                <td class="">{{object.carga}}</td>
                 <td class=""></td>
                 <td class=""></td>
                 {% if request.user.is_staff %}
-                    <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
-                    <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                    <td class=""><a class="btn-update" href="{% url 'pages:update' object.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                    <td class=""><a class="btn-delete" href="{% url 'pages:delete' object.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
                 {% endif %}
                     {% comment %} <a class="btn1" href="{% url 'pages:page' page.id page.nomMateria|slugify %}"><i class="fa-sharp fa-solid fa-circle-info"></i></a></td> {% endcomment %}
                     {% comment %} {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
@@ -90,7 +91,7 @@
             </tr>
         {% endfor %}
     </tbody>
-</form>
+
 {% endif %}
 
 {% comment %} {% if is_paginated %}

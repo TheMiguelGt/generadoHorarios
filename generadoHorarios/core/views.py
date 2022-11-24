@@ -43,7 +43,7 @@ class UserPageView(TemplateView):
     @method_decorator(login_required)
     def dispatch(self, request,*args,**kwargs):
         return super().dispatch(request, *args, **kwargs)
-
+    
     def get(self, request, *args, **kwargs):#importante traer los argumentos y clave valor
         return render(request,self.template_name,{'title':'userPage'})
     

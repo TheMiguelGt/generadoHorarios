@@ -24,7 +24,7 @@ from django.http import HttpResponseRedirect,HttpResponse, JsonResponse
 from .models import User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
-from pages.models import Dia,Hora,Disponibilidad
+from pages.models import Dia,Hora,Disponibilidad,Page,DocenteMateria
 from .models import Docente
 from django.db.models import Count,Max
 import csv,datetime
@@ -73,6 +73,9 @@ def export_csv(request):
 def AdminSignUp(request):
     user_type = 'administrador'
     registered = False
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
     
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
@@ -105,7 +108,7 @@ def AdminSignUp(request):
             data['error'] = str(e)
         return JsonResponse(data)
     
-    return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type})
+    return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
     
 def importExcel(request):
     if request.method == 'POST':
@@ -153,7 +156,11 @@ class AdminDetailView(LoginRequiredMixin,DetailView):
 
 @login_required
 def AdminUpdateView(request,pk):
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
     profile_updated = False
+    
     if request.method == "POST":
         form = AdminProfileIUpdateForm(data = request.POST)
         if form.is_valid():
@@ -164,13 +171,16 @@ def AdminUpdateView(request,pk):
             profile_updated = True
     else:
         form = AdminProfileIUpdateForm()
-    return render(request,'usuarios/admin_update.html',{'profile_updated':profile_updated,'form':form})
+    return render(request,'usuarios/admin_update.html',{'profile_updated':profile_updated,'form':form,'pages':pages,'disponi':disponi,'matedo':matedo})
 # ----------------COORDINADOR------------------
 
 #creation profile coordina
 def CoordinaSignUp(request):
     user_type = 'coordinador'
     registered = False
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
     
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
@@ -195,12 +205,12 @@ def CoordinaSignUp(request):
         user_form = UserForm()
         coordina_profile_form = CoordinaProfileForm()
     
-    return render(request,'usuarios/coordina_signup.html',{'user_form':user_form,'coordina_profile_form':coordina_profile_form,'registered':registered,'user_type':user_type})
+    return render(request,'usuarios/coordina_signup.html',{'user_form':user_form,'coordina_profile_form':coordina_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
 
 #list all corrdinators users
 class CoordinaListView(ListView):
     model = Coordina
-    #paginate_by=8
+    paginate_by=8
 
 #delete coordinatior user
 @method_decorator(login_required, name='dispatch')
@@ -220,6 +230,9 @@ class CoordinaDelete(DeleteView):
 def DocenteSignUp(request):
     user_type = 'docente'
     registered = False
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
     
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
@@ -242,7 +255,7 @@ def DocenteSignUp(request):
         user_form = UserForm()
         docente_profile_form = DocenteProfileForm()
     
-    return render(request,'usuarios/docente_signup.html',{'user_form':user_form,'docente_profile_form':docente_profile_form,'registered':registered,'user_type':user_type})
+    return render(request,'usuarios/docente_signup.html',{'user_form':user_form,'docente_profile_form':docente_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
 
 #list all docente users
 class DocenteListView(ListView):
@@ -253,6 +266,9 @@ class DocenteListView(ListView):
 def AlumnoSignUp(request):
     user_type = 'alumno'
     registered = False
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
     
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
@@ -274,7 +290,7 @@ def AlumnoSignUp(request):
         user_form = UserForm()
         alumno_profile_form = AlumnoProfileForm()
     
-    return render(request,'usuarios/alumno_signup.html',{'user_form':user_form,'alumno_profile_form':alumno_profile_form,'registered':registered,'user_type':user_type})
+    return render(request,'usuarios/alumno_signup.html',{'user_form':user_form,'alumno_profile_form':alumno_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
 
 #list all docente users
 class AlumnoListView(ListView):

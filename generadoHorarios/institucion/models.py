@@ -10,7 +10,7 @@ class Plantel(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'plantel'
+        db_table = 'institucion_plantel'
     
     def __str__(self):
         template = '{0.plantel}'
@@ -23,7 +23,7 @@ class Licenciatura(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'licenciatura'
+        db_table = 'institucion_licenciatura'
 
     def __str__(self):
         template = '{0.licenciatura}'
@@ -35,7 +35,7 @@ class Semestre(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'semestre'
+        db_table = 'institucion_semestre'
 
     def __str__(self):
         return self.semestre,self.licenciatura
@@ -47,7 +47,7 @@ class Aula(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'aula'
+        db_table = 'institucion_aula'
 
     def __str__(self):
         template = '{0.clave} en {0.plantel}'
