@@ -40,20 +40,12 @@ class PageListView(ListView):#listar
         context['matedo'] = DocenteMateria.objects.all()
         return context
 
-    def get(self,request,*args,**kwargs):
-        query = request.GET.get("q",None)
-        qs = Page.objects.all()
-        if query is not None:
-            qs = qs.filter(Q(clave__icontains=query) |
-                           Q(materia__icontains=query)
-                           )
-        context = {
-            "object_list":qs,
-        }
-        return render(request,'pages/page_list.html',context)
-
     def post(self,request,*args,**kwargs):
         data = {}
+        print(request.POST)
+        if request.method == "POST":
+            searched = request.POST['searched']
+            return render(request,'pages/page_list.html',{'searched':searched})
         try:
             data = Page.objects.get(pk=request.POST['id']).toJSON()
         except Exception as e:
