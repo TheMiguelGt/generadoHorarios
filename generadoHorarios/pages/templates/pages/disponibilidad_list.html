@@ -43,11 +43,11 @@
         </tr>
     </thead>
 {% else %}
-<form method="POST" action="{% url 'pages:pages' %}">
+<form method="POST" action="{% url 'pages:disponi' %}">
     {% csrf_token %}
     <div style="display:flex; margin-bottom:20px;">
         <div style="margin-right:10px;">
-            <input type="search" id="textSearch" placeholder="Buscar materia" name="searched" />
+            <input type="search" id="textSearch" placeholder="Buscar disponibilidad" name="searched" />
         </div>
         <div>
             <button type="submit" id="btnBuscar" ><span class="material-icons-sharp">search</span></button>

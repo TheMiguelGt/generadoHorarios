@@ -10,7 +10,8 @@ urlpatterns = [
     #admin
     path('admin_signup/',views.AdminSignUp,name="AdminSignUp"),
     # path('admin_import/',views.importExcel,name="push_admin"),
-    path('admin_list/',AdminListView.as_view(),name='administradores'),
+    # path('admin_list/',AdminListView.as_view(),name='administradores'),
+    path('admin_list/',views.adminList,name='administradores'),
     path('admin/<int:pk>/',views.AdminDetailView.as_view(),name="admin_detail"),
     path('admin/update/<int:pk>/',views.AdminUpdateView,name="admin_update"),
     #coordina

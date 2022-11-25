@@ -151,8 +151,7 @@ def DoceMateListView(request):#listar
         histo = DocenteMateria.history.select_related('materia','docente')
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
-        matedo = DocenteMateria.objects.all()
-        return render(request,'pages/docentemateria_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo})
+        return render(request,'pages/docentemateria_list.html',{'searched':searched,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo})
     else:
         model = DocenteMateria.objects.all()
         histo = DocenteMateria.history.select_related('materia','docente')
@@ -242,7 +241,7 @@ def dispoListSearch(request):
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'pages/disponibilidad_list.html',{'disdo':disdo,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        return render(request,'pages/disponibilidad_list.html',{'searched':searched,'disdo':disdo,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
     else:
         model = Disponibilidad.objects.all()
         history_list = Disponibilidad.history.select_related('docente','dia','hora')

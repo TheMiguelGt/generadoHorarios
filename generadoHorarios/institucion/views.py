@@ -7,6 +7,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from institucion.models import Aula, Plantel,Licenciatura, Semestre
 from .forms import PlantelForms,LicenciaturaForms,AulaForms,SemestreForms
 from pages.models import Page,Disponibilidad,DocenteMateria
+from django.shortcuts import render
+from django.db.models import Q
 
 # Create your views here.
 class StaffRequiredMixin(object):
@@ -27,6 +29,24 @@ class PlantelListView(ListView):
         context['matedo'] = DocenteMateria.objects.all()
         return context
     
+def plantelList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        plant = Plantel.objects.filter(Q(clave__icontains=searched) | Q(plantel__icontains=searched))
+        history_list = Plantel.history.all()
+        model = Plantel.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/plantel_list.html',{'searched':searched,'plant':plant,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        model = Plantel.objects.all()
+        history_list = Plantel.history.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/plantel_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        
 class PlantelDetailView(DetailView):
     model = Plantel
 
@@ -84,6 +104,24 @@ class LicenciaturaListView(ListView):
         context['matedo'] = DocenteMateria.objects.all()
         return context
     
+def licenciaturaList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        model = Licenciatura.objects.all()
+        licen = Licenciatura.objects.filter(Q(clave__icontains=searched) | Q(licenciatura__icontains=searched) | Q(plantel__plantel__icontains=searched))
+        history_list = Licenciatura.history.select_related('plantel')
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/licenciatura_list.html',{'searched':searched,'model':model,'licen':licen,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        model = Licenciatura.objects.all()
+        history_list = Licenciatura.history.select_related('plantel')
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/licenciatura_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        
 class LicenciaturaDetailView(DetailView):
     model = Licenciatura
 
@@ -142,6 +180,24 @@ class AulaListView(ListView):
         context['matedo'] = DocenteMateria.objects.all()
         return context
     
+def aulaList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        aul = Aula.objects.filter(Q(clave__icontains=searched) | Q(plantel__plantel__icontains=searched))
+        history_list = Aula.history.select_related('plantel')
+        model = Aula.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/aula_list.html',{'searched':searched,'aul':aul,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        history_list = Aula.history.select_related('plantel')
+        model = Aula.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/aula_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+    
 # class AulaDetailView(DetailView):
 #     model = Aula
 
@@ -198,7 +254,25 @@ class SemestreListView(ListView):
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
         return context
-
+    
+def semestreList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        seme = Semestre.objects.filter(Q(semestre__icontains=searched) | Q(licenciatura__licenciatura__icontains=searched))
+        history_list = Semestre.history.select_related('licenciatura')
+        model = Semestre.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/semestre_list.html',{'searched':searched,'seme':seme,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        history_list = Semestre.history.select_related('licenciatura')
+        model = Semestre.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/semestre_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        
 class SemestreCreate(CreateView):
     model = Semestre
     form_class = SemestreForms

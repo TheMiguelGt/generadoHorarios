@@ -35,7 +35,7 @@ class DocenteMateria(models.Model):
         return self.materia,self.aula
 
 class Dia(models.Model):
-    dia = models.CharField(max_length=45)
+    dia = models.CharField(max_length=45,unique=True)
     history = HistoricalRecords()
 
     class Meta:

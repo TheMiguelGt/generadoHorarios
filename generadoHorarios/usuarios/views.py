@@ -32,6 +32,7 @@ from tablib import Dataset
 from .resources import AdminResource
 from usuarios import models
 from django.contrib import messages
+from django.db.models import Q
 
 
 # Create your views here.
@@ -52,6 +53,23 @@ def horarioEsc(request):
         'pubs':pubs,
     }
     return render(request,'usuarios/horario.html',context)
+
+def importExcel(request):
+    if request.method == 'POST':
+        user_resource = AdminResource()
+        dataset = Dataset()
+        new_admins = request.FILES['my_file']
+        imported_data = dataset.load(new_admins.read(),format='xlsx')
+        for data in imported_data:
+            value = Admin(
+                data[0],
+                data[1],
+                data[2],
+                data[3],
+            )
+            value.save()
+
+    return render(request,'usuarios/admin_signup.html')
 
 def export_csv(request):
     response =HttpResponse(content_type='text/csv')
@@ -109,23 +127,6 @@ def AdminSignUp(request):
         return JsonResponse(data)
     
     return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
-    
-def importExcel(request):
-    if request.method == 'POST':
-        user_resource = AdminResource()
-        dataset = Dataset()
-        new_admins = request.FILES['my_file']
-        imported_data = dataset.load(new_admins.read(),format='xlsx')
-        for data in imported_data:
-            value = Admin(
-                data[0],
-                data[1],
-                data[2],
-                data[3],
-            )
-            value.save()
-
-    return render(request,'usuarios/admin_signup.html')
 
 #Admin list view
 class AdminListView(ListView):
@@ -151,6 +152,22 @@ class AdminListView(ListView):
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
         return context
+    
+def adminList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        adm = Admin.objects.filter(Q(user__username__icontains=searched) | Q(nombre__icontains=searched) | Q(apepat__icontains=searched))
+        model = Admin.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/admin_list.html',{'searched':searched,'adm':adm,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else: 
+        model = Admin.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/admin_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
 
 class AdminDetailView(LoginRequiredMixin,DetailView):
     context_object_name = "admin"

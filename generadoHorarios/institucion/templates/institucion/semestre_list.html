@@ -36,12 +36,48 @@
 {% endblock history %}
 
 {% block table %}
-    {% if semestre_list.count == 0 %}
+    {% if not model %}
         <thead>
             <tr>
                 <th><h1>No hay semestres por mostrar, necesitas registrarlos</h1></th>
             </tr>
         </thead>
+    {% else %}
+    <form method="POST" action="{% url 'planteles:semestres' %}">
+        {% csrf_token %}
+        <div style="display:flex; margin-bottom:20px;">
+            <div style="margin-right:10px;">
+                <input type="search" id="textSearch" placeholder="Buscar disponibilidad" name="searched" />
+            </div>
+            <div>
+                <button type="submit" id="btnBuscar" ><span class="material-icons-sharp">search</span></button>
+            </div>
+        </div>
+    </form>
+    {% if searched %}
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Semestre</th>
+                <th>Licenciatura</th>
+                {% if request.user.is_staff %}
+                    <th colspan="2">Acciones</th> 
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for semestre in seme %}
+                <tr>
+                    <td class="">{{forloop.counter}}</td>
+                    <td class="">{{semestre.semestre}}</td>
+                    <td class="">{{semestre.licenciatura}}</td>
+                    {% if request.user.is_staff %}
+                        <td class=""><a class="btn-update" href="{% url 'planteles:semeupdate' semestre.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                        <td class=""><a class="btn-delete" href="{% url 'planteles:semedel' semestre.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
     {% else %}
         <thead>
             <tr>
@@ -54,7 +90,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for semestre in semestre_list|dictsort:"id" %}
+            {% for semestre in model|dictsort:"id" %}
                 <tr>
                     <td class="">{{forloop.counter}}</td>
                     <td class="">{{semestre.semestre}}</td>
@@ -66,5 +102,7 @@
                 </tr>
             {% endfor %}
         </tbody>
+    {% endif %}
+        
     {% endif %}
 {% endblock table %}

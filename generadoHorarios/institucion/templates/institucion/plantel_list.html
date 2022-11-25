@@ -36,16 +36,28 @@
 {% endblock history %}
 
 {% block table %}
-    {% if plantel_list.count == 0 %}
+    {% if not model %}
         <thead>
             <tr>
                 <th><h1>No hay planteles por mostrar, necesitas registrarlos</h1></th>
             </tr>
         </thead>
     {% else %}
+    <form method="POST" action="{% url 'planteles:planteles' %}">
+        {% csrf_token %}
+        <div style="display:flex; margin-bottom:20px;">
+            <div style="margin-right:10px;">
+                <input type="search" id="textSearch" placeholder="Buscar plantel" name="searched" />
+            </div>
+            <div>
+                <button type="submit" id="btnBuscar" ><span class="material-icons-sharp">search</span></button>
+            </div>
+        </div>
+    </form>
+    {% if searched %}
         <thead>
             <tr>
-                <th>No.</th>
+                <th>Numero</th>
                 <th>Clave</th>
                 <th>Plantel</th>
                 {% if request.user.is_staff %}
@@ -54,7 +66,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for plantel in plantel_list|dictsort:"id" %}
+            {% for plantel in plant %}
                 <tr>
                     <td class="">{{forloop.counter}}</td>
                     <td class="">{{plantel.clave}}</td>
@@ -66,5 +78,30 @@
                 </tr>
             {% endfor %}
         </tbody>
+    {% else %}
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Clave</th>
+                <th>Plantel</th>
+                {% if request.user.is_staff %}
+                    <th colspan="2">Acciones</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for plantel in model|dictsort:"id" %}
+                <tr>
+                    <td class="">{{forloop.counter}}</td>
+                    <td class="">{{plantel.clave}}</td>
+                    <td class="">{{plantel.plantel}}</td>
+                    {% if request.user.is_staff %}
+                        <td class=""><a class="btn-update" href="{% url 'planteles:planupdate' plantel.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                        <td class=""><a class="btn-delete" href="{% url 'planteles:plandel' plantel.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    {% endif %}
     {% endif %}
 {% endblock table %}
