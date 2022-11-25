@@ -4,7 +4,8 @@ from .views import PageListView,PageDetailView,PageCreate,PageUpdate,PageDelete,
 
 pages_patterns = ([ #se crea una tupla
     #MATERIAS
-    path('materia/',PageListView.as_view(), name='pages'), #se usan las clases y se declaran como vistas
+    # path('materia/',PageListView.as_view(), name='pages'), #se usan las clases y se declaran como vistas
+    path('materia/',views.pageListSearch,name='pages'),
     path('materia/<int:pk>/<slug:slug>/',PageDetailView.as_view(), name='page'), #se cambio el id por pk y slug_page por solo slug
     path('materia/create/',PageCreate.as_view(),name='create'),#path de crear
     path('materia/update/<int:pk>/',PageUpdate.as_view(),name="update"),#se manda la pagina actualizada o que se actualizara
@@ -16,7 +17,8 @@ pages_patterns = ([ #se crea una tupla
     path('docemate/update/<int:pk>/',DoceMateUpdate.as_view(),name='doceupdate'),
     path('docemate/delete/<int:pk>/',DoceMateDelete.as_view(),name="docedel"),
     #DISPONIBILIDAD DOCENTE
-    path('disponibilidad/',DispoListView.as_view(), name='disponi'),
+    # path('disponibilidad/',DispoListView.as_view(), name='disponi'),
+    path('disponibilidad/',views.dispoListSearch,name='disponi'),
     path('disponibilidad/create/',DispoCreate.as_view(),name='createdi'),
     path('disponibilidad/update/<int:pk>/',DispoUpdate.as_view(),name='dispoupdate'),
     path('disponibilidad/delete/<int:pk>/',DispoDelete.as_view(),name="dispodel"),

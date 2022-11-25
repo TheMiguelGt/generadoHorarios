@@ -36,12 +36,52 @@
 {% endblock history %}
 
 {% block table %}
-{% if disponibilidad_list.count == 0 %}
+{% if not model %}
     <thead>
         <tr>
             <th><h1>El docente a&uacute;n no ha seleccionado su disponibilidad horaria</h1></th>
         </tr>
     </thead>
+{% else %}
+<form method="POST" action="{% url 'pages:pages' %}">
+    {% csrf_token %}
+    <div style="display:flex; margin-bottom:20px;">
+        <div style="margin-right:10px;">
+            <input type="search" id="textSearch" placeholder="Buscar materia" name="searched" />
+        </div>
+        <div>
+            <button type="submit" id="btnBuscar" ><span class="material-icons-sharp">search</span></button>
+        </div>
+    </div>
+</form>
+{% if searched %}
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>ID Materia</th>
+            <th>Nombre de la Materia</th>
+            <th>Carga horaria</th>
+            <th>Grado</th>
+            <th>Aula</th>
+            {% if request.user.is_staff %}
+                <th colspan="2">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for disponibilidad in disdo%}
+            <tr>
+                <td class="">{{forloop.counter}}</td>
+                <td class="">{{disponibilidad.dia}}</td>
+                <td class="">{{disponibilidad.hora}}</td>
+                <td class="">{{disponibilidad.docente}}</td>
+                {% if request.user.is_staff %}
+                    <td class=""><a class="btn-update" href="{% url 'pages:dispoupdate' disponibilidad.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                    <td class=""><a class="btn-delete" href="{% url 'pages:dispodel' disponibilidad.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
 {% else %}
     <thead>
         <tr>
@@ -55,7 +95,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for disponibilidad in disponibilidad_list%}
+        {% for disponibilidad in model%}
             <tr>
                 <td class="">{{forloop.counter}}</td>
                 <td class="">{{disponibilidad.dia}}</td>
@@ -68,5 +108,6 @@
             </tr>
         {% endfor %}
     </tbody>
+{% endif %}
 {% endif %}
 {% endblock table %}

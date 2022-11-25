@@ -1,0 +1,134 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+<link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
+{% block title %}Materias{% endblock title %} 
+{% block subtitle %}Materias{% endblock subtitle %}
+{% block activi %}en materias{% endblock activi %}
+{% block tabletitle %}Listado de materias{% endblock tabletitle %}
+{% block agregarItem %}Agregar materia{% endblock agregarItem %}
+{% block content %}
+{% include "pages/includes/pages_menu.html" %}
+
+{% endblock content %}
+{% block history %}
+{% if page_obj.count == 0 %}
+    <div class="update">
+        <div class="profile-photo">
+            
+        </div>
+        <div class="message">
+            <p><h2>Aun no hay cambios</h2> <p>
+                <small class="text-muted"></small>
+        </div>
+    </div>
+{% else %}
+    {% for r in page_obj %}
+    <div class="update">
+        <div class="profile-photo">
+            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+        </div>
+        <div class="message">
+            <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio la materia {% elif r.history_type == '-' %} elimino la materia {% elif r.history_type == '~' %} edito la materia {% endif %} {{r.materia}}<p>
+                <small class="text-muted">{{r.history_date}}</small>
+        </div>
+    </div>
+{% endfor %}
+{% endif %}
+{% endblock history %}
+
+{% block table %}
+{% if not pages %}
+    <thead>
+        <tr>
+            <th><h1>No hay materias por mostrar, necesitas crearlas</h1></th>
+        </tr>
+    </thead>
+{% else %}
+    {% if messages %}
+    {% for message in messages %}
+        <div class="text-center alert alert-{{ message.tags }}">
+            {{ message|safe }}
+        </div>
+    {% endfor %}
+    {% endif %}
+<form method="POST" action="{% url 'pages:pages' %}">
+    {% csrf_token %}
+    <div style="display:flex; margin-bottom:20px;">
+        <div style="margin-right:10px;">
+            <input type="search" id="textSearch" placeholder="Buscar materia" name="searched" />
+        </div>
+        <div>
+            <button type="submit" id="btnBuscar" ><span class="material-icons-sharp">search</span></button>
+        </div>
+    </div>
+</form>
+{% if searched %}
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>ID Materia</th>
+            <th>Nombre de la Materia</th>
+            <th>Carga horaria</th>
+            <th>Grado</th>
+            <th>Aula</th>
+            {% if request.user.is_staff %}
+                <th colspan="2">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for page in page_Search %}
+        <tr>
+            {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
+            <td class="">{{forloop.counter}}</td>
+            <td class="">{{page.clave}}</td>
+            <td class="">{{page.materia}}</td>
+            <td class="">{{page.carga}}</td>
+            <td class=""></td>
+            <td class=""></td>
+            {% if request.user.is_staff %}
+                <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+{% else %}
+<thead>
+    <tr>
+        <th>Numero</th>
+        <th>ID Materia</th>
+        <th>Nombre de la Materia</th>
+        <th>Carga horaria</th>
+        <th>Grado</th>
+        <th>Aula</th>
+        {% if request.user.is_staff %}
+            <th colspan="2">Acciones</th>
+        {% endif %}
+    </tr>
+</thead>
+<tbody>
+    {% for page in pages|dictsort:"id" %}
+        <tr>
+            {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
+            <td class="">{{forloop.counter}}</td>
+            <td class="">{{page.clave}}</td>
+            <td class="">{{page.materia}}</td>
+            <td class="">{{page.carga}}</td>
+            <td class=""></td>
+            <td class=""></td>
+            {% if request.user.is_staff %}
+                <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+            {% endif %}
+                {% comment %} <a class="btn1" href="{% url 'pages:page' page.id page.nomMateria|slugify %}"><i class="fa-sharp fa-solid fa-circle-info"></i></a></td> {% endcomment %}
+                {% comment %} {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
+                    <td><a class="btn2" href="{% url 'pages:update' page.id %}"><i class="fa-sharp fa-solid fa-pen"></i></a></td>
+                    <td><a class="btn3" href="{% url 'pages:delete' page.id %}"><i class="fa-solid fa-trash"></i></a></td>
+                {% endif %} {% endcomment %}
+        </tr>
+    {% endfor %}
+</tbody>
+{% endif %}
+{% endif %}
+{% endblock table %}

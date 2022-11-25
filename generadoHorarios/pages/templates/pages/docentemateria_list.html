@@ -11,7 +11,7 @@
 {% endblock content %}
 
 {% block history %}
-{% if page_obj.count == 0 %}
+{% if histo.count == 0 %}
 <div class="update">
   <div class="profile-photo">
       
@@ -22,7 +22,7 @@
   </div>
 </div>
 {% else %}
-{% for r in page_obj %}
+{% for r in histo %}
 <div class="update">
   <div class="profile-photo">
       <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
@@ -37,12 +37,50 @@
 {% endblock history %}
 
 {% block table %}
-{% if model.count == 0 %}
+{% if not matedo %}
     <thead>
         <tr>
             <th><h1>Aun no se ha asignado una materia al docente</h1></th>
         </tr>
     </thead>
+{% else %}
+<form method="POST" action="{% url 'pages:pages' %}">
+    {% csrf_token %}
+    <div style="display:flex; margin-bottom:20px;">
+        <div style="margin-right:10px;">
+            <input type="search" id="textSearch" placeholder="Buscar al docente o materia" name="searched" />
+        </div>
+        <div>
+            <button type="submit" id="btnBuscar" ><span class="material-icons-sharp">search</span></button>
+        </div>
+    </div>
+</form>
+{% if searched %}
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>Materia</th>
+            <th>Docente</th>
+            <th>Aula</th>
+            {% if request.user.is_staff %}
+                <th colspan="2">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for docemate in model %}
+            <tr>
+                <td class="">{{forloop.counter}}</td>
+                <td class="">{{docemate.materia}}</td>
+                <td class="">{{docemate.docente}}</td>
+                <td class="">{{docemate.aula}}</td>
+                {% if request.user.is_staff %}
+                    <td class=""><a class="btn-update" href="{% url 'pages:doceupdate' docemate.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                    <td class=""><a class="btn-delete" href="{% url 'pages:docedel' docemate.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
 {% else %}
     <thead>
         <tr>
@@ -69,5 +107,8 @@
             </tr>
         {% endfor %}
     </tbody>
+{% endif %}
+
+    
 {% endif %}
 {% endblock table %}

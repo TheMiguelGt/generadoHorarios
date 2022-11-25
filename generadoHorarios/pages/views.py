@@ -51,6 +51,27 @@ class PageListView(ListView):#listar
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
+   
+def pageListSearch(request):
+    
+    if request.method =='POST':
+        searched = request.POST['searched']
+        page_Search = Page.objects.filter(Q(clave__icontains=searched) | Q(materia__icontains=searched))
+        page_obj = Page.history.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'pages/page_list_search.html',{'searched':searched,'page_Search':page_Search,'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        page_obj = Page.history.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        paginator = Paginator(pages,8)
+        
+        page_number = request.GET.get('pages')
+        owo_list = paginator.get_page(page_number)
+        return render(request,'pages/page_list_search.html',{'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'owo_list':owo_list})
     
 class PageDetailView(DetailView):#ver detalles
     model = Page
@@ -123,18 +144,26 @@ class PageDelete(DeleteView):#eliminar
     
 #create docente materia
 def DoceMateListView(request):#listar
-    model = DocenteMateria.objects.all()   #se obtiene el modelo de la app
-    histo = DocenteMateria.history.select_related('materia','docente')
-    pages = Page.objects.all()
-    disponi = Disponibilidad.objects.all()
-    matedo = DocenteMateria.objects.all()
-    paginator = Paginator(histo,3)
-    print(paginator)
-    print(histo.query)
-
-    page_number = request.GET.get('docemates')
-    page_obj = paginator.get_page(page_number)
-    return render(request,'pages/docentemateria_list.html',{'page_obj':page_obj,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+    if request.method =='POST':
+        searched = request.POST['searched']
+        matedo = DocenteMateria.objects.all()
+        model = DocenteMateria.objects.filter(Q(materia__materia__icontains=searched) | Q(materia__clave__icontains=searched) | Q(docente__nombre__icontains=searched))   #se obtiene el modelo de la app
+        histo = DocenteMateria.history.select_related('materia','docente')
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'pages/docentemateria_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo})
+    else:
+        model = DocenteMateria.objects.all()
+        histo = DocenteMateria.history.select_related('materia','docente')
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        paginator = Paginator(histo,3)
+        
+        page_number = request.GET.get('docemates')
+        page_obj = paginator.get_page(page_number)
+        return render(request,'pages/docentemateria_list.html',{'page_obj':page_obj,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo})
     # paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3
 
 class DoceMateDetail(DetailView):
@@ -203,6 +232,24 @@ class DispoListView(ListView):
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
         return context
+    
+def dispoListSearch(request):
+    if request.method =="POST":
+        searched = request.POST['searched']
+        model = Disponibilidad.objects.all()
+        disdo = Disponibilidad.objects.filter(Q(docente__nombre__icontains=searched) )
+        history_list = Disponibilidad.history.select_related('docente','dia','hora')
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'pages/disponibilidad_list.html',{'disdo':disdo,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        model = Disponibilidad.objects.all()
+        history_list = Disponibilidad.history.select_related('docente','dia','hora')
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'pages/disponibilidad_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
     
 class DispoCreate(CreateView):
     model = Disponibilidad
