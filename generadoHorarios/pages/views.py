@@ -291,6 +291,17 @@ class DispoDelete(DeleteView):
         context['matedo'] = DocenteMateria.objects.all()
         return context
     
+class DiaList(ListView):
+    model = Dia
+    paginate_by = 8 
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_obj'] = Page.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        return context
 
 #Horario
 def AlumnoSignUp(request):
