@@ -22,12 +22,52 @@
 {% endfor %}
 {% endif %}
 
-{% if docente_list.count == 0 %}
+{% if not model %}
     <thead>
         <tr>
             <th><h1>No hay docentes por mostrar, necesitas registrarlos</h1></th>
         </tr>
     </thead>
+{% else %}
+<form method="POST" action="{% url 'usuarios:administradores' %}">
+    {% csrf_token %}
+    <div style="display:flex; margin-bottom:20px;">
+        <div style="margin-right:10px;">
+            <input type="search" id="textSearch" placeholder="Buscar docente" name="searched" />
+        </div>
+        <div>
+            <button type="submit" id="btnBuscar" ><span class="material-icons-sharp">search</span></button>
+        </div>
+    </div>
+</form>
+{% if searched %}
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Matricula</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Licenciatura</th>
+            {% if request.user.is_staff or request.user.is_admin %}
+                <th colspan="2">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for docente in doc %}
+            <tr>
+                {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
+                <td class="">{{forloop.counter}}</td>
+                <td class="">{{docente.user.username}}</td>
+                <td class="">{{docente.nombre}} {{docente.apepat}} {{docente.apemat}}</td>
+                <td class="">{{docente.email}}</td>
+                <td class=""></td>
+                {% if request.user.is_staff %}
+                    {% comment %} <td class=""><a class="btn-delete" href="{% url 'usuarios:deletecoordi' docente.user_id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>  {% endcomment %}
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
 {% else %}
     <thead>
         <tr>
@@ -42,7 +82,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for docente in docente_list%}
+        {% for docente in model %}
             <tr>
                 {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
                 <td class="">{{forloop.counter}}</td>
@@ -56,6 +96,8 @@
             </tr>
         {% endfor %}
     </tbody>
+{% endif %}
+    
 {% endif %}
 
 {% endblock table %}

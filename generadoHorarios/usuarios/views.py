@@ -156,7 +156,7 @@ class AdminListView(ListView):
 def adminList(request):
     if request.method == "POST":
         searched = request.POST['searched']
-        adm = Admin.objects.filter(Q(user__username__icontains=searched) | Q(nombre__icontains=searched) | Q(apepat__icontains=searched))
+        adm = Admin.objects.filter(Q(user__username__icontains=searched) | Q(nombre__icontains=searched) | Q(apepat__icontains=searched) | Q(apemat__icontains=searched))
         model = Admin.objects.all()
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
@@ -232,6 +232,22 @@ class CoordinaListView(ListView):
     model = Coordina
     paginate_by=8
 
+def coordinaList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        cor = Coordina.objects.filter(Q(user__username__icontains=searched) | Q(nombre__icontains=searched) | Q(apepat__icontains=searched) | Q(apemat__icontains=searched))
+        model = Coordina.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/coordina_list.html',{'searched':searched,'cor':cor,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        model = Coordina.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/coordina_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+
 #delete coordinatior user
 @method_decorator(login_required, name='dispatch')
 class CoordinaDelete(DeleteView):
@@ -281,6 +297,22 @@ def DocenteSignUp(request):
 class DocenteListView(ListView):
     model = Docente
     #paginate_by=8
+
+def docenteList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        doc = Docente.objects.filter(Q(user__username__icontains=searched) | Q(nombre__icontains=searched) | Q(apepat__icontains=searched) | Q(apemat__icontains=searched))
+        model = Docente.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/docente_list.html',{'searched':searched,'doc':doc,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        model = Docente.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/docente_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
 
 #docente profile coordina
 def AlumnoSignUp(request):
