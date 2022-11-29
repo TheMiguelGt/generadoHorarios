@@ -88,7 +88,7 @@
                     <h3>Horario</h3>
                 </a>
                 {% if request.user.is_staff or request.user.is_admin %}
-                <a href="{% url 'userPage' %}" class="{% if request.path == '/admn/' or request.path == '/usuarios/admin_list/' or request.path == '/usuarios/admin_signup/' or request.path == '/usuarios/coordina_list/' or request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/docente_list/' or request.path == '/usuarios/docente_signup/' or request.path == '/usuarios/alumno_list/' or request.path == '/usuarios/alumno_signup/' %}active{% endif %}">
+                <a href="{% url 'userPage' %}" class="{% if request.path == '/admn/' or request.path == '/usuarios/admin_list/' or request.path == '/usuarios/admin_signup/' or request.path == '/usuarios/coordina_list/' or request.path == '/usuarios/coordina_import/' or request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/docente_list/' or request.path == '/usuarios/docente_import/' or request.path == '/usuarios/docente_signup/' or request.path == '/usuarios/alumno_list/' or request.path == '/usuarios/alumno_signup/' %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Administrar usuarios</h3>
                 </a>

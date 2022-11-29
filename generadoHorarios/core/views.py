@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from pages.models import Page,Disponibilidad,DocenteMateria
 from django.core.paginator import Paginator
+from usuarios.models import Admin,Coordina,Docente
 
 # Create your views here.
 class HomePageView(TemplateView): #se crea una clase para poder hacer la vista del home
@@ -20,7 +21,7 @@ class HomeUserView(TemplateView): #se crea una clase para poder hacer la vista d
     @method_decorator(login_required)
     def dispatch(self, request,*args,**kwargs):
         return super().dispatch(request, *args, **kwargs)
-
+    
     def get(self, request, *args, **kwargs):#importante traer los argumentos y clave valor
         return render(request,self.template_name,{'title':'UserView'})
 

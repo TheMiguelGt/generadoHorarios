@@ -17,11 +17,13 @@ urlpatterns = [
     #coordina
     # path('coordina_list/',CoordinaListView.as_view(),name='coordinadores'),
     path('coordina_signup/',views.CoordinaSignUp,name="CoordinaSignUp"),
+    path('coordina_import/',views.coordina_upload,name='coordina_load'),
     path('coordina_list/',views.coordinaList,name='coordinadores'),
     path('delete/<int:pk>',CoordinaDelete.as_view(),name='deletecoordi'),
     #docente
     # path('docente_list/',DocenteListView.as_view(),name='docentes'),
     path('docente_signup/',views.DocenteSignUp,name="DocenteSignUp"),
+        path('docente_import/',views.docente_upload,name='docente_load'),
     path('docente_list/',views.docenteList,name='docentes'),
     #alumno
     path('alumno_signup/',views.AlumnoSignUp,name="AlumnoSignUp"),

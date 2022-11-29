@@ -42,13 +42,19 @@
         <h3>Agregar</h3>
       </div>
     </div></a> 
+    <a href="{% url 'usuarios:coordina_load' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">arrow_upward</span>
+        <h3>Importar xlsx</h3>
+      </div>
+    </div></a> 
     <a href="{% url 'userPage' %}" class="btnTest"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">manage_accounts</span>
         <h3>Usuarios</h3>
       </div>
     </div></a> 
-  {% elif request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/delete/' %}
+  {% elif request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/delete/' or request.path == '/usuarios/coordina_import/' %}
     <a href="{% url 'usuarios:coordinadores' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>
@@ -70,13 +76,19 @@
         <h3>Agregar</h3>
       </div>
     </div>
+    <a href="{% url 'usuarios:docente_load' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">arrow_upward</span>
+        <h3>Importar xlsx</h3>
+      </div>
+    </div></a> 
     <a href="{% url 'userPage' %}" class="btnTest"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">manage_accounts</span>
         <h3>Usuarios</h3>
       </div>
     </div></a> 
-  {% elif request.path == '/usuarios/docente_signup/' %}
+  {% elif request.path == '/usuarios/docente_signup/' or request.path == '/usuarios/docente_import/' %}
   <a href="{% url 'usuarios:docentes' %}"><div class="item add-product">
     <div>
       <span class="material-icons-sharp">format_list_bulleted</span>

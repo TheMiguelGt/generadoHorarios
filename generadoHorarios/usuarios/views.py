@@ -25,14 +25,15 @@ from .models import User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
 from pages.models import Dia,Hora,Disponibilidad,Page,DocenteMateria
-from .models import Docente
+from .resources import CoordinaResources,DocenteResources
 from django.db.models import Count,Max
 import csv,datetime
 from tablib import Dataset
-from .resources import AdminResource
 from usuarios import models
 from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth.hashers import make_password, check_password #mostrar o encryptar password
+
 
 
 # Create your views here.
@@ -53,23 +54,6 @@ def horarioEsc(request):
         'pubs':pubs,
     }
     return render(request,'usuarios/horario.html',context)
-
-def importExcel(request):
-    if request.method == 'POST':
-        user_resource = AdminResource()
-        dataset = Dataset()
-        new_admins = request.FILES['my_file']
-        imported_data = dataset.load(new_admins.read(),format='xlsx')
-        for data in imported_data:
-            value = Admin(
-                data[0],
-                data[1],
-                data[2],
-                data[3],
-            )
-            value.save()
-
-    return render(request,'usuarios/admin_signup.html')
 
 def export_csv(request):
     response =HttpResponse(content_type='text/csv')
@@ -227,6 +211,49 @@ def CoordinaSignUp(request):
     
     return render(request,'usuarios/coordina_signup.html',{'user_form':user_form,'coordina_profile_form':coordina_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
 
+def coordina_upload(request):
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
+    
+    if request.method == "POST":
+        coordina_resource = CoordinaResources()
+        dataset = Dataset()
+        new_coordina = request.FILES['myfile']
+        
+        if not new_coordina.name.endswith('xlsx'):
+            messages.info(request,'Error en el formato')
+            return render(request,'usuarios/coordina_file.html')
+
+        imported_data = dataset.load(new_coordina.read(),format='xlsx')
+        for data in imported_data:
+            value = User(
+                data[0],
+                make_password(data[1]),
+                data[2],
+                data[3],
+                data[4],
+                data[5],
+                data[6],
+                data[7],
+                data[8],
+                data[9],
+                data[10],
+                data[11],
+                data[12],
+                data[13],
+            )
+            value2 = Coordina(
+                data[14],
+                data[15],
+                data[16],
+                data[17],
+                data[18],
+            )
+            value.save()
+            value2.save()
+    return render(request,'usuarios/coordina_file.html',{'pages':pages,'disponi':disponi,'matedo':matedo})
+
 #list all corrdinators users
 class CoordinaListView(ListView):
     model = Coordina
@@ -292,6 +319,49 @@ def DocenteSignUp(request):
         docente_profile_form = DocenteProfileForm()
     
     return render(request,'usuarios/docente_signup.html',{'user_form':user_form,'docente_profile_form':docente_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
+
+def docente_upload(request):
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
+    
+    if request.method == "POST":
+        docente_resource = DocenteResources()
+        dataset = Dataset() #acceder a los datos del archivo
+        new_docente = request.FILES['myfile'] #nombre del input file
+        
+        if not new_docente.endswith('xlsx'):
+            messages.info(request,'Error en el formato')
+            return render(request,'usuarios/docente_file.html')
+        
+        imported_data = dataset.load(new_docente.read(),format='xlsx')
+        for data in imported_data:
+            value = User(
+                data[0],
+                make_password(data[1]),
+                data[2],
+                data[3],
+                data[4],
+                data[5],
+                data[6],
+                data[7],
+                data[8],
+                data[9],
+                data[10],
+                data[11],
+                data[12],
+                data[13],
+            )
+            value2 = Docente(
+                data[14],
+                data[15],
+                data[16],
+                data[17],
+                data[18],
+            )
+            value.save()
+            value2.save()
+    return render(request,'usuarios/docente_file.html',{'pages':pages,'disponi':disponi,'matedo':matedo})
 
 #list all docente users
 class DocenteListView(ListView):
