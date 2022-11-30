@@ -77,7 +77,7 @@ body{
     height: 40px;
     background: var(--color-primary);
     border-radius: var(--border-radius-1);
-    color: var(--color-background);
+    color: #fff;
     cursor: pointer;
 }
 #btnUpload{

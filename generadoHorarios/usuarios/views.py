@@ -211,6 +211,10 @@ def CoordinaSignUp(request):
     
     return render(request,'usuarios/coordina_signup.html',{'user_form':user_form,'coordina_profile_form':coordina_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
 
+@method_decorator(login_required, name="dispatch")
+class CoordinaView(TemplateView):
+    template_name = "usuarios/coordina_update.html"
+
 def coordina_upload(request):
     pages = Page.objects.all()
     disponi = Disponibilidad.objects.all()

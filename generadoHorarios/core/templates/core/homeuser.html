@@ -217,7 +217,7 @@
                         {% endif %}
                     </div>
                     <div class="profile-photo">
-                        <a href="{% url 'usuarios:admin_detail' pk=user.pk %}"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt=""></a>
+                        <a href="{% url 'usuarios:coordina_profile' %}"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt=""></a>
                     </div>
                 </div>
             </div>  

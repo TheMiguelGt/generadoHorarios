@@ -32,11 +32,11 @@
 
     {% comment %} <img src="{% static 'images/login-background.PNG' %}" alt=""> {% endcomment %}
 <script>
-  {% if user_form.errors %}
+  {% if errors %}
     var errors = '';
     {% for field in user_form %}
       {% for error in field.errors %}
-        errors+='{{error}}\n';
+        errors+='{{er}}\n';
       {% endfor %}
       Swal.fire({
         title: 'Error!',
