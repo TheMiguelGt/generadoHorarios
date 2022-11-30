@@ -15,7 +15,7 @@
             <div class="profile-details">
               <h1>{{ student.name }}</h1>
               <br>
-              <p><i class="far fa-user"></i> Username: {{ admin.user.username }}</p>
+              <p><i class="far fa-user"></i> Username: {{ user.username }}</p>
               <p><i class="far fa-phone"></i> Phone: {{ admin.phone }}</p>
               {% if request.user.is_admin %}
               <p><i class="far fa-phone"></i> Rol: admin</p>

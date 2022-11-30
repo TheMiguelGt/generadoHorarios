@@ -214,6 +214,14 @@ def CoordinaSignUp(request):
 @method_decorator(login_required, name="dispatch")
 class CoordinaView(TemplateView):
     template_name = "usuarios/coordina_update.html"
+    
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
+        context['admin'] = Admin.objects.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        return context
 
 def coordina_upload(request):
     pages = Page.objects.all()
