@@ -237,7 +237,39 @@
                         {% endif %}
                     </div>
                     <div class="profile-photo">
-                        <a href="{% url 'usuarios:profile_view' %}"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt=""></a>
+                        <a href="{% url 'usuarios:profile_view' %}">
+                            {% if request.user.is_admin or request.user.is_staff %}
+                                {% for owo in admin %}
+                                {% if user.id == owo.user_id %}
+                                    {% if owo.admin_profile_pic %}
+                                    <img src="{{owo.admin_profile_pic.url}}" class="img" alt="">
+                                    {% else %}
+                                    <img src="{% static 'usuarios/img/imgUser.png' %}" class="img" alt="">
+                                    {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                            {% elif request.user.is_coordina %}
+                                {% for owo in coordina %}
+                                    {% if user.id == owo.user_id %}
+                                        {% if owo.coordina_profile_pic %}
+                                        <img src="{{owo.coordina_profile_pic.url}}" class="img" alt="">
+                                        {% else %}
+                                        <img src="{% static 'usuarios/img/imgUser.png' %}" class="img" alt="">
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% elif request.user.is_docente %}
+                                {% for owo in docente %}
+                                    {% if user.id == owo.user_id %}
+                                        {% if owo.docente_profile_pic %}
+                                        <img src="{{owo.docente_profile_pic.url}}" class="img" alt="">
+                                        {% else %}
+                                        <img src="{% static 'usuarios/img/imgUser.png' %}" class="img" alt="">
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </a>
                     </div>
                 </div>
             </div>  
@@ -250,6 +282,13 @@
                         {% for r in page_obj %}
                         <div class="update">
                             <div class="profile-photo">
+                                {% if request.user.is_admin or request.user.is_staff %}
+                                    {% for awa in admin %}
+                                        {% if r.history_user_id == awa.user_id %}
+                                            
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                                 <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
                             </div>
                             <div class="message">

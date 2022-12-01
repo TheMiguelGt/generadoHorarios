@@ -165,7 +165,7 @@ class AdminListView(ListView):
 class AdminUpView(UpdateView):
     model = Admin
     fields = ['email','admin_profile_pic']
-    success_url = reverse_lazy('usuarios:admin_update')
+    success_url = reverse_lazy('usuarios:profile_view')
     template_name = "usuarios/admin_detail_page.html"
     
     def get_object(self):
@@ -252,7 +252,7 @@ def CoordinaSignUp(request):
 class CoordinaUpView(UpdateView):
     model = Coordina
     fields = ['email','coordina_profile_pic']
-    success_url = reverse_lazy('usuarios:coordina_profile')
+    success_url = reverse_lazy('usuarios:profile_view')
     template_name = "usuarios/coordina_update.html"
     
     def get_object(self):
@@ -399,6 +399,27 @@ def DocenteSignUp(request):
         docente_profile_form = DocenteProfileForm()
     
     return render(request,'usuarios/docente_signup.html',{'user_form':user_form,'docente_profile_form':docente_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
+
+@method_decorator(login_required, name="dispatch")
+class DocenteUpView(UpdateView):
+    model = Docente
+    fields = ['email','docente_profile_pic']
+    success_url = reverse_lazy('usuarios:profile_view')
+    template_name = "usuarios/docente_update.html"
+    
+    def get_object(self):
+        profile,create = Docente.objects.get_or_create(user=self.request.user)
+        return profile
+    
+    def get_context_data(self, **kwargs):
+        context = super(DocenteUpView,self).get_context_data(**kwargs)
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        return context
 
 def docente_upload(request):
     pages = Page.objects.all()

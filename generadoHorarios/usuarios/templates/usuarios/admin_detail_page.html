@@ -4,53 +4,58 @@
 <thead>
   <tr>
       <th>
-        <div class="profile">
-          <img src="{% static 'images/profile-background-3.PNG' %}" alt="">
-          <div class="profile-box">
-            {% if student.student_profile_pic %}
-              <img src="">
-            {% else %}
-              <img src="{% static 'usuarios/img/imgUser.png' %}" alt="">
-            {% endif %}
-            <div class="profile-details">
-              <h1>{{ student.name }}</h1>
-              <br>
-              <p><i class="far fa-user"></i> Username: {{ admin.user.username }}</p>
-              <p><i class="far fa-phone"></i> Phone: {{ admin.phone }}</p>
-              {% if request.user.is_admin %}
-              <p><i class="far fa-phone"></i> Rol: admin</p>
-              {% else %}
-              <p><i class="far fa-phone"></i> Rol: popo</p>
-              {% endif %}
-              <p><i class="far fa-envelope-open-text"></i> Email ID: {{ admin.email }}</p>
-              
-            </div>
+        <form action="" method="post" enctype="multipart/form-data">
+          <div class="profile-card">
+              <div class="profile-header">
+                  <img src="{% static 'core/img/fullunedl.jpg' %}" class="img" alt="">
+              </div>
+              <div class="profile-body">
+                    <div class="author-img">
+                      {% if request.user.is_admin or request.user.is_staff %}
+                        {% for owo in admin %}
+                          {% if user.id == owo.user_id %}
+                            {% if owo.admin_profile_pic %}
+                              <img src="{{owo.admin_profile_pic.url}}" class="img" alt="">
+                            {% else %}
+                              <img src="{% static 'usuarios/img/imgUser.png' %}" class="img" alt="">
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <div class="name">
+                      {% comment %} HACER UN LOOP HASTA CONSEGUIR EL ADMIN {% endcomment %}
+                      {% if request.user.is_admin or request.user.is_staff %}
+                          {% for awa in admin %}
+                              {% if user.id == awa.user_id %}
+                                  {{awa.nombre}} {{awa.apepat}} {{awa.apemat}}
+                              {% endif %}
+                          {% endfor %}
+                      {% comment %} HACER UN LOOP HASTA CONSEGUIR EL COORDINADOR {% endcomment %}
+                      {% endif %}
+                    </div>
+                    <div class="intro">
+                      <p><b></b></p>
+                      {% for awa in admin %}
+                        {% if user.id == awa.user_id %}
+                          <p><b>Email</b> <input type="text" name="email" id="email" class="txt-all" placeholder="{{awa.email}}" value="{{awa.email}}"></p>
+                          <br>
+                          <p><input type="file" name="admin_profile_pic" id="admin_profile_pic" /></p>
+                        {% endif %}
+                      {% endfor %} 
+                    </div>
+                    <div class="social-icon">
+                        <ul>
+                            <li>
+                                <input type="submit" class="up-Profile" value="Actualizar perfil" />
+                            </li>
+                        </ul>
+                    </div>
+              </div>
           </div>
-        </div>
+        </form>
       </th>
   </tr>
 </thead>
-{% comment %} <div class="profile">
-    <img src="{% static 'images/profile-background-3.PNG' %}" alt="">
-    <div class="profile-box">
-      {% if student.student_profile_pic %}
-        <img src="">
-      {% else %}
-        <img src="{% static 'usuarios/img/imgUser.png' %}" alt="">
-      {% endif %}
-      <div class="profile-details">
-        <h1>{{ student.name }}</h1>
-        <br>
-        <p><i class="far fa-user"></i> Username: {{ admin.user.username }}</p>
-        <p><i class="far fa-phone"></i> Phone: {{ admin.phone }}</p>
-        {% if request.user.is_admin %}
-        <p><i class="far fa-phone"></i> Rol: admin</p>
-        {% else %}
-        <p><i class="far fa-phone"></i> Rol: popo</p>
-        {% endif %}
-        <p><i class="far fa-envelope-open-text"></i> Email ID: {{ admin.email }}</p>
-        <a href="{% url 'usuarios:admin_update'%}"> <p class="edit-button">Edit Profile</p> </a> 
-      </div>
-    </div>
-  </div> {% endcomment %}
+
 {% endblock table %}
