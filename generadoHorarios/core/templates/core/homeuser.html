@@ -205,7 +205,27 @@
                 </div>
                 <div class="profile">
                     <div class="info">
-                        <p>Hola!<b> {{user.username}}<b></p>
+                        <p>Hola!<b>
+                                    {% if request.user.is_staff or request.user.is_admin %}
+                                        {% for awa in admin %}
+                                            {% if user.id == awa.user_id %}
+                                                {{awa.nombre}} 
+                                            {% endif %}
+                                        {% endfor %}
+                                    {%elif request.user.is_coordina %}
+                                        {% for awa in coordina %}
+                                            {% if user.id == awa.user_id %}
+                                                {{awa.nombre}} 
+                                            {% endif %}
+                                        {% endfor %}
+                                    {%elif request.user.is_docente %}
+                                        {% for awa in docente %}
+                                            {% if user.id == awa.user_id %}
+                                                {{awa.nombre}} 
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                <b></p>
                         {% if request.user.is_staff or request.user.is_admin %}
                             <small class="text-muted">Admin</small>
                         {%elif request.user.is_coordina %}
@@ -217,7 +237,7 @@
                         {% endif %}
                     </div>
                     <div class="profile-photo">
-                        <a href="{% url 'usuarios:coordina_profile' %}"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt=""></a>
+                        <a href="{% url 'usuarios:profile_view' %}"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt=""></a>
                     </div>
                 </div>
             </div>  

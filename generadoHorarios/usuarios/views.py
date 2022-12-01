@@ -37,10 +37,26 @@ from django.contrib.auth.hashers import make_password, check_password #mostrar o
 
 
 # Create your views here.
+# ------------ PERFIL DE USUARIO ---------------
+@method_decorator(login_required, name="dispatch")
+class ProfileView(TemplateView):
+    template_name = "usuarios/profile_view.html"
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        return context
 
 # ----------------Horario------------------
 #tabla del horario
 def horarioEsc(request):
+    admin = Admin.objects.all()
+    coordina = Coordina.objects.all()
+    docente = Docente.objects.all()
     dias = Dia.objects.all().order_by('id').distinct()
     print(dias.query)
     horas = Hora.objects.all().order_by('id').distinct()
@@ -48,9 +64,11 @@ def horarioEsc(request):
     pubs = Disponibilidad.objects.select_related('dia','hora','docente').annotate(tot=Count('hora')).order_by('hora__id','dia__id')
     print(pubs.query)
     context = {
+        'admin':admin,
+        'coordina':coordina,
+        'docente':docente,
         'dias':dias,
         'horas':horas,
-        # 'dispo':dispo,
         'pubs':pubs,
     }
     return render(request,'usuarios/horario.html',context)
@@ -78,6 +96,9 @@ def AdminSignUp(request):
     pages = Page.objects.all()
     disponi = Disponibilidad.objects.all()
     matedo = DocenteMateria.objects.all()
+    admin = Admin.objects.all()
+    coordina = Coordina.objects.all()
+    docente = Docente.objects.all()
     
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
@@ -110,7 +131,7 @@ def AdminSignUp(request):
             data['error'] = str(e)
         return JsonResponse(data)
     
-    return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
+    return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
 #Admin list view
 class AdminListView(ListView):
@@ -130,11 +151,35 @@ class AdminListView(ListView):
         return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
+        context = super(AdminListView,self).get_context_data(**kwargs)
         context['title'] = 'Listado de administradores'
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        return context
+    
+@method_decorator(login_required, name="dispatch")
+class AdminUpView(UpdateView):
+    model = Admin
+    fields = ['email','admin_profile_pic']
+    success_url = reverse_lazy('usuarios:admin_update')
+    template_name = "usuarios/admin_detail_page.html"
+    
+    def get_object(self):
+        profile, created = Admin.objects.get_or_create(user=self.request.user)
+        return profile
+    
+    def get_context_data(self, **kwargs):
+        context = super(AdminUpView,self).get_context_data(**kwargs)
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 def adminList(request):
@@ -145,37 +190,26 @@ def adminList(request):
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'usuarios/admin_list.html',{'searched':searched,'adm':adm,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'usuarios/admin_list.html',{'searched':searched,'adm':adm,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else: 
         model = Admin.objects.all()
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'usuarios/admin_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'usuarios/admin_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
 class AdminDetailView(LoginRequiredMixin,DetailView):
     context_object_name = "admin"
     model = models.Admin
     template_name = 'usuarios/admin_detail_page.html'
 
-@login_required
-def AdminUpdateView(request,pk):
-    pages = Page.objects.all()
-    disponi = Disponibilidad.objects.all()
-    matedo = DocenteMateria.objects.all()
-    profile_updated = False
-    
-    if request.method == "POST":
-        form = AdminProfileIUpdateForm(data = request.POST)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            if 'admin_profile_pic' in request.FILES:
-                profile.admin_profile_pic = request.FILES['admin_profile_pic']
-            profile.save()
-            profile_updated = True
-    else:
-        form = AdminProfileIUpdateForm()
-    return render(request,'usuarios/admin_update.html',{'profile_updated':profile_updated,'form':form,'pages':pages,'disponi':disponi,'matedo':matedo})
+
 # ----------------COORDINADOR------------------
 
 #creation profile coordina
@@ -185,6 +219,9 @@ def CoordinaSignUp(request):
     pages = Page.objects.all()
     disponi = Disponibilidad.objects.all()
     matedo = DocenteMateria.objects.all()
+    admin = Admin.objects.all()
+    coordina = Coordina.objects.all()
+    docente = Docente.objects.all()
     
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
@@ -209,24 +246,36 @@ def CoordinaSignUp(request):
         user_form = UserForm()
         coordina_profile_form = CoordinaProfileForm()
     
-    return render(request,'usuarios/coordina_signup.html',{'user_form':user_form,'coordina_profile_form':coordina_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
+    return render(request,'usuarios/coordina_signup.html',{'user_form':user_form,'coordina_profile_form':coordina_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
 @method_decorator(login_required, name="dispatch")
-class CoordinaView(TemplateView):
+class CoordinaUpView(UpdateView):
+    model = Coordina
+    fields = ['email','coordina_profile_pic']
+    success_url = reverse_lazy('usuarios:coordina_profile')
     template_name = "usuarios/coordina_update.html"
     
+    def get_object(self):
+        profile, created = Coordina.objects.get_or_create(user=self.request.user)
+        return profile
+    
     def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
-        context['admin'] = Admin.objects.all()
+        context = super(CoordinaUpView,self).get_context_data(**kwargs)
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
 def coordina_upload(request):
     pages = Page.objects.all()
     disponi = Disponibilidad.objects.all()
     matedo = DocenteMateria.objects.all()
+    admin = Admin.objects.all()
+    coordina = Coordina.objects.all()
+    docente = Docente.objects.all()
     
     if request.method == "POST":
         coordina_resource = CoordinaResources()
@@ -264,7 +313,7 @@ def coordina_upload(request):
             )
             value.save()
             value2.save()
-    return render(request,'usuarios/coordina_file.html',{'pages':pages,'disponi':disponi,'matedo':matedo})
+    return render(request,'usuarios/coordina_file.html',{'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
 #list all corrdinators users
 class CoordinaListView(ListView):
@@ -279,13 +328,19 @@ def coordinaList(request):
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'usuarios/coordina_list.html',{'searched':searched,'cor':cor,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'usuarios/coordina_list.html',{'searched':searched,'cor':cor,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         model = Coordina.objects.all()
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'usuarios/coordina_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'usuarios/coordina_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
 #delete coordinatior user
 @method_decorator(login_required, name='dispatch')
@@ -300,6 +355,16 @@ class CoordinaDelete(DeleteView):
     def dispatch(self,request,*args,**kwargs):
         self.object = self.get_object()
         return super().dispatch(request,*args,**kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super(CoordinaDelete,self).get_context_data(**kwargs)
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        return context
 
 #docente profile coordina
 def DocenteSignUp(request):
@@ -308,6 +373,9 @@ def DocenteSignUp(request):
     pages = Page.objects.all()
     disponi = Disponibilidad.objects.all()
     matedo = DocenteMateria.objects.all()
+    admin = Admin.objects.all()
+    coordina = Coordina.objects.all()
+    docente = Docente.objects.all()
     
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
@@ -330,12 +398,15 @@ def DocenteSignUp(request):
         user_form = UserForm()
         docente_profile_form = DocenteProfileForm()
     
-    return render(request,'usuarios/docente_signup.html',{'user_form':user_form,'docente_profile_form':docente_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
+    return render(request,'usuarios/docente_signup.html',{'user_form':user_form,'docente_profile_form':docente_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
 def docente_upload(request):
     pages = Page.objects.all()
     disponi = Disponibilidad.objects.all()
     matedo = DocenteMateria.objects.all()
+    admin = Admin.objects.all()
+    coordina = Coordina.objects.all()
+    docente = Docente.objects.all()
     
     if request.method == "POST":
         docente_resource = DocenteResources()
@@ -373,7 +444,7 @@ def docente_upload(request):
             )
             value.save()
             value2.save()
-    return render(request,'usuarios/docente_file.html',{'pages':pages,'disponi':disponi,'matedo':matedo})
+    return render(request,'usuarios/docente_file.html',{'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
 #list all docente users
 class DocenteListView(ListView):
@@ -388,13 +459,19 @@ def docenteList(request):
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'usuarios/docente_list.html',{'searched':searched,'doc':doc,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'usuarios/docente_list.html',{'searched':searched,'doc':doc,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         model = Docente.objects.all()
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'usuarios/docente_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'usuarios/docente_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
 #docente profile coordina
 def AlumnoSignUp(request):

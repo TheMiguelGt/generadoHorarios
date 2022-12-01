@@ -7,6 +7,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from institucion.models import Aula, Plantel,Licenciatura, Semestre
 from .forms import PlantelForms,LicenciaturaForms,AulaForms,SemestreForms
 from pages.models import Page,Disponibilidad,DocenteMateria
+from usuarios.models import Admin,Coordina,Docente
 from django.shortcuts import render
 from django.db.models import Q
 
@@ -38,17 +39,34 @@ def plantelList(request):
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'institucion/plantel_list.html',{'searched':searched,'plant':plant,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'institucion/plantel_list.html',{'searched':searched,'plant':plant,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         model = Plantel.objects.all()
         history_list = Plantel.history.all()
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'institucion/plantel_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'institucion/plantel_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
         
 class PlantelDetailView(DetailView):
     model = Plantel
+    
+    def get_context_data(self, **kwargs):
+        context = super(PlantelDetailView,self).get_context_data(**kwargs)
+        context['history_list'] = Plantel.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        return context
 
 class PlantelCreate(CreateView):
     model = Plantel
@@ -61,6 +79,9 @@ class PlantelCreate(CreateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
 class PlantelUpdate(UpdateView):
@@ -74,6 +95,9 @@ class PlantelUpdate(UpdateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
     def get_success_url(self):
@@ -89,6 +113,9 @@ class PlantelDelete(DeleteView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 # END OF PLANTELES
 
@@ -102,6 +129,9 @@ class LicenciaturaListView(ListView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 def licenciaturaList(request):
@@ -113,14 +143,20 @@ def licenciaturaList(request):
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'institucion/licenciatura_list.html',{'searched':searched,'model':model,'licen':licen,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'institucion/licenciatura_list.html',{'searched':searched,'model':model,'licen':licen,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         model = Licenciatura.objects.all()
         history_list = Licenciatura.history.select_related('plantel')
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'institucion/licenciatura_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'institucion/licenciatura_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
         
 class LicenciaturaDetailView(DetailView):
     model = Licenciatura
@@ -136,6 +172,9 @@ class LicenciaturaCreate(CreateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 class LicenciaturaUpdate(UpdateView):
@@ -149,6 +188,9 @@ class LicenciaturaUpdate(UpdateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
     def get_success_url(self):
@@ -164,6 +206,9 @@ class LicenciaturaDelete(DeleteView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 # END OF LICENCIATURA
 
@@ -189,14 +234,20 @@ def aulaList(request):
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'institucion/aula_list.html',{'searched':searched,'aul':aul,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'institucion/aula_list.html',{'searched':searched,'aul':aul,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         history_list = Aula.history.select_related('plantel')
         model = Aula.objects.all()
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'institucion/aula_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'institucion/aula_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     
 # class AulaDetailView(DetailView):
 #     model = Aula
@@ -212,6 +263,9 @@ class AulaCreate(CreateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 class AulaUpdate(UpdateView):
@@ -225,6 +279,9 @@ class AulaUpdate(UpdateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
     def get_success_url(self):
@@ -240,6 +297,9 @@ class AulaDelete(DeleteView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
 # START OF semestre
@@ -256,6 +316,9 @@ class SemestreListView(ListView):
         return context
     
 def semestreList(request):
+    admin = Admin.objects.all()
+    coordina = Coordina.objects.all()
+    docente = Docente.objects.all()
     if request.method == "POST":
         searched = request.POST['searched']
         seme = Semestre.objects.filter(Q(semestre__icontains=searched) | Q(licenciatura__licenciatura__icontains=searched))
@@ -264,14 +327,14 @@ def semestreList(request):
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'institucion/semestre_list.html',{'searched':searched,'seme':seme,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        return render(request,'institucion/semestre_list.html',{'searched':searched,'seme':seme,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         history_list = Semestre.history.select_related('licenciatura')
         model = Semestre.objects.all()
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'institucion/semestre_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        return render(request,'institucion/semestre_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
         
 class SemestreCreate(CreateView):
     model = Semestre
@@ -284,6 +347,9 @@ class SemestreCreate(CreateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
 class SemestreUpdate(UpdateView):
@@ -297,6 +363,9 @@ class SemestreUpdate(UpdateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
     def get_success_url(self):
@@ -312,6 +381,9 @@ class SemestreDelete(DeleteView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
     

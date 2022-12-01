@@ -24,6 +24,13 @@ class HomeUserView(TemplateView): #se crea una clase para poder hacer la vista d
     
     def get(self, request, *args, **kwargs):#importante traer los argumentos y clave valor
         return render(request,self.template_name,{'title':'UserView'})
+    
+    def get_context_data(self, **kwargs):
+        context = super(HomeUserView, self).get_context_data(**kwargs)
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        return context
 
 def homePage2View(request):
     histo = Page.history.all()
@@ -32,7 +39,6 @@ def homePage2View(request):
     disponi = Disponibilidad.objects.all()
     matedo = DocenteMateria.objects.all()
     
-
     print(pages.query)
     page_number = request.GET.get('homeUser')
     page_obj = paginator.get_page(page_number)

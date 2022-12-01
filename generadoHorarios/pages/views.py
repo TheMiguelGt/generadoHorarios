@@ -15,6 +15,7 @@ from django.shortcuts import redirect
 from itertools import chain
 from operator import attrgetter
 from .models import Disponibilidad, Page,DocenteMateria,Dia,Hora
+from usuarios.models import Admin,Coordina,Docente
 from .forms import PageForms,DoceMateForms,DispoForms
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -38,6 +39,9 @@ class PageListView(ListView):#listar
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
     def post(self,request,*args,**kwargs):
@@ -61,17 +65,23 @@ def pageListSearch(request):
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'pages/page_list_search.html',{'searched':searched,'page_Search':page_Search,'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'pages/page_list_search.html',{'searched':searched,'page_Search':page_Search,'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         page_obj = Page.history.all()
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
         paginator = Paginator(pages,8)
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
         
         page_number = request.GET.get('pages')
         owo_list = paginator.get_page(page_number)
-        return render(request,'pages/page_list_search.html',{'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'owo_list':owo_list})
+        return render(request,'pages/page_list_search.html',{'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'owo_list':owo_list,'admin':admin,'coordina':coordina,'docente':docente})
     
 class PageDetailView(DetailView):#ver detalles
     model = Page
@@ -106,6 +116,9 @@ class PageCreate(SuccessMessageMixin, CreateView):#crear
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         context['action'] = 'add'
         context['list_url'] = '/mate/materia/'
         
@@ -123,6 +136,9 @@ class PageUpdate(UpdateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
     def get_success_url(self): #mostrar el formulario para ver los cambios
@@ -140,6 +156,9 @@ class PageDelete(DeleteView):#eliminar
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 #create docente materia
@@ -151,18 +170,24 @@ def DoceMateListView(request):#listar
         histo = DocenteMateria.history.select_related('materia','docente')
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
-        return render(request,'pages/docentemateria_list.html',{'searched':searched,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'pages/docentemateria_list.html',{'searched':searched,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         model = DocenteMateria.objects.all()
         histo = DocenteMateria.history.select_related('materia','docente')
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
         paginator = Paginator(histo,3)
         
         page_number = request.GET.get('docemates')
         page_obj = paginator.get_page(page_number)
-        return render(request,'pages/docentemateria_list.html',{'page_obj':page_obj,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo})
+        return render(request,'pages/docentemateria_list.html',{'page_obj':page_obj,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo,'admin':admin,'coordina':coordina,'docente':docente})
     # paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3
 
 class DoceMateDetail(DetailView):
@@ -178,6 +203,9 @@ class DoceMateCreate(CreateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
     def get_context_data(self,**kwargs): 
@@ -186,6 +214,9 @@ class DoceMateCreate(CreateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         context['action'] = 'add'
         context['list_url'] = '/mate/materia/'
         
@@ -202,6 +233,9 @@ class DoceMateUpdate(UpdateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context 
     
     def get_success_url(self):
@@ -217,6 +251,9 @@ class DoceMateDelete(DeleteView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context 
     
 #Disponibilidad de horario docente
@@ -230,6 +267,9 @@ class DispoListView(ListView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 def dispoListSearch(request):
@@ -241,14 +281,20 @@ def dispoListSearch(request):
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'pages/disponibilidad_list.html',{'searched':searched,'disdo':disdo,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'pages/disponibilidad_list.html',{'searched':searched,'disdo':disdo,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         model = Disponibilidad.objects.all()
         history_list = Disponibilidad.history.select_related('docente','dia','hora')
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'pages/disponibilidad_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        return render(request,'pages/disponibilidad_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     
 class DispoCreate(CreateView):
     model = Disponibilidad
@@ -261,6 +307,9 @@ class DispoCreate(CreateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 class DispoUpdate(UpdateView):
@@ -274,6 +323,9 @@ class DispoUpdate(UpdateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
     def get_success_url(self):
@@ -289,6 +341,9 @@ class DispoDelete(DeleteView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 class DiaList(ListView):
@@ -301,6 +356,9 @@ class DiaList(ListView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
 #Horario
