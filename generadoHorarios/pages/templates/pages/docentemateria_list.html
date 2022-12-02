@@ -25,7 +25,21 @@
 {% for r in histo %}
 <div class="update">
   <div class="profile-photo">
-      <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+    {% for awa in admin %}
+        {% if r.history_user_id == awa.user_id %}
+            <img {% if awa.admin_profile_pic %} src="{{awa.admin_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+        {% endif %}
+    {% endfor %}
+    {% for owo in coordina %}
+        {% if r.history_user_id == owo.user_id %}
+            <img {% if owo.coordina_profile_pic %} src="{{owo.coordina_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+        {% endif %}
+    {% endfor %}
+    {% for ewe in docente %}
+        {% if r.history_user_id == ewe.user_id %}
+            <img {% if ewe.docente_profile_pic %} src="{{ewe.docente_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+        {% endif %}
+    {% endfor %}
   </div>
   <div class="message">
       <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito la {% endif %} {{r.materia}} con {{r.docente}}<p>
