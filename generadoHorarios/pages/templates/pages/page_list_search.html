@@ -47,6 +47,7 @@
         </div>
     </div>
 {% endfor %}
+
 {% endif %}
 {% endblock history %}
 
@@ -106,6 +107,21 @@
             {% endif %}
         </tr>
         {% endfor %}
+        <tr>
+            <td>
+                <span class="step-links pagination">
+                    {% if page_Search.has_previous %}
+                        <a href="?pages:pages={{ page_Search.previous_page_number }}"> previous </a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ page_Search.number }} of {{ page_Search.paginator.num_pages }}
+                    </span>
+                    {% if page_Search.has_next %}
+                        <a href="?pages:pages={{ page_Search.next_page_number }}"> next </a>
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
     </tbody>
 {% else %}
 <thead>
@@ -122,7 +138,7 @@
     </tr>
 </thead>
 <tbody>
-    {% for page in pages|dictsort:"id" %}
+    {% for page in pagess|dictsort:"id" %}
         <tr>
             {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
             <td class="">{{forloop.counter}}</td>
@@ -142,6 +158,21 @@
                 {% endif %} {% endcomment %}
         </tr>
     {% endfor %}
+    <tr>
+        <td>
+            <span class="step-links pagination">
+                {% if pagess.has_previous %}
+                    <a href="?pages:pages={{ pagess.previous_page_number }}"> previous </a>
+                {% endif %}
+                <span class="current">
+                    Page {{ pagess.number }} of {{ pagess.paginator.num_pages }}
+                </span>
+                {% if pagess.has_next %}
+                    <a href="?pages:pages={{ pagess.next_page_number }}"> next </a>
+                {% endif %}
+            </span>
+        </td>
+    </tr>
 </tbody>
 {% endif %}
 {% endif %}

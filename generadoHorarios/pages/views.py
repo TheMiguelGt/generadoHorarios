@@ -17,7 +17,7 @@ from operator import attrgetter
 from .models import Disponibilidad, Page,DocenteMateria,Dia,Hora
 from usuarios.models import Admin,Coordina,Docente
 from .forms import PageForms,DoceMateForms,DispoForms
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
@@ -68,20 +68,59 @@ def pageListSearch(request):
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()
         docente = Docente.objects.all()
+        
+        # Paginate historical
+        paginator = Paginator(page_obj,3)
+        page = request.GET.get('pages')
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+            
+        # Paginate pages
+        paginator1 = Paginator(page_Search,5)
+        page1 = request.GET.get('pages:pages')
+        try:
+            page_Search = paginator1.page(page1)
+        except PageNotAnInteger:
+            page_Search = paginator1.page(1)
+        except EmptyPage:
+            page_Search = paginator1.page(paginator.num_pages)
+        
         return render(request,'pages/page_list_search.html',{'searched':searched,'page_Search':page_Search,'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
-        page_obj = Page.history.all()
+        page_obj = Page.history.all()    
         pages = Page.objects.all()
+        pagess = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        paginator = Paginator(pages,8)
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()
         docente = Docente.objects.all()
         
-        page_number = request.GET.get('pages')
-        owo_list = paginator.get_page(page_number)
-        return render(request,'pages/page_list_search.html',{'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'owo_list':owo_list,'admin':admin,'coordina':coordina,'docente':docente})
+        # Paginate historical
+        paginator = Paginator(page_obj,3)
+        page = request.GET.get('pages')
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+            
+        # Paginate pages
+        paginator = Paginator(pagess,5)
+        page = request.GET.get('pages:pages')
+        try:
+            pagess = paginator.page(page)
+        except PageNotAnInteger:
+            pagess = paginator.page(1)
+        except EmptyPage:
+            pagess = paginator.page(paginator.num_pages)
+        
+        return render(request,'pages/page_list_search.html',{'page_obj':page_obj,'pages':pages,'pagess':pagess,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     
 class PageDetailView(DetailView):#ver detalles
     model = Page
