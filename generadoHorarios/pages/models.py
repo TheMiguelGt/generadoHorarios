@@ -46,8 +46,8 @@ class Dia(models.Model):
         return template.format(self)
 
 class Hora(models.Model):
-    iniHora = models.CharField(max_length=45)
-    finHora = models.CharField(max_length=45)
+    iniHora = models.CharField(max_length=45,unique=True)
+    finHora = models.CharField(max_length=45,unique=True)
     history = HistoricalRecords()
 
     class Meta:

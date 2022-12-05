@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Docente materia{% endblock title %} 
 {% block subtitle %}Docente materia{% endblock subtitle %}
-{% block activi %}en docente materia{% endblock activi %}
+{% block activi %}Acciones recientes{% endblock activi %}
 {% block tabletitle %}Listado de materias del docente{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia al docente{% endblock agregarItem %}
 {% block content %}
@@ -82,7 +82,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for docemate in model %}
+        {% for docemate in model|dictsort:"id" %}
             <tr>
                 <td class="">{{forloop.counter}}</td>
                 <td class="">{{docemate.materia}}</td>
@@ -94,6 +94,18 @@
                 {% endif %}
             </tr>
         {% endfor %}
+        <tr>
+            <td>
+                <span class="step-links pagination">
+                    {% if model.has_previous %}
+                        <a href="?pages:docemates={{ model.previous_page_number }}"> < Prev </a>
+                    {% endif %}
+                    {% if model.has_next %}
+                        <a href="?pages:docemates={{ model.next_page_number }}"> Next > </a>
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
     </tbody>
 {% else %}
     <thead>
@@ -120,6 +132,18 @@
                 {% endif %}
             </tr>
         {% endfor %}
+        <tr>
+            <td>
+                <span class="step-links pagination">
+                    {% if model.has_previous %}
+                        <a href="?pages:docemates={{ model.previous_page_number }}"> < Prev </a>
+                    {% endif %}
+                    {% if model.has_next %}
+                        <a href="?pages:docemates={{ model.next_page_number }}"> Next > </a>
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
     </tbody>
 {% endif %}
 

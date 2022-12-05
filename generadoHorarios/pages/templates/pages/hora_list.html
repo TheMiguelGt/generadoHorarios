@@ -1,0 +1,111 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Horas{% endblock title %} 
+{% block subtitle %}Horas{% endblock subtitle %}
+{% block tabletitle %}Listado de horas{% endblock tabletitle %}
+{% block agregarItem %}Agregar hora{% endblock agregarItem %}
+{% block content %}
+{% include "pages/includes/pages_menu.html" %}
+
+{% endblock content %}
+
+{% block table %}
+{% if not horas %}
+<thead>
+    <tr>
+        <th><h1>No hay horas por mostrar, necesitas registrarlas</h1></th>
+    </tr>
+</thead>
+{% else %}
+    {% if messages %}
+    {% for message in messages %}
+        <div class="text-center alert alert-{{ message.tags }}">
+            {{ message|safe }}
+        </div>
+    {% endfor %}
+    {% endif %}
+<form method="POST" action="{% url 'pages:disponi' %}">
+    {% csrf_token %}
+    <div style="display:flex; margin-bottom:20px;">
+        <div style="margin-right:10px;">
+            <input type="search" id="textSearch" placeholder="Buscar hora" name="searched" />
+        </div>
+        <div>
+            <button type="submit" id="btnBuscar" ><span class="material-icons-sharp">search</span></button>
+        </div>
+    </div>
+</form>
+{% if searched %}
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>Hora de inicio</th>
+            <th>Hora final</th>
+            {% if request.user.is_staff %}
+                <th colspan="2">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for nom in hora_li %}
+            <tr>
+                <td class="">{{forloop.counter}}</td>
+                <td class="">{{nom.iniHora}}</td>
+                <td class="">{{nom.finHora}}</td>
+                {% if request.user.is_staff %}
+                    <td class=""><a class="btn-update" href="{% url 'pages:horaupdate' nom.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <span class="step-links pagination">
+                    {% if hora_li.has_previous %}
+                        <a href="?pages:horas={{ hora_li.previous_page_number }}"> < Prev </a>
+                    {% endif %}
+                    {% if hora_li.has_next %}
+                        <a href="?pages:horas={{ hora_li.next_page_number }}"> Next > </a>
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
+    </tbody>
+{% else %}
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>Hora de inicio</th>
+            <th>Hora final</th>
+            {% if request.user.is_staff %}
+                <th colspan="2">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for nom in hora_li %}
+            <tr>
+                <td class="">{{forloop.counter}}</td>
+                <td class="">{{nom.iniHora}}</td>
+                <td class="">{{nom.finHora}}</td>
+                {% if request.user.is_staff %}
+                    <td class=""><a class="btn-update" href="{% url 'pages:horaupdate' nom.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <span class="step-links pagination">
+                    {% if hora_li.has_previous %}
+                        <a href="?pages:horas={{ hora_li.previous_page_number }}"> < Prev </a>
+                    {% endif %}
+                    {% if hora_li.has_next %}
+                        <a href="?pages:horas={{ hora_li.next_page_number }}"> Next > </a>
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
+    </tbody>
+{% endif %}
+    
+{% endif %}
+{% endblock table %}

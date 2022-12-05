@@ -88,6 +88,27 @@ body{
     color: #fff;
     cursor: pointer;
 }
+/* LIST PAGINATION */
+.step-links{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.step-links a{
+    width: 80px;
+    height: 40px;
+    background-color: var(--color-background);
+    text-align: center;
+    padding: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+}
+.step-links a:hover{
+    box-shadow: none;
+}
 /* PROFILE VIEW */
 .img{
     width: 100%;

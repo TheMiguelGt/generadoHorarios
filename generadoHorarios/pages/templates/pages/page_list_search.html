@@ -3,7 +3,7 @@
 <link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
 {% block title %}Materias{% endblock title %} 
 {% block subtitle %}Materias{% endblock subtitle %}
-{% block activi %}en materias{% endblock activi %}
+{% block activi %}Acciones recientes{% endblock activi %}
 {% block tabletitle %}Listado de materias{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia{% endblock agregarItem %}
 {% block content %}
@@ -111,13 +111,10 @@
             <td>
                 <span class="step-links pagination">
                     {% if page_Search.has_previous %}
-                        <a href="?pages:pages={{ page_Search.previous_page_number }}"> previous </a>
+                        <a href="?pages:pages={{ page_Search.previous_page_number }}"> < Prev </a>
                     {% endif %}
-                    <span class="current">
-                        Page {{ page_Search.number }} of {{ page_Search.paginator.num_pages }}
-                    </span>
                     {% if page_Search.has_next %}
-                        <a href="?pages:pages={{ page_Search.next_page_number }}"> next </a>
+                        <a href="?pages:pages={{ page_Search.next_page_number }}"> Next > </a>
                     {% endif %}
                 </span>
             </td>
@@ -138,7 +135,7 @@
     </tr>
 </thead>
 <tbody>
-    {% for page in pagess|dictsort:"id" %}
+    {% for page in page_Search|dictsort:"id" %}
         <tr>
             {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
             <td class="">{{forloop.counter}}</td>
@@ -161,14 +158,11 @@
     <tr>
         <td>
             <span class="step-links pagination">
-                {% if pagess.has_previous %}
-                    <a href="?pages:pages={{ pagess.previous_page_number }}"> previous </a>
+                {% if page_Search.has_previous %}
+                    <a href="?pages:pages={{ page_Search.previous_page_number }}"> < Prev </a>
                 {% endif %}
-                <span class="current">
-                    Page {{ pagess.number }} of {{ pagess.paginator.num_pages }}
-                </span>
-                {% if pagess.has_next %}
-                    <a href="?pages:pages={{ pagess.next_page_number }}"> next </a>
+                {% if page_Search.has_next %}
+                    <a href="?pages:pages={{ page_Search.next_page_number }}"> Next > </a>
                 {% endif %}
             </span>
         </td>

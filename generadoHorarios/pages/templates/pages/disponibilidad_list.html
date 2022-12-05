@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Disponibilidad horaria{% endblock title %} 
 {% block subtitle %}Disponibilidad horaria{% endblock subtitle %}
-{% block activi %}en disponibilidad horaria{% endblock activi %}
+{% block activi %}Acciones recientes{% endblock activi %}
 {% block tabletitle %}Listado de disponibilidad horaria del docente{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia al docente{% endblock agregarItem %}
 {% block content %}
@@ -50,7 +50,7 @@
 {% endblock history %}
 
 {% block table %}
-{% if not model %}
+{% if not disponi %}
     <thead>
         <tr>
             <th><h1>El docente a&uacute;n no ha seleccionado su disponibilidad horaria</h1></th>
@@ -83,7 +83,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for disponibilidad in disdo%}
+        {% for disponibilidad in disdo|dictsort:"docente"%}
             <tr>
                 <td class="">{{forloop.counter}}</td>
                 <td class="">{{disponibilidad.dia}}</td>
@@ -95,6 +95,18 @@
                 {% endif %}
             </tr>
         {% endfor %}
+        <tr>
+            <td>
+                <span class="step-links pagination">
+                    {% if disdo.has_previous %}
+                        <a href="?pages:pages={{ disdo.previous_page_number }}"> < Prev </a>
+                    {% endif %}
+                    {% if disdo.has_next %}
+                        <a href="?pages:pages={{ disdo.next_page_number }}"> Next > </a>
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
     </tbody>
 {% else %}
     <thead>
@@ -109,7 +121,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for disponibilidad in model%}
+        {% for disponibilidad in disdo|dictsort:"docente"%}
             <tr>
                 <td class="">{{forloop.counter}}</td>
                 <td class="">{{disponibilidad.dia}}</td>
@@ -121,6 +133,18 @@
                 {% endif %}
             </tr>
         {% endfor %}
+        <tr>
+            <td>
+                <span class="step-links pagination">
+                    {% if disdo.has_previous %}
+                        <a href="?pages:pages={{ disdo.previous_page_number }}"> < Prev </a>
+                    {% endif %}
+                    {% if disdo.has_next %}
+                        <a href="?pages:pages={{ disdo.next_page_number }}"> Next > </a>
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
     </tbody>
 {% endif %}
 {% endif %}
