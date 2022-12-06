@@ -59,13 +59,13 @@
         </tr>
     </thead>
 {% else %}
-    {% if messages %}
+    {% comment %} {% if messages %}
     {% for message in messages %}
         <div class="text-center alert alert-{{ message.tags }}">
             {{ message|safe }}
         </div>
     {% endfor %}
-    {% endif %}
+    {% endif %} {% endcomment %}
 <form method="POST" action="{% url 'pages:pages' %}">
     {% csrf_token %}
     <div style="display:flex; margin-bottom:20px;">
@@ -99,8 +99,8 @@
             <td class="">{{page.clave}}</td>
             <td class="">{{page.materia}}</td>
             <td class="">{{page.carga}}</td>
-            <td class=""></td>
-            <td class=""></td>
+            <td class="">{{page.grupo}}</td>
+            <td class="">{{page.aula}}</td>
             {% if request.user.is_staff %}
                 <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                 <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
@@ -142,8 +142,8 @@
             <td class="">{{page.clave}}</td>
             <td class="">{{page.materia}}</td>
             <td class="">{{page.carga}}</td>
-            <td class=""></td>
-            <td class=""></td>
+            <td class="">{{page.grupo}}</td>
+            <td class="">{{page.aula}}</td>
             {% if request.user.is_staff %}
                 <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                 <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>

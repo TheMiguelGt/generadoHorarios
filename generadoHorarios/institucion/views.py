@@ -101,7 +101,8 @@ class PlantelUpdate(UpdateView):
         return context
     
     def get_success_url(self):
-        return reverse_lazy('pages:planupdate',args=[self.object.id]) + '?ok'
+        success_url = reverse_lazy('planteles:planteles')
+        return success_url
     
 class PlantelDelete(DeleteView):
     model = Plantel

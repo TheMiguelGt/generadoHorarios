@@ -10,7 +10,7 @@
 {% endblock content %}
 
 {% block table %}
-{% if dia_nom.count == 0 %}
+{% if not object_list %}
 <thead>
     <tr>
         <th><h1>No hay d&iacute;as por mostrar, necesitas registrarlas</h1></th>

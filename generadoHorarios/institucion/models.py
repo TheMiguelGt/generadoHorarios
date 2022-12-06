@@ -39,6 +39,16 @@ class Semestre(models.Model):
 
     def __str__(self):
         return self.semestre,self.licenciatura
+    
+class Ciclo(models.Model):
+    ciclo = models.CharField(max_length=5)
+    history = HistoricalRecords()
+    
+    class Meta:
+        db_table = 'institucion_ciclo'
+        
+    def __str__(self):
+        return self.ciclo
 
 class Aula(models.Model):
     clave = models.CharField(max_length=10,null=False,unique=True)
@@ -50,7 +60,7 @@ class Aula(models.Model):
         db_table = 'institucion_aula'
 
     def __str__(self):
-        template = '{0.clave} en {0.plantel}'
+        template = '{0.clave}'
         return template.format(self)
 
 

@@ -3,7 +3,7 @@ from tabnanny import verbose
 from turtle import update
 from django.db import models
 from ckeditor.fields import RichTextField 
-from institucion.models import Aula
+from institucion.models import Aula,Licenciatura,Ciclo,Semestre
 from usuarios.models import Docente
 from simple_history.models import HistoricalRecords
 
@@ -13,6 +13,8 @@ class Page(models.Model):
     clave = models.CharField(max_length=10,null=False,unique=True)
     materia = models.CharField(max_length=45, verbose_name="Nombre de la materia")
     carga = models.IntegerField(null=False)
+    grupo = models.IntegerField(null=False)
+    aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE)
     history = HistoricalRecords()
 
     class Meta:
@@ -26,6 +28,9 @@ class DocenteMateria(models.Model):
     materia = models.ForeignKey(Page,null=False,on_delete=models.CASCADE,related_name='matdoce')
     docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE,related_name='docedoce')
     aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE,related_name='auladoce')
+    semestre = models.ForeignKey(Semestre,null=False,on_delete=models.CASCADE,related_name='seme')
+    licenciatura = models.ForeignKey(Licenciatura,null=False,on_delete=models.CASCADE)
+    ciclo = models.ForeignKey(Ciclo,null=False,on_delete=models.CASCADE)
     history = HistoricalRecords()
 
     class Meta:
@@ -61,6 +66,9 @@ class Disponibilidad(models.Model):
     docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE,related_name='doces')
     dia = models.ForeignKey(Dia,null=False,on_delete=models.CASCADE,related_name='days')
     hora = models.ForeignKey(Hora,null=False,on_delete=models.CASCADE,related_name='hours')
+    semestre = models.ForeignKey(Semestre,null=False,on_delete=models.CASCADE,related_name='sem')
+    licenciatura = models.ForeignKey(Licenciatura,null=False,on_delete=models.CASCADE,related_name='licen')
+    ciclo = models.ForeignKey(Ciclo,null=False,on_delete=models.CASCADE,related_name='cic') 
     history = HistoricalRecords()
 
     class Meta:

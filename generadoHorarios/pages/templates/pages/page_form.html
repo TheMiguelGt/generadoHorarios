@@ -15,44 +15,8 @@
 
 
 <script>
-  {% if form.errors %}
-  var errors = '';
-    {% for field in form %}
-      {% for error in field.errors %}
-        errors+='{{ error }}\n';
-      {% endfor %}
-    {% endfor %}
-      Swal.fire({
-        title: 'Error!',
-        text: errors,
-        icon: 'error',
-      })
-  {% endif %}
   
-  $('form').on('submit', function (e){
-    e.preventDefault();
-    var parameters = $(this).serializeArray();
-    console.log(parameters);
-    $.ajax({
-      url: '{% url 'pages:create' %}',
-      type: 'POST',
-      data: parameters,
-      dataType: 'json'
-    }).done(function (data){
-      console.log(data);
-      if(!data.hasOwnProperty('error')){
-        location.href = '{{list_url}}';
-        return false;
-      }
-      message_error(data.error);
-    }).fail(function(jqXHR, textStatus, errorThrown){
-      alert(textStatus + ': ' + errorThrown);
-    }).always(function(data){
-  
-    });
-  });
-
-  </script>
+</script>
 
 
   {% if messages %}
@@ -83,6 +47,20 @@
     <tr>
       <td class="" style="border-bottom: 0px solid black;"><labe ><b>Carga</b></label></td>
       <td class="" ><input type="number" name="carga" class="txt-all" placeholder="Carga horaria"></td>
+    </tr>
+    <tr>
+      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Grupo</b></label></td>
+      <td class="" ><input type="number" name="grupo" class="txt-all" placeholder="Grupo"></td>
+    </tr>
+    <tr>
+      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Aula</b></label></td>
+      <td class="" ><select name="aula" id="aula" onChange="awa();">
+                        <option value="">Selecciona</option>
+                        {% for awa in aul %}
+                          <option value="{{awa.id}}">{{page.aula}}</option>
+                        {% endfor %}
+                    </select>
+      </td>
     </tr>
     <tr>
       <td colspan="2"><input type="submit" class="btn-enviar"  value="Crear materia" /></td>

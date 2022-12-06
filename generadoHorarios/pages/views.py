@@ -16,6 +16,7 @@ from itertools import chain
 from operator import attrgetter
 from .models import Disponibilidad, Page,DocenteMateria,Dia,Hora
 from usuarios.models import Admin,Coordina,Docente
+from institucion.models import Aula
 from .forms import PageForms,DoceMateForms,DispoForms,DiaForms,HoraForms
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib import messages
@@ -133,21 +134,21 @@ class PageCreate(SuccessMessageMixin, CreateView):#crear
     template_name = 'pages/page_form.html'
     success_message = "Materia creada con exito"
     
-    def post(self,request,*args,**kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'add':
-                forms = self.get_form()
-                if forms.is_valid():
-                    forms.save()
-                else:
-                    data['error'] = forms.errors
-            else:
-                data['error'] = 'No ha ingresado ningun dato'
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
+    # def post(self,request,*args,**kwargs):
+    #     data = {}
+    #     try:
+    #         action = request.POST['action']
+    #         if action == 'add':
+    #             forms = self.get_form()
+    #             if forms.is_valid():
+    #                 forms.save()
+    #             else:
+    #                 data['error'] = forms.errors
+    #         else:
+    #             data['error'] = 'No ha ingresado ningun dato'
+    #     except Exception as e:
+    #         data['error'] = str(e)
+    #     return JsonResponse(data)
 
     def get_context_data(self,**kwargs): 
         context = super().get_context_data(**kwargs)
@@ -158,6 +159,7 @@ class PageCreate(SuccessMessageMixin, CreateView):#crear
         context['admin'] = Admin.objects.all()
         context['coordina'] = Coordina.objects.all()
         context['docente'] = Docente.objects.all()
+        context['aul'] = Aula.objects.all()
         context['action'] = 'add'
         context['list_url'] = '/mate/materia/'
         
@@ -168,6 +170,7 @@ class PageUpdate(UpdateView):
     model = Page
     form_class = PageForms #campos para actualizar
     template_name_suffix = '_update_form' #se pasa un subfijo para usar otro formulario
+    success_url = reverse_lazy('pages:pages')
 
     def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs)
@@ -178,11 +181,13 @@ class PageUpdate(UpdateView):
         context['admin'] = Admin.objects.all()
         context['coordina'] = Coordina.objects.all()
         context['docente'] = Docente.objects.all()
+        context['aul'] = Aula.objects.all()
         return context
 
     def get_success_url(self): #mostrar el formulario para ver los cambios
-        # success_url = reverse_lazy('pages:pages')
-        return reverse_lazy('pages:update', args=[self.object.id]) + '?ok' #se recrea la url, donde se le pasa el update y la clave primaria con el indicador 
+        success_url = reverse_lazy('pages:pages')
+        # return reverse_lazy('pages:pages', args=[self.object.id]) + '?ok' #se recrea la url, donde se le pasa el update y la clave primaria con el indicador 
+        return success_url
 
 # @method_decorator(staff_member_required,name='dispatch')
 class PageDelete(DeleteView):#eliminar
@@ -315,7 +320,7 @@ class DoceMateUpdate(UpdateView):
         return context 
     
     def get_success_url(self):
-        return reverse_lazy('pages:doceupdate',args=[self.object.id]) + '?ok'
+        return reverse_lazy('pages:docemates')
 
 class DoceMateDelete(DeleteView):
     model = DocenteMateria
