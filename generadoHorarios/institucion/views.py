@@ -4,7 +4,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
-from institucion.models import Aula, Plantel,Licenciatura, Semestre
+from institucion.models import Aula, Plantel,Licenciatura, Semestre,Ciclo
 from .forms import PlantelForms,LicenciaturaForms,AulaForms,SemestreForms
 from pages.models import Page,Disponibilidad,DocenteMateria
 from usuarios.models import Admin,Coordina,Docente
@@ -315,7 +315,16 @@ class SemestreListView(ListView):
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
         return context
-    
+
+def cicloList(request):
+    admin = Admin.objects.all()
+    coordina = Coordina.objects.all()
+    docente = Docente.objects.all()
+    if request.methos == "POST":
+        searched = request.POST['searched']
+        cic = Ciclo.objects.filter(Q(ciclo__icontains=searched))
+        
+
 def semestreList(request):
     admin = Admin.objects.all()
     coordina = Coordina.objects.all()
