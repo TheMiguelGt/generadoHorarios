@@ -2,7 +2,7 @@ from dataclasses import fields
 from pyexpat import model
 from tkinter import Widget
 from django import forms 
-from .models import Plantel,Licenciatura,Aula, Semestre
+from .models import Plantel,Licenciatura,Aula,Semestre,Ciclo
 
 class PlantelForms(forms.ModelForm):
     class Meta:
@@ -36,3 +36,8 @@ class SemestreForms(forms.ModelForm):
     class Meta:
         model = Semestre
         fields = ['semestre','licenciatura']
+        
+class CicloForms(forms.ModelForm):
+    class Meta:
+        model = Ciclo
+        fields = ['ciclo']

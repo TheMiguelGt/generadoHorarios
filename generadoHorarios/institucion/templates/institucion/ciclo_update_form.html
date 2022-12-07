@@ -1,0 +1,27 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Ciclos{% endblock title %} 
+{% block subtitle %}Ciclos{% endblock subtitle %}
+{% block tabletitle %}Actualizar ciclo{% endblock tabletitle %}
+{% block agregarItem %}Actualizar ciclo{% endblock agregarItem %}
+{% block content %}
+{% include "institucion/includes/institucion_menu.html" %}
+
+{% endblock content %}
+{% block table %}
+<thead>
+    <tr>
+        <th width="30%"></th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Ciclo escolar</b></label></td>
+      <td class="" ><input type="text" name="ciclo" class="txt-all" placeholder="2022B" value="{{ciclo}}"></td>
+    </tr>
+    <tr>
+      <td colspan="2"><input type="submit" class="btn-editar"  value="Actualizar ciclo" /></td>
+    </tr>
+  </tbody>
+{% endblock table %}

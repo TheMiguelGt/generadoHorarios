@@ -38,7 +38,8 @@ class Semestre(models.Model):
         db_table = 'institucion_semestre'
 
     def __str__(self):
-        return self.semestre,self.licenciatura
+        template = '{0.semestre}'
+        return template.format(self)
     
 class Ciclo(models.Model):
     ciclo = models.CharField(max_length=5)
@@ -48,7 +49,8 @@ class Ciclo(models.Model):
         db_table = 'institucion_ciclo'
         
     def __str__(self):
-        return self.ciclo
+        template = '{0.ciclo}'
+        return template.format(self)
 
 class Aula(models.Model):
     clave = models.CharField(max_length=10,null=False,unique=True)

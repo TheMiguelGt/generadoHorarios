@@ -17,7 +17,7 @@ class DoceMateForms(forms.ModelForm):
 class DispoForms(forms.ModelForm):
     class Meta:
         model = Disponibilidad
-        fields = ['docente','dia','hora','semestre','licenciatura','ciclo']
+        fields = ['docente','dia','horaini','horafin','semestre','licenciatura','ciclo']
         
 class DiaForms(forms.ModelForm):
     class Meta:

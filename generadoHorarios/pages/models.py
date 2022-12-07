@@ -37,7 +37,8 @@ class DocenteMateria(models.Model):
         db_table = 'pages_docenteMateria'
 
     def __str__(self):
-        return self.materia,self.aula
+        template = '{0.materia} {0.aula}'
+        return template.format(self)
 
 class Dia(models.Model):
     dia = models.CharField(max_length=45,unique=True)
@@ -65,7 +66,8 @@ class Hora(models.Model):
 class Disponibilidad(models.Model):
     docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE,related_name='doces')
     dia = models.ForeignKey(Dia,null=False,on_delete=models.CASCADE,related_name='days')
-    hora = models.ForeignKey(Hora,null=False,on_delete=models.CASCADE,related_name='hours')
+    horaini = models.CharField(max_length=5)
+    horafin = models.CharField(max_length=5)
     semestre = models.ForeignKey(Semestre,null=False,on_delete=models.CASCADE,related_name='sem')
     licenciatura = models.ForeignKey(Licenciatura,null=False,on_delete=models.CASCADE,related_name='licen')
     ciclo = models.ForeignKey(Ciclo,null=False,on_delete=models.CASCADE,related_name='cic') 
@@ -75,4 +77,4 @@ class Disponibilidad(models.Model):
         db_table = 'pages_disponibilidad'
 
     def __str__(self):
-        return self.dia,self.hora,self.docente
+        return self.dia,self.horaini,self.horafin,self.docente

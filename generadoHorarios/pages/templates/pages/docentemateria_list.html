@@ -76,6 +76,9 @@
             <th>Materia</th>
             <th>Docente</th>
             <th>Aula</th>
+            <th>Semestre</th>
+            <th>Licenciatura</th>
+            <th>Ciclo</th>
             {% if request.user.is_staff %}
                 <th colspan="2">Acciones</th>
             {% endif %}
@@ -88,6 +91,9 @@
                 <td class="">{{docemate.materia}}</td>
                 <td class="">{{docemate.docente}}</td>
                 <td class="">{{docemate.aula}}</td>
+                <td class="">{{docemate.semestre}}</td>
+                <td class="">{{docemate.licenciatura}}</td>
+                <td class="">{{docemate.ciclo}}</td>
                 {% if request.user.is_staff %}
                     <td class=""><a class="btn-update" href="{% url 'pages:doceupdate' docemate.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                     <td class=""><a class="btn-delete" href="{% url 'pages:docedel' docemate.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
@@ -114,6 +120,9 @@
             <th>Materia</th>
             <th>Docente</th>
             <th>Aula</th>
+            <th>Semestre</th>
+            <th>Licenciatura</th>
+            <th>Ciclo</th>
             {% if request.user.is_staff %}
                 <th colspan="2">Acciones</th>
             {% endif %}
@@ -126,6 +135,9 @@
                 <td class="">{{docemate.materia}}</td>
                 <td class="">{{docemate.docente}}</td>
                 <td class="">{{docemate.aula}}</td>
+                <td class="">{{docemate.semestre}}</td>
+                <td class="">{{docemate.licenciatura}}</td>
+                <td class="">{{docemate.ciclo}}</td>
                 {% if request.user.is_staff %}
                     <td class=""><a class="btn-update" href="{% url 'pages:doceupdate' docemate.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                     <td class=""><a class="btn-delete" href="{% url 'pages:docedel' docemate.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>

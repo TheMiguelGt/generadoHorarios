@@ -358,7 +358,7 @@ def dispoListSearch(request):
         searched = request.POST['searched']
         model = Disponibilidad.objects.all()
         disdo = Disponibilidad.objects.filter(Q(docente__nombre__icontains=searched) )
-        history_list = Disponibilidad.history.select_related('docente','dia','hora')
+        history_list = Disponibilidad.history.select_related('docente','dia','horaini','horafin')
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
@@ -389,7 +389,7 @@ def dispoListSearch(request):
         return render(request,'pages/disponibilidad_list.html',{'searched':searched,'disdo':disdo,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         disdo = Disponibilidad.objects.all()
-        history_list = Disponibilidad.history.select_related('docente','dia','hora')
+        history_list = Disponibilidad.history.select_related('docente','dia')
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
