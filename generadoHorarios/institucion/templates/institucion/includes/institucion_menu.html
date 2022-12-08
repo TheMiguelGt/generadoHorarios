@@ -96,14 +96,14 @@
         <h3>Listar</h3>
       </div>
     </div></a>
-  {% elif request.path == '/insti/semestre/' %}
+  {% elif request.path == '/insti/semestre-class/' %}
     <a href="{% url 'planteles:create3' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
         <h3>Agregar</h3>
       </div>
     </div></a>
-  {% elif request.path == '/insti/semestre/create/' %}
+  {% elif request.path == '/insti/semestre-class/create/' %}
     <a href="{% url 'planteles:semestres' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>

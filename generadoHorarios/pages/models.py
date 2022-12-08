@@ -3,7 +3,7 @@ from tabnanny import verbose
 from turtle import update
 from django.db import models
 from ckeditor.fields import RichTextField 
-from institucion.models import Aula,Licenciatura,Ciclo,Semestre
+from institucion.models import Aula,Licenciatura,Semestre
 from usuarios.models import Docente
 from simple_history.models import HistoricalRecords
 
@@ -30,7 +30,6 @@ class DocenteMateria(models.Model):
     aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE,related_name='auladoce')
     semestre = models.ForeignKey(Semestre,null=False,on_delete=models.CASCADE,related_name='seme')
     licenciatura = models.ForeignKey(Licenciatura,null=False,on_delete=models.CASCADE)
-    ciclo = models.ForeignKey(Ciclo,null=False,on_delete=models.CASCADE)
     history = HistoricalRecords()
 
     class Meta:
@@ -70,7 +69,6 @@ class Disponibilidad(models.Model):
     horafin = models.CharField(max_length=5)
     semestre = models.ForeignKey(Semestre,null=False,on_delete=models.CASCADE,related_name='sem')
     licenciatura = models.ForeignKey(Licenciatura,null=False,on_delete=models.CASCADE,related_name='licen')
-    ciclo = models.ForeignKey(Ciclo,null=False,on_delete=models.CASCADE,related_name='cic') 
     history = HistoricalRecords()
 
     class Meta:

@@ -12,12 +12,12 @@ class PageForms(forms.ModelForm):
 class DoceMateForms(forms.ModelForm):
     class Meta:
         model = DocenteMateria
-        fields = ['materia','docente','aula','semestre','licenciatura','ciclo']
+        fields = ['materia','docente','aula','semestre','licenciatura']
         
 class DispoForms(forms.ModelForm):
     class Meta:
         model = Disponibilidad
-        fields = ['docente','dia','horaini','horafin','semestre','licenciatura','ciclo']
+        fields = ['docente','dia','horaini','horafin','semestre','licenciatura']
         
 class DiaForms(forms.ModelForm):
     class Meta:

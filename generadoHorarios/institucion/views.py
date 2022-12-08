@@ -4,13 +4,14 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
-from institucion.models import Aula, Plantel,Licenciatura, Semestre,Ciclo
-from .forms import PlantelForms,LicenciaturaForms,AulaForms,SemestreForms,CicloForms
+from institucion.models import Aula, Plantel,Licenciatura, Semestre
+from .forms import PlantelForms,LicenciaturaForms,AulaForms,SemestreForms
 from pages.models import Page,Disponibilidad,DocenteMateria
 from usuarios.models import Admin,Coordina,Docente
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.db.models import Q
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from django.contrib import messages
 
 # Create your views here.
 class StaffRequiredMixin(object):
@@ -304,125 +305,7 @@ class AulaDelete(DeleteView):
         context['docente'] = Docente.objects.all()
         return context
 
-# START OF semestre
-class SemestreListView(ListView):
-    model = Semestre
-    paginate_by = 8
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Semestre.history.select_related('licenciatura')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        return context
-
-def cicloList(request):
-    page_obj = Ciclo.history.all()
-    pages = Page.objects.all()
-    disponi = Disponibilidad.objects.all()
-    matedo = DocenteMateria.objects.all()
-    admin = Admin.objects.all()
-    coordina = Coordina.objects.all()
-    docente = Docente.objects.all()
-    cicl = Ciclo.objects.all()
-    
-    if request.method == "POST":
-        searched = request.POST['searched']
-        cic = Ciclo.objects.filter(Q(ciclo__icontains=searched))
-        
-        # Paginate historical
-        paginator = Paginator(page_obj,3)
-        page = request.GET.get('planteles')
-        try:
-            page_obj = paginator.page(page)
-        except PageNotAnInteger:
-            page_obj = paginator.page(1)
-        except EmptyPage:
-            page_obj = paginator.page(paginator.num_pages)
-            
-        # Paginate pages
-        paginator1 = Paginator(cic,5)
-        page1 = request.GET.get('planteles:ciclos')
-        try:
-            cic = paginator1.page(page1)
-        except PageNotAnInteger:
-            cic = paginator1.page(1)
-        except EmptyPage:
-            cic = paginator1.page(paginator1.num_pages)
-            
-        return render(request,'institucion/ciclo_list.html',{'searched':searched,'cic':cic,'cicl':cicl,'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
-    else:
-        
-        # Paginate historical
-        paginator = Paginator(page_obj,3)
-        page = request.GET.get('planteles')
-        try:
-            page_obj = paginator.page(page)
-        except PageNotAnInteger:
-            page_obj = paginator.page(1)
-        except EmptyPage:
-            page_obj = paginator.page(paginator.num_pages)
-            
-        # Paginate pages
-        paginator1 = Paginator(cicl,5)
-        page1 = request.GET.get('planteles:ciclos')
-        try:
-            cicl = paginator1.page(page1)
-        except PageNotAnInteger:
-            cicl = paginator1.page(1)
-        except EmptyPage:
-            cicl = paginator1.page(paginator1.num_pages)
-        
-        return render(request,'institucion/ciclo_list.html',{'cicl':cicl,'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
-
-class CicloCreate(CreateView):
-    model = Ciclo
-    form_class = CicloForms
-    success_url = reverse_lazy('planteles:ciclos')
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-
-class CicloUpdate(UpdateView):
-    model = Ciclo
-    form_class = CicloForms
-    template_name_suffix = '_update_form'
-    
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-
-    def get_success_url(self):
-        success_url = reverse_lazy('planteles:ciclos')
-        return success_url
-    
-class CicloDelete(DeleteView):
-    model = Ciclo
-    success_url = reverse_lazy('planteles:ciclos')
-    
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
+# START OF semestre o clase por semestre
 
 def semestreList(request):
     admin = Admin.objects.all()
@@ -445,6 +328,20 @@ def semestreList(request):
         matedo = DocenteMateria.objects.all()
         return render(request,'institucion/semestre_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
         
+def semestreCreate(request):
+    section = SemestreForms()
+    sections = Semestre.objects.all()
+    context = {'section':section,'sections':sections}
+    if request.method == 'POST':
+        section = SemestreForms(request.POST)
+        if section.is_valid():
+            messages.success(request,'Clase creada con exito')
+            section.save()
+            return redirect('/semestre-class') 
+        else:
+            messages.error(request,'ADADA')
+    return render(request,'institucion/semestre_form.html',context)
+        
 class SemestreCreate(CreateView):
     model = Semestre
     form_class = SemestreForms
@@ -459,6 +356,7 @@ class SemestreCreate(CreateView):
         context['admin'] = Admin.objects.all()
         context['coordina'] = Coordina.objects.all()
         context['docente'] = Docente.objects.all()
+        context['licenciatura'] = Licenciatura.objects.all()
         return context
 
 class SemestreUpdate(UpdateView):

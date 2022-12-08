@@ -2,7 +2,7 @@ from dataclasses import fields
 from pyexpat import model
 from tkinter import Widget
 from django import forms 
-from .models import Plantel,Licenciatura,Aula,Semestre,Ciclo
+from .models import Plantel,Licenciatura,Aula,Semestre
 
 class PlantelForms(forms.ModelForm):
     class Meta:
@@ -35,9 +35,7 @@ class AulaForms(forms.ModelForm):
 class SemestreForms(forms.ModelForm):
     class Meta:
         model = Semestre
-        fields = ['semestre','licenciatura']
-        
-class CicloForms(forms.ModelForm):
-    class Meta:
-        model = Ciclo
-        fields = ['ciclo']
+        fields = ['semestre','licenciatura','ciclo','week_day','start_time','end_time']
+        widget = {
+            'week_day':forms.MultipleChoiceField(),
+        }

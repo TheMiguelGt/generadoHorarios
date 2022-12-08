@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'institucion',
     'pages.apps.PagesConfig',
     'usuarios',
+    'multiselectfield',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [

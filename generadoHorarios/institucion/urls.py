@@ -1,6 +1,6 @@
 from django.urls import path 
 from institucion import views
-from .views import PlantelListView,PlantelCreate,PlantelUpdate,PlantelDelete,LicenciaturaListView,LicenciaturaCreate,LicenciaturaUpdate,LicenciaturaDelete,AulaListView,AulaCreate,AulaUpdate,AulaDelete,SemestreListView,SemestreCreate,SemestreUpdate,SemestreDelete,CicloCreate,CicloDelete,CicloUpdate
+from .views import PlantelListView,PlantelCreate,PlantelUpdate,PlantelDelete,LicenciaturaListView,LicenciaturaCreate,LicenciaturaUpdate,LicenciaturaDelete,AulaListView,AulaCreate,AulaUpdate,AulaDelete,SemestreCreate,SemestreUpdate,SemestreDelete,SemestreCreate
 
 planteles_patterns = ([
     #planteles
@@ -23,13 +23,9 @@ planteles_patterns = ([
     path('aula/delete/<int:pk>/',AulaDelete.as_view(),name="auladel"),
     #semestre
     # path('semestre/',SemestreListView.as_view(),name="semestres"),
-    path('semestre/',views.semestreList,name='semestres'),
-    path('semestre/create/',SemestreCreate.as_view(),name='create3'),#path de crea
-    path('semestre/update/<int:pk>/',SemestreUpdate.as_view(),name="semeupdate"),
-    path('semestre/delete/<int:pk>/',SemestreDelete.as_view(),name="semedel"),
-    #ciclo
-    path('ciclo/',views.cicloList,name='ciclos'),
-    path('ciclo/create/',CicloCreate.as_view(),name='createcic'),#path de crea
-    path('ciclo/update/<int:pk>/',CicloUpdate.as_view(),name="cicupdate"),
-    path('ciclo/delete/<int:pk>/',CicloDelete.as_view(),name="cicdel"),
+    path('semestre-class/',views.semestreList,name='semestres'),
+    path('semestre-class/create/',views.semestreCreate,name='create3'),
+    # path('semestre-class/create/',SemestreCreate.as_view(),name='create3'),#path de crea
+    path('semestre-class/update/<int:pk>/',SemestreUpdate.as_view(),name="semeupdate"),
+    path('semestre-class/delete/<int:pk>/',SemestreDelete.as_view(),name="semedel"),
 ],'planteles')
