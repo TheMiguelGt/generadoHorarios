@@ -337,9 +337,9 @@ def semestreCreate(request):
         if section.is_valid():
             messages.success(request,'Clase creada con exito')
             section.save()
-            return redirect('/semestre-class') 
+            return redirect('institucion/semestre.list.html') 
         else:
-            messages.error(request,'ADADA')
+            messages.error(request,'Favor de ingresar datos correctos')
     return render(request,'institucion/semestre_form.html',context)
         
 class SemestreCreate(CreateView):
@@ -393,6 +393,22 @@ class SemestreDelete(DeleteView):
         context['docente'] = Docente.objects.all()
         return context
 
+#generar tabla del horario
+def TimeTableView(request,id):
+    try:
+        section = Semestre.objects.get(id=id)
+        time = [0] * (section.end_time - section.start_time)
+        time_slot = [''] * (section.end_time - section.start_time)
+        for x in range(0, len(time)):
+            time_slot[x] = str(section.start_time + x) + ':00 - ' + str(section.start_time + x + 1) + ':00'
+            time[x] = section.start_time + x
+        context_1 = {'section':section,'time':time,'time_slot':time_slot}
+        return render(request,'institucion/horarioTable.html',context_1)
+    except Semestre.DoesNotExist:
+        messages.error(request, 'La actividad no existe')
     
+        sections = Semestre.objects.all()
+        context_2 = {'sections':sections}
+        return render(request,'institucion/semestre_list.html',context_2)
 
 

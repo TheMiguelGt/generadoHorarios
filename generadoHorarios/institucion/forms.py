@@ -35,7 +35,4 @@ class AulaForms(forms.ModelForm):
 class SemestreForms(forms.ModelForm):
     class Meta:
         model = Semestre
-        fields = ['semestre','licenciatura','ciclo','week_day','start_time','end_time']
-        widget = {
-            'week_day':forms.MultipleChoiceField(),
-        }
+        fields = '__all__'

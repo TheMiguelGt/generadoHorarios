@@ -1,0 +1,33 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Horario{% endblock title %} 
+{% block subtitle %}Horario{% endblock subtitle %}
+{% block activi %}Actividades recientes{% endblock activi %}
+{% block tabletitle %}Horario escolar{% endblock tabletitle %}
+{% comment %} {% block agregarItem %}Agregar materia{% endblock agregarItem %} {% endcomment %}
+{% block content %}
+{% include "institucion/includes/institucion_menu.html" %}
+
+{% endblock content %}
+
+{% block history %}
+
+{% endblock history %}
+
+{% block table %}
+<thead>
+    <tr>
+        <th>Horario<br> disponible</th>
+        {% for day in section.week_day %}
+            <th>{{day}}</th>
+        {% endfor %}
+    </tr>
+</thead>
+<tbody>
+    {% for x in time_slot %}
+        <tr>
+            <td>{{x}}</td>
+        </tr>
+    {% endfor %}
+</tbody>
+{% endblock table %}

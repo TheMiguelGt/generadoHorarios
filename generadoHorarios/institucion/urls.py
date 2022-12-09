@@ -25,7 +25,8 @@ planteles_patterns = ([
     # path('semestre/',SemestreListView.as_view(),name="semestres"),
     path('semestre-class/',views.semestreList,name='semestres'),
     path('semestre-class/create/',views.semestreCreate,name='create3'),
-    # path('semestre-class/create/',SemestreCreate.as_view(),name='create3'),#path de crea
     path('semestre-class/update/<int:pk>/',SemestreUpdate.as_view(),name="semeupdate"),
     path('semestre-class/delete/<int:pk>/',SemestreDelete.as_view(),name="semedel"),
+    #tabla del horario
+    path('semestre-class/horario/<str:id>/',views.TimeTableView,name='timetable')
 ],'planteles')
