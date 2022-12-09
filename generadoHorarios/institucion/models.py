@@ -51,7 +51,8 @@ class Semestre(models.Model):
         db_table = 'institucion_semestre'
 
     def __str__(self):
-        return self.semestre,self.licenciatura
+        template = 'Semestre {0.semestre} de la licenciatura en {0.licenciatura} con el ciclo {0.ciclo}'
+        return template.format(self)
         # template = '{0.semestre}'
         # return template.format(self)
 

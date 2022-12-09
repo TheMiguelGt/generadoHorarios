@@ -7,12 +7,12 @@ class PageForms(forms.ModelForm):
     
     class Meta:
         model = Page
-        fields = ['clave','materia','carga','grupo','aula']
+        fields = '__all__'
 
 class DoceMateForms(forms.ModelForm):
     class Meta:
         model = DocenteMateria
-        fields = ['materia','docente','aula','semestre','licenciatura']
+        fields = '__all__'
         
 class DispoForms(forms.ModelForm):
     class Meta:

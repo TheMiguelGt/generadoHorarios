@@ -53,6 +53,7 @@
                 {% url 'planteles:auladel' aula.id as view6 %}
                 {% url 'planteles:semeupdate' semestre.id as view8 %}
                 {% url 'planteles:semedel' semestre.id as view9 %}
+                {% url 'planteles:timetable' semestre.id as view12 %}
                 {% url 'pages:diaupdate' dia.id as view10 %}
                 {% url 'pages:horaupdate' hora.id as view11 %}
                 {% if request.user.is_staff or request.user.is_admin %}
@@ -60,7 +61,7 @@
                     <span class="material-icons-sharp">school</span>
                     <h3>Planteles</h3>
                 </a>
-                <a title="Semestres" href="{% url 'planteles:semestres' %}" class="{% if request.path == '/insti/semestre/' or request.path == '/insti/semestre/create/' or request.path == view8 or request.path == view9 %}active{% endif %}">
+                <a title="Semestres" href="{% url 'planteles:semestres' %}" class="{% if request.path == '/insti/semestre-class/' or request.path == '/insti/semestre-class/create/' or request.path == view8 or request.path == view9 or request.path == view12 %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Semestres</h3>
                 </a>

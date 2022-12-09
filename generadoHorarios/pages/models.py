@@ -13,30 +13,30 @@ class Page(models.Model):
     clave = models.CharField(max_length=10,null=False,unique=True)
     materia = models.CharField(max_length=45, verbose_name="Nombre de la materia")
     carga = models.IntegerField(null=False)
-    grupo = models.IntegerField(null=False)
-    aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE)
+    aula = models.CharField(max_length=10,null=False)
     history = HistoricalRecords()
 
     class Meta:
         db_table = 'pages_materia'
 
     def __str__(self):
-        template = '{0.clave} {0.materia}'
+        template = '{0.materia}'
         return template.format(self)
 
 class DocenteMateria(models.Model):
     materia = models.ForeignKey(Page,null=False,on_delete=models.CASCADE,related_name='matdoce')
     docente = models.ForeignKey(Docente,null=False,on_delete=models.CASCADE,related_name='docedoce')
-    aula = models.ForeignKey(Aula,null=False,on_delete=models.CASCADE,related_name='auladoce')
-    semestre = models.ForeignKey(Semestre,null=False,on_delete=models.CASCADE,related_name='seme')
-    licenciatura = models.ForeignKey(Licenciatura,null=False,on_delete=models.CASCADE)
+    clase = models.ForeignKey(Semestre,null=False,on_delete=models.CASCADE)
+    start_time = models.PositiveBigIntegerField(null=False)
+    end_time = models.PositiveBigIntegerField(null=False)
+    dia = models.CharField(max_length=10,null=False)
     history = HistoricalRecords()
 
     class Meta:
         db_table = 'pages_docenteMateria'
 
     def __str__(self):
-        template = '{0.materia} {0.aula}'
+        template = '{0.materia}  {0.docente}'
         return template.format(self)
 
 class Dia(models.Model):

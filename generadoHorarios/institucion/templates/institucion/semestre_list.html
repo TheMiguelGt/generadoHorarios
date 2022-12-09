@@ -74,6 +74,8 @@
                 <th>No.</th>
                 <th>Semestre</th>
                 <th>Licenciatura</th>
+                <th>Ciclo</th>
+                <th>Horario</th>
                 {% if request.user.is_staff %}
                     <th colspan="2">Acciones</th> 
                 {% endif %}
@@ -85,6 +87,8 @@
                     <td class="">{{forloop.counter}}</td>
                     <td class="">{{semestre.semestre}}</td>
                     <td class="">{{semestre.licenciatura}}</td>
+                    <td class="">{{semestre.ciclo}}</td>
+                    <td class=""><a href="{% url 'planteles:timetable' semestre.id %}"><span class="material-icons-sharp btn-update">visibility</span></a></td>
                     {% if request.user.is_staff %}
                         <td class=""><a class="btn-update" href="{% url 'planteles:semeupdate' semestre.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                         <td class=""><a class="btn-delete" href="{% url 'planteles:semedel' semestre.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>

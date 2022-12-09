@@ -3,7 +3,7 @@
 {% block title %}Horario{% endblock title %} 
 {% block subtitle %}Horario{% endblock subtitle %}
 {% block activi %}Actividades recientes{% endblock activi %}
-{% block tabletitle %}Horario escolar{% endblock tabletitle %}
+{% block tabletitle %}Horario escolar {% endblock tabletitle %}
 {% comment %} {% block agregarItem %}Agregar materia{% endblock agregarItem %} {% endcomment %}
 {% block content %}
 {% include "institucion/includes/institucion_menu.html" %}
@@ -15,6 +15,8 @@
 {% endblock history %}
 
 {% block table %}
+{% regroup docema by start_time as hora_list %}
+{% regroup docema by end_time as end_list %}
 <thead>
     <tr>
         <th>Horario<br> disponible</th>
@@ -24,10 +26,26 @@
     </tr>
 </thead>
 <tbody>
-    {% for x in time_slot %}
+   {% for x in time_slot %}
         <tr>
+        {% for awa in hora_list %}
+        
             <td>{{x}}</td>
-        </tr>
+            
+            {% comment %} <td>{{awa.grouper}}:00</td> {% endcomment %}
+            {% for doce in awa.list %}
+                {% comment %} {% if x == '7:00 - 8:00' and doce.start_time == 7 and doce.end_time == 8 %} {% endcomment %}
+                    {% comment %} <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                {% elif x == '7:00 - 8:00' and doce.start_time == 7 and doce.end_time == 9 %} {% endcomment %}
+                    <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                
+                {% comment %} {% endif %} {% endcomment %}
+                
+            {% endfor %}
+        
+        {% endfor %}
     {% endfor %}
+        </tr>
+    
 </tbody>
 {% endblock table %}
