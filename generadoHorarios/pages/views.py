@@ -279,16 +279,6 @@ class DoceMateCreate(CreateView):
     form_class = DoceMateForms
     success_url = reverse_lazy('pages:docemates')
 
-    def get_context_data(self, **kwargs): 
-        context = super().get_context_data(**kwargs)
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-    
     def get_context_data(self,**kwargs): 
         context = super().get_context_data(**kwargs)
         context['history_list'] = DocenteMateria.history.select_related('materia','docente')

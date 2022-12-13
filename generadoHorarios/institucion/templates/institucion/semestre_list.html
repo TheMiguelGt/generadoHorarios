@@ -1,8 +1,8 @@
 {% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
-{% block title %}Semestres{% endblock title %} 
-{% block subtitle %}Semestres{% endblock subtitle %}
-{% block activi %}en semestre{% endblock activi %}
+{% block title %}Horarios{% endblock title %} 
+{% block subtitle %}Listado de horarios{% endblock subtitle %}
+{% block activi %}Acciones recientes{% endblock activi %}
 {% block tabletitle %}Listado de semestres{% endblock tabletitle %}
 {% block agregarItem %}Agregar semestres{% endblock agregarItem %}
 {% block content %}
@@ -43,7 +43,8 @@
   </div>
   <div class="message">
     <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito {% endif %} el semestre {{r.semestre}} de la {{r.licenciatura}}<p>
-  </div>
+        <small class="text-muted">{{r.history_date}}</small>
+    </div>
 </div>
 {% endfor %}
 {% endif %}
@@ -53,7 +54,7 @@
     {% if not model %}
         <thead>
             <tr>
-                <th><h1>No hay semestres por mostrar, necesitas registrarlos</h1></th>
+                <th><h1>No hay horarios por mostrar, necesitas registrarlos</h1></th>
             </tr>
         </thead>
     {% else %}

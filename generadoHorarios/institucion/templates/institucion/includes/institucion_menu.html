@@ -12,6 +12,7 @@
 {% url 'planteles:auladel' aula.id as view6 %}
 {% url 'planteles:semeupdate' semestre.id as view7 %}
 {% url 'planteles:semedel' semestre.id as view8 %}
+{% url 'planteles:timetable' semestre.id as view12 %}
 {% url 'planteles:dicupdate' ciclo.id as view9 %}
 {% url 'planteles:cicdel' ciclo.id as view10 %}
 {% if request.user.is_staff %}
@@ -96,7 +97,7 @@
         <h3>Listar</h3>
       </div>
     </div></a>
-  {% elif request.path == '/insti/semestre-class/' %}
+  {% elif request.path == '/home/' %}
     <a href="{% url 'planteles:create3' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
@@ -104,7 +105,7 @@
       </div>
     </div></a>
   {% elif request.path == '/insti/semestre-class/create/' %}
-    <a href="{% url 'planteles:semestres' %}"><div class="item add-product">
+    <a href="{% url 'homeUser' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>
         <h3>Listar</h3>
@@ -117,7 +118,7 @@
         <h3>Agregar</h3>
       </div>
     </div></a>
-    <a href="{% url 'planteles:semestres' %}"><div class="item add-product">
+    <a href="{% url 'homeUser' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>
         <h3>Listar</h3>

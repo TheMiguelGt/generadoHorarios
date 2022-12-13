@@ -44,6 +44,27 @@ def plantelList(request):
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()
         docente = Docente.objects.all()
+        
+        #Paginate historical
+        paginator = Paginator(history_list,3)
+        page = request.GET.get('pages')
+        try:
+            history_list = paginator.page(page)
+        except PageNotAnInteger:
+            history_list = paginator.page(1)
+        except EmptyPage:
+            history_list = paginator.page(paginator.num_pages)
+            
+        #Paginate planteles
+        paginator1 = Paginator(plant,5)
+        page1 = request.GET.get('planteles:planteles')
+        try:
+            plant = paginator1.page(page1)
+        except PageNotAnInteger:
+            plant = paginator1.page(1)
+        except EmptyPage:
+            plant = paginator1.page(paginator1.num_pages)
+        
         return render(request,'institucion/plantel_list.html',{'searched':searched,'plant':plant,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         model = Plantel.objects.all()
@@ -54,6 +75,27 @@ def plantelList(request):
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()
         docente = Docente.objects.all()
+        
+        #Paginate historical
+        paginator = Paginator(history_list,3)
+        page = request.GET.get('pages')
+        try:
+            history_list = paginator.page(page)
+        except PageNotAnInteger:
+            history_list = paginator.page(1)
+        except EmptyPage:
+            history_list = paginator.page(paginator.num_pages)
+            
+        #Paginate planteles
+        paginator1 = Paginator(model,5)
+        page1 = request.GET.get('planteles:planteles')
+        try:
+            model = paginator1.page(page1)
+        except PageNotAnInteger:
+            model = paginator1.page(1)
+        except EmptyPage:
+            model = paginator1.page(paginator1.num_pages)
+            
         return render(request,'institucion/plantel_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
         
 class PlantelDetailView(DetailView):
@@ -73,7 +115,7 @@ class PlantelDetailView(DetailView):
 class PlantelCreate(CreateView):
     model = Plantel
     form_class = PlantelForms
-    success_url = reverse_lazy('planteles:planteles')
+    success_url = reverse_lazy('planteles:licenciaturas')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -149,6 +191,27 @@ def licenciaturaList(request):
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()
         docente = Docente.objects.all()
+        
+        #Paginate historical
+        paginator = Paginator(history_list,3)
+        page = request.GET.get('pages')
+        try:
+            history_list = paginator.page(page)
+        except PageNotAnInteger:
+            history_list = paginator.page(1)
+        except EmptyPage:
+            history_list = paginator.page(paginator.num_pages)
+            
+        #Paginate licenciaturas
+        paginator1 = Paginator(licen,5)
+        page1 = request.GET.get('planteles:licenciaturas')
+        try:
+            licen = paginator1.page(page1)
+        except PageNotAnInteger:
+            licen = paginator1.page(1)
+        except EmptyPage:
+            licen = paginator1.page(paginator1.num_pages)
+        
         return render(request,'institucion/licenciatura_list.html',{'searched':searched,'model':model,'licen':licen,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         model = Licenciatura.objects.all()
@@ -159,6 +222,27 @@ def licenciaturaList(request):
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()
         docente = Docente.objects.all()
+        
+        #Paginate historical
+        paginator = Paginator(history_list,3)
+        page = request.GET.get('pages')
+        try:
+            history_list = paginator.page(page)
+        except PageNotAnInteger:
+            history_list = paginator.page(1)
+        except EmptyPage:
+            history_list = paginator.page(paginator.num_pages)
+            
+        #Paginate licenciaturas
+        paginator1 = Paginator(model,5)
+        page1 = request.GET.get('planteles:licenciaturas')
+        try:
+            model = paginator1.page(page1)
+        except PageNotAnInteger:
+            model = paginator1.page(1)
+        except EmptyPage:
+            model = paginator1.page(paginator1.num_pages)
+        
         return render(request,'institucion/licenciatura_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
         
 class LicenciaturaDetailView(DetailView):
@@ -397,7 +481,7 @@ class SemestreDelete(DeleteView):
 def TimeTableView(request,id):
     try:
         section = Semestre.objects.get(id=id)
-        docema = DocenteMateria.objects.select_related('materia','docente','clase').filter(clase_id=section.id)
+        docema = DocenteMateria.objects.select_related('materia','docente','clase').filter(clase_id=section.id).order_by('dia')
         print(docema.query)
         time = [0] * (section.end_time - section.start_time)
         time_slot = [''] * (section.end_time - section.start_time)

@@ -77,8 +77,7 @@
             <th>Docente</th>
             <th>D&iacute;a</th>
             <th>Horario</th>
-            <th>Licenciatura</th>
-            <th>Ciclo</th>
+            <th>Clase</th>
             {% if request.user.is_staff %}
                 <th colspan="2">Acciones</th>
             {% endif %}
@@ -92,8 +91,7 @@
                 <td class="">{{docemate.docente}}</td>
                 <td class="">{{docemate.dia}}</td>
                 <td class="">{{docemate.start_time}}:00 - {{docemate.end_time}}:00</td>
-                <td class="">{{docemate.licenciatura}}</td>
-                <td class="">{{docemate.ciclo}}</td>
+                <td class="">{{docemate.clase}}</td>
                 {% if request.user.is_staff %}
                     <td class=""><a class="btn-update" href="{% url 'pages:doceupdate' docemate.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                     <td class=""><a class="btn-delete" href="{% url 'pages:docedel' docemate.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
@@ -121,8 +119,7 @@
             <th>Docente</th>
             <th>D&iacute;a</th>
             <th>Horario</th>
-            <th>Licenciatura</th>
-            <th>Ciclo</th>
+            <th>Clase</th>
             {% if request.user.is_staff %}
                 <th colspan="2">Acciones</th>
             {% endif %}
@@ -136,8 +133,7 @@
                 <td class="">{{docemate.docente}}</td>
                 <td class="">{{docemate.dia}}</td>
                 <td class="">{{docemate.start_time}}:00 - {{docemate.end_time}}:00</td>
-                <td class="">{{docemate.licenciatura}}</td>
-                <td class="">{{docemate.ciclo}}</td>
+                <td class="">{{docemate.clase}}</td>
                 {% if request.user.is_staff %}
                     <td class=""><a class="btn-update" href="{% url 'pages:doceupdate' docemate.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                     <td class=""><a class="btn-delete" href="{% url 'pages:docedel' docemate.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>

@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Planteles{% endblock title %} 
 {% block subtitle %}Planteles{% endblock subtitle %}
-{% block activi %}en planteles{% endblock activi %}
+{% block activi %}Acciones recientes{% endblock activi %}
 {% block tabletitle %}Listado de planteles{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia{% endblock agregarItem %}
 {% block content %}
@@ -43,7 +43,8 @@
   </div>
   <div class="message">
     <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito a {% endif %} el plantel {{r.clave}} {{r.plantel}}<p>
-  </div>
+        <small class="text-muted">{{r.history_date}}</small>
+    </div>
 </div>
 {% endfor %}
 {% endif %}

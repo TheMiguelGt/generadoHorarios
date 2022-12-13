@@ -6,7 +6,9 @@ from django.views.generic import TemplateView
 from pages.models import Page,Disponibilidad,DocenteMateria
 from django.core.paginator import Paginator
 from usuarios.models import Admin,Coordina,Docente
-from institucion.models import Plantel
+from institucion.models import Plantel,Semestre
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from django.db.models import Q
 
 # Create your views here.
 class HomePageView(TemplateView): #se crea una clase para poder hacer la vista del home
@@ -34,19 +36,67 @@ class HomeUserView(TemplateView): #se crea una clase para poder hacer la vista d
         return context
 
 def homePage2View(request):
-    histo = Page.history.all()
-    paginator = Paginator(histo,3)
-    pages = Page.objects.all()
-    disponi = Disponibilidad.objects.all()
-    matedo = DocenteMateria.objects.all()
     admin = Admin.objects.all()
     coordina = Coordina.objects.all()
     docente = Docente.objects.all()
-    
-    print(pages.query)
-    page_number = request.GET.get('homeUser')
-    page_obj = paginator.get_page(page_number)
-    return render(request,'core/home2.html',{'page_obj': page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
+    if request.method == "POST":
+        searched = request.POST['searched']
+        seme = Semestre.objects.filter(Q(semestre__icontains=searched) | Q(licenciatura__licenciatura__icontains=searched))
+        history_list = Semestre.history.select_related('licenciatura')
+        model = Semestre.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        
+        #Paginate historical
+        paginator = Paginator(history_list,3)
+        page = request.GET.get('pages')
+        try:
+            history_list = paginator.page(page)
+        except PageNotAnInteger:
+            history_list = paginator.page(1)
+        except EmptyPage:
+            history_list = paginator.page(paginator.num_pages)
+            
+        #Paginate horarios
+        paginator1 = Paginator(seme,5)
+        page1 = request.GET.get('homeUser')
+        try:
+            seme = paginator1.page(page1)
+        except PageNotAnInteger:
+            seme = paginator1.page(1)
+        except EmptyPage:
+            seme = paginator1.page(paginator1.num_pages)
+        
+        return render(request,'institucion/semestre_list.html',{'searched':searched,'seme':seme,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
+    else:
+        history_list = Semestre.history.select_related('licenciatura')
+        model = Semestre.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        
+        #Paginate historical
+        paginator = Paginator(history_list,3)
+        page = request.GET.get('pages')
+        try:
+            history_list = paginator.page(page)
+        except PageNotAnInteger:
+            history_list = paginator.page(1)
+        except EmptyPage:
+            history_list = paginator.page(paginator.num_pages)
+            
+        #Paginate horarios
+        paginator1 = Paginator(model,5)
+        page1 = request.GET.get('homeUser')
+        try:
+            model = paginator1.page(page1)
+        except PageNotAnInteger:
+            model = paginator1.page(1)
+        except EmptyPage:
+            model = paginator1.page(paginator1.num_pages)
+        
+        return render(request,'institucion/semestre_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     
 class UserPageView(TemplateView):
     template_name = 'core/userhome1.html'

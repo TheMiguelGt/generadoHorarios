@@ -35,10 +35,6 @@
                 </div>
             </div>
             <div class="sidebar" >
-                <a href="{% url 'homeUser' %}" class="{% if request.path == '/home/' %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Dashboard</h3>
-                </a>
                 {% url 'pages:update' page.id as my_view %}
                 {% url 'pages:delete' page.id as my_view1 %}
                 {% url 'pages:doceupdate' docentemateria.id as my_view2 %}
@@ -51,11 +47,15 @@
                 {% url 'planteles:licendele' licenciatura.id as view4 %}
                 {% url 'planteles:aulaupdate' aula.id as view5 %}
                 {% url 'planteles:auladel' aula.id as view6 %}
+                {% url 'pages:diaupdate' dia.id as view10 %}
+                {% url 'pages:horaupdate' hora.id as view11 %}
                 {% url 'planteles:semeupdate' semestre.id as view8 %}
                 {% url 'planteles:semedel' semestre.id as view9 %}
                 {% url 'planteles:timetable' semestre.id as view12 %}
-                {% url 'pages:diaupdate' dia.id as view10 %}
-                {% url 'pages:horaupdate' hora.id as view11 %}
+                <a title="Dashboard" href="{% url 'homeUser' %}" class="{% if request.path == '/home/' or request.path == '/insti/semestre-class/create/' or request.path == view8 or request.path == view9 or request.path == view12 %}active{% endif %}">
+                    <span class="material-icons-sharp">hourglass_top</span>
+                    <h3>Dashboard</h3>
+                </a>
                 {% if request.user.is_staff or request.user.is_admin %}
                 <a title="Planteles" href="{% url 'planteles:planteles' %}" class="{% if request.path == '/insti/plantel/' or request.path == '/insti/plantel/create/' or request.path == view1 or request.path == view2 %}active{% endif %}">
                     <span class="material-icons-sharp">school</span>
@@ -65,42 +65,18 @@
                     <span class="material-icons-sharp">history_edu</span>
                     <h3>Licenciaturas</h3>
                 </a>
-                <a title="Semestres" href="{% url 'planteles:semestres' %}" class="{% if request.path == '/insti/semestre-class/' or request.path == '/insti/semestre-class/create/' or request.path == view8 or request.path == view9 or request.path == view12 %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Semestres</h3>
-                </a>
-                {% comment %} <a title="D&iacute;as" href="{% url 'pages:dias' %}" class="{% if request.path == '/mate/dia/' or request.path == '/mate/dia/create/' or request.path == view10 %}active{% endif %}">
-                    <span class="material-icons-sharp active">light_mode</span>
-                    <h3>D&iacute;as</h3>
-                </a> {% endcomment %}
-                {% comment %} <a title="Horas" href="{% url 'pages:horas' %}" class="{% if request.path == '/mate/hora/' or request.path == '/mate/hora/create/' or request.path == view11 %}active{% endif %}">
-                    <span class="material-icons-sharp active">hourglass_top</span>
-                    <h3>Horas</h3>
-                </a> {% endcomment %}
-                {% comment %} <a title="Aulas" href="{% url 'planteles:aulas' %}" class="{% if request.path == '/insti/aula/' or request.path == '/insti/aula/create/' or request.path == view5 or request.path == view6 %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Aulas</h3>
-                </a> {% endcomment %}
                 {% endif %}
                 <a title="Materias" href="{% url 'pages:pages' %}" class="{% if request.path == '/mate/materia/' or request.path == '/mate/materia/create/' or request.path == my_view or request.path == my_view1 %}active{% endif %}">
                     <span class="material-icons-sharp">library_books</span>
                     <h3>Materias</h3>
                 </a>
-                <a title="Materia del docente" href="{% url 'pages:docemates' %}" class="{% if request.path == '/mate/docemate/' or request.path == '/mate/docemate/create/' or request.path == my_view2 or request.path == my_view3 %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Materia del docente</h3>
+                <a title="Disponibilidad del docente" href="{% url 'pages:docemates' %}" class="{% if request.path == '/mate/docemate/' or request.path == '/mate/docemate/create/' or request.path == my_view2 or request.path == my_view3 %}active{% endif %}">
+                    <span class="material-icons-sharp">event_available</span>
+                    <h3>Disponibilidad del docente</h3>
                 </a>
-                {% comment %} <a title="Disponibilidad horaria" href="{% url 'pages:disponi' %}" class="{% if request.path == '/mate/disponibilidad/' or request.path == '/mate/disponibilidad/create/' or request.path == my_view4 or request.path == my_view5 %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Disponibilidad horaria</h3>
-                </a>
-                <a title="Horarios" href="{% url 'usuarios:horario' %}" class="{% if request.path == '/usuarios/horario_esc/' %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Horario</h3>
-                </a> {% endcomment %}
                 {% if request.user.is_staff or request.user.is_admin %}
                 <a title="Administrar usuarios" href="{% url 'userPage' %}" class="{% if request.path == '/admn/' or request.path == '/usuarios/admin_list/' or request.path == '/usuarios/admin_signup/' or request.path == '/usuarios/coordina_list/' or request.path == '/usuarios/coordina_import/' or request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/docente_list/' or request.path == '/usuarios/docente_import/' or request.path == '/usuarios/docente_signup/' or request.path == '/usuarios/alumno_list/' or request.path == '/usuarios/alumno_signup/' %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
+                    <span class="material-icons-sharp">manage_accounts</span>
                     <h3>Administrar usuarios</h3>
                 </a>
                 {%endif%}
@@ -287,38 +263,11 @@
             {% comment %} fin del top {% endcomment %}
             <div class="recent-updates">
                 <h2>{% block activi %}{% endblock activi %}</h2>
-                {% if request.path == '/home/' %}
-                    <div class="updates">
-                        {% comment %} bloque de actualizaciones {% endcomment %}
-                        {% for r in page_obj %}
-                        <div class="update">
-                            <div class="profile-photo">
-                                    {% for awa in admin %}
-                                        {% if r.history_user_id == awa.user_id %}
-                                            <img {% if awa.admin_profile_pic %} src="{{awa.admin_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
-                                        {% endif %}
-                                    {% endfor %}
-                                    {% for owo in coordina %}
-                                        {% if r.history_user_id == owo.user_id %}
-                                            <img {% if owo.coordina_profile_pic %} src="{{owo.coordina_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
-                                        {% endif %}
-                                    {% endfor %}
-                                    {% for ewe in docente %}
-                                        {% if r.history_user_id == ewe.user_id %}
-                                            <img {% if ewe.docente_profile_pic %} src="{{ewe.docente_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
-                                        {% endif %}
-                                    {% endfor %}
-                            </div>
-                            <div class="message">
-                                <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio la materia {% elif r.history_type == '-' %} elimino la materia {% elif r.history_type == '~' %} edito la materia {% endif %} {{r.materia}}<p>
-                                    <small class="text-muted">{{r.history_date}}</small>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                <div class="updates">{% block history %}{% endblock history %}</div>
-                {% endif %}
+                
+                <div class="updates">
+                    {% block history %}{% endblock history %}
+                </div>
+                
             </div>
             {% comment %} fin de las actividades {% endcomment %}
             <div class="sales-analytics">
