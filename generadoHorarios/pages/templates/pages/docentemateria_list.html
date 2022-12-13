@@ -76,7 +76,7 @@
             <th>Materia</th>
             <th>Docente</th>
             <th>D&iacute;a</th>
-            <th>Semestre</th>
+            <th>Horario</th>
             <th>Licenciatura</th>
             <th>Ciclo</th>
             {% if request.user.is_staff %}
@@ -91,7 +91,7 @@
                 <td class="">{{docemate.materia}}</td>
                 <td class="">{{docemate.docente}}</td>
                 <td class="">{{docemate.dia}}</td>
-                <td class="">{{docemate.semestre}}</td>
+                <td class="">{{docemate.start_time}}:00 - {{docemate.end_time}}:00</td>
                 <td class="">{{docemate.licenciatura}}</td>
                 <td class="">{{docemate.ciclo}}</td>
                 {% if request.user.is_staff %}
@@ -120,7 +120,7 @@
             <th>Materia</th>
             <th>Docente</th>
             <th>D&iacute;a</th>
-            <th>Semestre</th>
+            <th>Horario</th>
             <th>Licenciatura</th>
             <th>Ciclo</th>
             {% if request.user.is_staff %}
@@ -135,7 +135,7 @@
                 <td class="">{{docemate.materia}}</td>
                 <td class="">{{docemate.docente}}</td>
                 <td class="">{{docemate.dia}}</td>
-                <td class="">{{docemate.semestre}}</td>
+                <td class="">{{docemate.start_time}}:00 - {{docemate.end_time}}:00</td>
                 <td class="">{{docemate.licenciatura}}</td>
                 <td class="">{{docemate.ciclo}}</td>
                 {% if request.user.is_staff %}

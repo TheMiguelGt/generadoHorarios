@@ -61,26 +61,26 @@
                     <span class="material-icons-sharp">school</span>
                     <h3>Planteles</h3>
                 </a>
-                <a title="Semestres" href="{% url 'planteles:semestres' %}" class="{% if request.path == '/insti/semestre-class/' or request.path == '/insti/semestre-class/create/' or request.path == view8 or request.path == view9 or request.path == view12 %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Semestres</h3>
-                </a>
-                <a title="D&iacute;as" href="{% url 'pages:dias' %}" class="{% if request.path == '/mate/dia/' or request.path == '/mate/dia/create/' or request.path == view10 %}active{% endif %}">
-                    <span class="material-icons-sharp active">light_mode</span>
-                    <h3>D&iacute;as</h3>
-                </a>
-                <a title="Horas" href="{% url 'pages:horas' %}" class="{% if request.path == '/mate/hora/' or request.path == '/mate/hora/create/' or request.path == view11 %}active{% endif %}">
-                    <span class="material-icons-sharp active">hourglass_top</span>
-                    <h3>Horas</h3>
-                </a>
-                <a title="Aulas" href="{% url 'planteles:aulas' %}" class="{% if request.path == '/insti/aula/' or request.path == '/insti/aula/create/' or request.path == view5 or request.path == view6 %}active{% endif %}">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Aulas</h3>
-                </a>
                 <a title="Licenciaturas" href="{% url 'planteles:licenciaturas' %}" class="{% if request.path == '/insti/licenciatura/' or request.path == '/insti/licenciatura/create/' or request.path == view3 or request.path == view4 %}active{% endif %}">
                     <span class="material-icons-sharp">history_edu</span>
                     <h3>Licenciaturas</h3>
                 </a>
+                <a title="Semestres" href="{% url 'planteles:semestres' %}" class="{% if request.path == '/insti/semestre-class/' or request.path == '/insti/semestre-class/create/' or request.path == view8 or request.path == view9 or request.path == view12 %}active{% endif %}">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Semestres</h3>
+                </a>
+                {% comment %} <a title="D&iacute;as" href="{% url 'pages:dias' %}" class="{% if request.path == '/mate/dia/' or request.path == '/mate/dia/create/' or request.path == view10 %}active{% endif %}">
+                    <span class="material-icons-sharp active">light_mode</span>
+                    <h3>D&iacute;as</h3>
+                </a> {% endcomment %}
+                {% comment %} <a title="Horas" href="{% url 'pages:horas' %}" class="{% if request.path == '/mate/hora/' or request.path == '/mate/hora/create/' or request.path == view11 %}active{% endif %}">
+                    <span class="material-icons-sharp active">hourglass_top</span>
+                    <h3>Horas</h3>
+                </a> {% endcomment %}
+                {% comment %} <a title="Aulas" href="{% url 'planteles:aulas' %}" class="{% if request.path == '/insti/aula/' or request.path == '/insti/aula/create/' or request.path == view5 or request.path == view6 %}active{% endif %}">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Aulas</h3>
+                </a> {% endcomment %}
                 {% endif %}
                 <a title="Materias" href="{% url 'pages:pages' %}" class="{% if request.path == '/mate/materia/' or request.path == '/mate/materia/create/' or request.path == my_view or request.path == my_view1 %}active{% endif %}">
                     <span class="material-icons-sharp">library_books</span>
@@ -90,14 +90,14 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Materia del docente</h3>
                 </a>
-                <a title="Disponibilidad horaria" href="{% url 'pages:disponi' %}" class="{% if request.path == '/mate/disponibilidad/' or request.path == '/mate/disponibilidad/create/' or request.path == my_view4 or request.path == my_view5 %}active{% endif %}">
+                {% comment %} <a title="Disponibilidad horaria" href="{% url 'pages:disponi' %}" class="{% if request.path == '/mate/disponibilidad/' or request.path == '/mate/disponibilidad/create/' or request.path == my_view4 or request.path == my_view5 %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Disponibilidad horaria</h3>
                 </a>
                 <a title="Horarios" href="{% url 'usuarios:horario' %}" class="{% if request.path == '/usuarios/horario_esc/' %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Horario</h3>
-                </a>
+                </a> {% endcomment %}
                 {% if request.user.is_staff or request.user.is_admin %}
                 <a title="Administrar usuarios" href="{% url 'userPage' %}" class="{% if request.path == '/admn/' or request.path == '/usuarios/admin_list/' or request.path == '/usuarios/admin_signup/' or request.path == '/usuarios/coordina_list/' or request.path == '/usuarios/coordina_import/' or request.path == '/usuarios/coordina_signup/' or request.path == '/usuarios/docente_list/' or request.path == '/usuarios/docente_import/' or request.path == '/usuarios/docente_signup/' or request.path == '/usuarios/alumno_list/' or request.path == '/usuarios/alumno_signup/' %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>

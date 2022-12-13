@@ -19,33 +19,102 @@
 {% regroup docema by end_time as end_list %}
 <thead>
     <tr>
-        <th>Horario<br> disponible</th>
+        {% comment %} <th>Horario<br> disponible</th> {% endcomment %}
         {% for day in section.week_day %}
             <th>{{day}}</th>
         {% endfor %}
     </tr>
 </thead>
 <tbody>
-   {% for x in time_slot %}
+    <tr>
+    {% for x in time_slot %}
+				
+        <td>{{x}}</td>
+        {% for a in hora_list %}
+            {% comment %} <td>{{a.grouper}}</td> {% endcomment %}
+            {% for n in a.list %}
+                <td>{{n.docente}}</td>
+            {% endfor %}
+        {% endfor %}
+				
+    </tr>   
+    {% endfor %}
+    
+
+      
+    
+   {% comment %} {% for x in time_slot %}
         <tr>
-        {% for awa in hora_list %}
+        {% for awa in hora_list %} {% endcomment %}
         
-            <td>{{x}}</td>
+            {% comment %} <td>{{x}}</td> {% endcomment %}
             
             {% comment %} <td>{{awa.grouper}}:00</td> {% endcomment %}
-            {% for doce in awa.list %}
-                {% comment %} {% if x == '7:00 - 8:00' and doce.start_time == 7 and doce.end_time == 8 %} {% endcomment %}
-                    {% comment %} <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
-                {% elif x == '7:00 - 8:00' and doce.start_time == 7 and doce.end_time == 9 %} {% endcomment %}
-                    <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
-                
-                {% comment %} {% endif %} {% endcomment %}
+            {% comment %} {% for doce in awa.list %}
+                {% if x == '7:00 - 8:00' %}
+                    {% if doce.start_time == 7 and doce.end_time == 8 %}
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 9 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 10 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 11 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 12 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 13 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% endif %} 
+                {% elif x == '8:00 - 9:00' %} 
+                    {% if doce.start_time == 7 and doce.end_time == 9 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 10 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 11 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 12 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 13 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 8 and doce.end_time == 9 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% endif %} 
+                {% elif x == '9:00 - 10:00' %}  
+                    {% if doce.start_time == 7 and doce.end_time == 10 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 11 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 12 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 13 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% endif %} 
+                {% elif x == '10:00 - 11:00' %}  
+                    {% if doce.start_time == 7 and doce.end_time == 11 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 12 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 13 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% endif %} 
+                {% elif x == '11:00 - 12:00' %}  
+                    {% if doce.start_time == 7 and doce.end_time == 12 %}
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% elif doce.start_time == 7 and doce.end_time == 13 %} 
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td>
+                    {% endif %}
+                {% elif x == '12:00 - 13:00' %}  
+                    {% if doce.start_time == 12 and doce.end_time == 13 %}
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td> {% endcomment %}
+                    {% comment %} {% elif  %}
+                        <td><b>{{doce.docente}}</b> <br> {{doce.materia}} {{doce.start_time}} {{doce.end_time}}</td> {% endcomment %}
+                    {% comment %} {% endif %}
+                {% endif %} 
                 
             {% endfor %}
         
         {% endfor %}
-    {% endfor %}
-        </tr>
-    
+    {% endfor %} 
+        </tr> {% endcomment %}
 </tbody>
 {% endblock table %}

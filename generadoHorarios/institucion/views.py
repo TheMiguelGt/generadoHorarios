@@ -397,7 +397,7 @@ class SemestreDelete(DeleteView):
 def TimeTableView(request,id):
     try:
         section = Semestre.objects.get(id=id)
-        docema = DocenteMateria.objects.select_related('materia','docente','clase').filter(clase_id=section.id,start_time=section.start_time)
+        docema = DocenteMateria.objects.select_related('materia','docente','clase').filter(clase_id=section.id)
         print(docema.query)
         time = [0] * (section.end_time - section.start_time)
         time_slot = [''] * (section.end_time - section.start_time)
