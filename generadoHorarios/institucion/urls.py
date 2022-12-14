@@ -1,6 +1,6 @@
 from django.urls import path 
 from institucion import views
-from .views import PlantelListView,PlantelCreate,PlantelUpdate,PlantelDelete,LicenciaturaListView,LicenciaturaCreate,LicenciaturaUpdate,LicenciaturaDelete,AulaListView,AulaCreate,AulaUpdate,AulaDelete,SemestreCreate,SemestreUpdate,SemestreDelete,SemestreCreate
+from .views import PlantelListView,PlantelCreate,PlantelUpdate,PlantelDelete,LicenciaturaListView,LicenciaturaCreate,LicenciaturaUpdate,LicenciaturaDelete,AulaListView,AulaCreate,AulaUpdate,AulaDelete,SemestreCreate,SemestreUpdate,SemestreDelete,SemestreCreate,horario_render_pdf_view
 
 planteles_patterns = ([
     #planteles
@@ -28,5 +28,6 @@ planteles_patterns = ([
     path('semestre-class/update/<int:pk>/',SemestreUpdate.as_view(),name="semeupdate"),
     path('semestre-class/delete/<int:pk>/',SemestreDelete.as_view(),name="semedel"),
     #tabla del horario
-    path('semestre-class/horario/<str:id>/',views.TimeTableView,name='timetable')
+    path('semestre-class/horario/<str:id>/',views.TimeTableView,name='timetable'),
+    path('semestre-class/horario/pdf/<pk>/',horario_render_pdf_view,name='horario-pdf-view'),
 ],'planteles')

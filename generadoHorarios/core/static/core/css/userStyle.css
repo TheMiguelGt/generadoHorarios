@@ -512,6 +512,14 @@ main table tbody td{
     color: var(--color-white);
     cursor: pointer;
 }
+.btn-pdf{
+    color: var(--color-primary-variant);
+    width: 20px;
+}
+.btn-view{
+    color: var(--color-success);
+    width: 20px;
+}
 .btn-update{
     color: var(--color-warning);
     width: 20px;

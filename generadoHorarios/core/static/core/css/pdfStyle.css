@@ -1,0 +1,50 @@
+@page {
+    size: letter portrait;
+    margin: 2cm;
+}
+.divTable{
+    margin-top: 10px;
+}
+.tbPrincipal th{
+    border: 1px solid black;
+    padding: 3px,3px,0px,3px;
+}
+.tbSegus td{
+    text-align: center;
+    border: 1px solid black;
+    padding: 3px,3px,0px,3px;
+}
+.tbPrograma{
+    width: 100%;
+}
+.tbPrograma td{
+    text-align: center;
+    border: 1px solid black;
+    padding: 3px,3px,0px,3px;
+    width: 17%;
+}
+.tbHorario thead th{
+    text-align: center;
+    border: 1px solid black;
+    padding: 3px,3px,0px,3px;
+    width: 17%;
+}
+.tbHorario tbody td{
+    text-align: center;
+    border: 1px solid black;
+    padding: 8px,3px,8px,3px;
+    width: 17%;
+}
+.tbMaterias{
+    width: 100%;
+}
+.tbMaterias thead th{
+    text-align: center;
+    border: 1px solid black;
+    padding: 3px,3px,0px,3px;
+}
+.tbMaterias tbody td{
+    text-align: center;
+    border: 1px solid black;
+    padding: 5px,3px,0px,3px;
+}

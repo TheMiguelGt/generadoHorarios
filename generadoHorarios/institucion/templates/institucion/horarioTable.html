@@ -16,7 +16,7 @@
 
 {% block table %}
 {% regroup docema by dia as hora_list %}
-{% regroup docema by end_time as end_list %}
+{% regroup docema by start_time as end_list %}
 <thead>
     <tr>
         <th>Horario<br> disponible</th>
@@ -25,21 +25,33 @@
         {% endfor %}
     </tr>
 </thead>
+
 <tbody>
+    {% for time_s in end_list|dictsort:'grouper'%}
+        <tr>
+            <td>{{time_s.grouper}}</td>
+            
+            {% comment %} {% for doce in  %}
+                
+            {% endfor %} {% endcomment %}
+        
+    {% endfor %}
+        </tr>
+</tbody>
     
     
-   {% for x in time_slot %}
+   {% comment %} {% for x in time_slot %}
         <tr>
             <td>{{x}}</td>
-        {% for awa in hora_list %} 
+        {% for awa in hora_list %}  {% endcomment %}
         
             
-            
             {% comment %} <td>{{awa.grouper}}:00</td> {% endcomment %}
-            {% for doce in awa.list %}
+            {% comment %} {% for doce in awa.list %}
                 
                     
                         {% if x == '7:00 - 8:00' %}
+                            
                             {% if doce.start_time == 7 and doce.end_time == 8 %}
                                 <td><b>{{doce.docente}}</b> <br> {{doce.materia}}</td>
                             {% elif doce.start_time == 7 and doce.end_time == 9 %} 
@@ -53,20 +65,7 @@
                             {% elif doce.start_time == 7 and doce.end_time == 13 %} 
                                 <td><b>{{doce.docente}}</b> <br> {{doce.materia}} </td>
                             {% endif %}   
-                        
-                            {% if doce.start_time == 7 and doce.end_time == 8 %}
-                                <td><b>{{doce.docente}}</b> <br> {{doce.materia}}</td>
-                            {% elif doce.start_time == 7 and doce.end_time == 9 %} 
-                                <td><b>{{doce.docente}}</b> <br> {{doce.materia}} </td>
-                            {% elif doce.start_time == 7 and doce.end_time == 10 %} 
-                                <td><b>{{doce.docente}}</b> <br> {{doce.materia}} </td>
-                            {% elif doce.start_time == 7 and doce.end_time == 11 %} 
-                                <td><b>{{doce.docente}}</b> <br> {{doce.materia}} </td>
-                            {% elif doce.start_time == 7 and doce.end_time == 12 %} 
-                                <td><b>{{doce.docente}}</b> <br> {{doce.materia}} </td>
-                            {% elif doce.start_time == 7 and doce.end_time == 13 %} 
-                                <td><b>{{doce.docente}}</b> <br> {{doce.materia}} </td>
-                            {% endif %}   
+                         
                         {% elif x == '8:00 - 9:00' %} 
                             {% if doce.start_time == 7 and doce.end_time == 9 %} 
                                 <td><b>{{doce.docente}}</b> <br> {{doce.materia}} </td>
@@ -197,5 +196,5 @@
     </tr>
     {% endfor %} 
         
-</tbody>
+</tbody> {% endcomment %}
 {% endblock table %}

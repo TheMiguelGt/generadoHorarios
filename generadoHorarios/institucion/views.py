@@ -1,4 +1,10 @@
 from django.urls import reverse_lazy
+import os
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.contrib.staticfiles import finders
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
@@ -8,10 +14,12 @@ from institucion.models import Aula, Plantel,Licenciatura, Semestre
 from .forms import PlantelForms,LicenciaturaForms,AulaForms,SemestreForms
 from pages.models import Page,Disponibilidad,DocenteMateria
 from usuarios.models import Admin,Coordina,Docente
-from django.shortcuts import render,redirect
-from django.db.models import Q
+from django.shortcuts import render,redirect,get_object_or_404
+from django.db.models import Q,Count
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib import messages
+
+
 
 # Create your views here.
 class StaffRequiredMixin(object):
@@ -397,7 +405,8 @@ def semestreList(request):
     docente = Docente.objects.all()
     if request.method == "POST":
         searched = request.POST['searched']
-        seme = Semestre.objects.filter(Q(semestre__icontains=searched) | Q(licenciatura__licenciatura__icontains=searched))
+        seme = Semestre.objects.filter(Q(semestre__icontains=searched) | Q(licenciatura__licenciatura__icontains=searched) | Q(ciclo__icontains=searched))
+        print(seme.query)
         history_list = Semestre.history.select_related('licenciatura')
         model = Semestre.objects.all()
         pages = Page.objects.all()
@@ -481,7 +490,7 @@ class SemestreDelete(DeleteView):
 def TimeTableView(request,id):
     try:
         section = Semestre.objects.get(id=id)
-        docema = DocenteMateria.objects.select_related('materia','docente','clase').filter(clase_id=section.id).order_by('dia')
+        docema = DocenteMateria.objects.select_related('materia','docente','clase').filter(clase_id=section.id).order_by('dia','start_time')
         print(docema.query)
         time = [0] * (section.end_time - section.start_time)
         time_slot = [''] * (section.end_time - section.start_time)
@@ -497,4 +506,31 @@ def TimeTableView(request,id):
         context_2 = {'sections':sections}
         return render(request,'institucion/semestre_list.html',context_2)
 
+#Generate PDF 
+def horario_render_pdf_view(request,*args, **kwargs):
+    pk = kwargs.get('pk')   
+    horario = get_object_or_404(Semestre,pk=pk)
+    docema = DocenteMateria.objects.select_related('materia','docente','clase').filter(clase_id=horario.id).order_by('dia','start_time')
+    time = [0] * (horario.end_time - horario.start_time)
+    time_slot = [''] * (horario.end_time - horario.start_time)
+    for x in range(0, len(time)):
+        time_slot[x] = str(horario.start_time + x) + ':00 - ' + str(horario.start_time + x + 1) + ':00'
+        time[x] = horario.start_time + x
+    
+    template_path = 'institucion/pdf1.html'
+    context = {'horario':horario,'docema':docema,'time':time,'time_slot':time_slot}
+    #create a django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="Horario.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+    
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+        html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+        return HttpResponse('Hay algunos errores <pre>' +html+ '</pre>')
+    return response
 
