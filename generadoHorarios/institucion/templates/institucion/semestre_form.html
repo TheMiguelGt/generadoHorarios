@@ -57,11 +57,11 @@
 </tr>
 </thead>
 <tbody>
-    <tr>
-        {% csrf_token %}
-        {% load crispy_forms_tags %}
-        {{ section|crispy }}
-    </tr>
+<tr>
+    {% csrf_token %}
+    {% load crispy_forms_tags %}
+    <td>{{ section|crispy }}</td>
+</tr>
 <tr>
     <td colspan="2"><input type="submit" class="btn-enviar"  value="Registrar semestre" /></td>
 </tr>
