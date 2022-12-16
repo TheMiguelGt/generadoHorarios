@@ -69,10 +69,10 @@
                     {% for x in time_slot %}
                         <tr>
                             <td>{{x}}</td>
-                        {% for awa in hora_list|dictsort:'grouper' %} 
+                        {% for awa in hora_list %} 
                         
                             
-                            {% for doce in awa.list %}
+                            {% for doce in awa.list|dictsort:'dia'|dictsort:'start_time' %}
                                 
                                     
                             {% if x == '7:00 - 8:00' %}

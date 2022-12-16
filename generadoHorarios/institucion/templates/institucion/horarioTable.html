@@ -15,7 +15,7 @@
 {% endblock history %}
 
 {% block table %}
-{% regroup docema by dia as hora_list %}
+{% regroup docema by start_time as dia_list %}
 {% regroup docema by start_time as end_list %}
 <thead>
     <tr>
@@ -25,18 +25,20 @@
         {% endfor %}
     </tr>
 </thead>
-
-{% comment %} <tbody>
-    {% for time_s in end_list|dictsort:'grouper'%}
-        <tr>
-            <td>{{time_s.grouper}}</td>
-        
-    {% endfor %}
-        </tr>
-</tbody> {% endcomment %}
     
 <tbody>
-   {% for x in time_slot %}
+    {% for x in results|dictsort:'dia' %}
+        <tr>
+            {% for i in docema %}
+                {% if x.dia == 'Lunes' and i.dia == x.dia %}
+                    <td>{{i.docente}}</td>
+                {% elif x.dia == 'Martes' and i.dia == x.dia %}
+                    <td>{{i.start_time}}  {{i.docente}}</td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+   {% comment %} {% for x in time_slot %}
         <tr>
             <td>{{x}}</td>
         {% for awa in hora_list|dictsort:'grouper' %} 
@@ -266,7 +268,7 @@
         
         {% endfor %}
     </tr>
-    {% endfor %} 
+    {% endfor %}  {% endcomment %}
         
 </tbody>
 {% endblock table %}
