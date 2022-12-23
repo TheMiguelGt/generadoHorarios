@@ -490,7 +490,7 @@ class SemestreDelete(DeleteView):
 def TimeTableView(request,id):
     try:
         section = Semestre.objects.get(id=id)
-        docema = DocenteMateria.objects.select_related('materia','docente','clase').filter(clase_id=section.id).order_by('dia')
+        docema = DocenteMateria.objects.select_related('materia','docente','clase').filter(clase_id=section.id)
         results = DocenteMateria.objects.raw('SELECT * from pages_docenteMateria GROUP BY dia')
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()
