@@ -317,9 +317,15 @@ nav .contenedor{
 }
 
 .containerR button{
-    width: 10rem;
-    height: 3rem;
-    border-radius: 50px;
-    background: transparent;
-    
+    width: 6rem;
+    height: 2.5rem;
+    background: #fff;
+    border-radius: 0.4rem;
+    color: #7380ec;
+    cursor: pointer;
+    border: solid transparent;
+    font-family: poppins,sans-serif;
+    font-size: 14px;
+    font-weight: 200;
 }
+
