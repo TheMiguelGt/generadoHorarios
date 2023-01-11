@@ -205,26 +205,39 @@ def DoceMateListView(request):#listar
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()
         docente = Docente.objects.all()
+        mate = Page.objects.all()
+        doce = Docente.objects.all()
+        seme = Semestre.objects.all()
         
-        #Paginate historical 
-        paginator = Paginator(histo,3)
-        page = request.GET.get('pages')
-        try:
-            histo = paginator.page(page)
-        except PageNotAnInteger:
-            histo = paginator.page(1)
-        except EmptyPage:
-            histo = paginator.page(paginator.num_pages)
-            
-        #Paginate docemates
-        paginator1 = Paginator(model,5)
-        page1 = request.GET.get('pages:docemates')
-        try:
-            model = paginator1.page(page1)
-        except PageNotAnInteger:
-            model = paginator1.page(1)
-        except EmptyPage:
-            model = paginator1.page(paginator1.num_pages)
+        if not seme:
+            messages.warning(request,'No hay horarios creados, favor de crear uno')
+            return redirect('homeUser')
+        elif not doce and request.user.is_staff or not doce and request.user.is_admin or not doce and request.user.is_coordina :
+            messages.warning(request,'No hay docentes creados, favor de crear uno')
+            return redirect('usuarios:DocenteSignUp')
+        elif not mate:
+            messages.warning(request,'No hay materias creadas, favor de crear una')
+            return redirect('pages:pages')
+        else:
+            #Paginate historical 
+            paginator = Paginator(histo,3)
+            page = request.GET.get('pages')
+            try:
+                histo = paginator.page(page)
+            except PageNotAnInteger:
+                histo = paginator.page(1)
+            except EmptyPage:
+                histo = paginator.page(paginator.num_pages)
+                
+            #Paginate docemates
+            paginator1 = Paginator(model,5)
+            page1 = request.GET.get('pages:docemates')
+            try:
+                model = paginator1.page(page1)
+            except PageNotAnInteger:
+                model = paginator1.page(1)
+            except EmptyPage:
+                model = paginator1.page(paginator1.num_pages)
         
         return render(request,'pages/docentemateria_list.html',{'searched':searched,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
@@ -236,26 +249,58 @@ def DoceMateListView(request):#listar
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()
         docente = Docente.objects.all()
+        mate = Page.objects.all()
+        doce = Docente.objects.all()
+        seme = Semestre.objects.all()
         
-        #Paginate historical 
-        paginator = Paginator(histo,3)
-        page = request.GET.get('pages')
-        try:
-            histo = paginator.page(page)
-        except PageNotAnInteger:
-            histo = paginator.page(1)
-        except EmptyPage:
-            histo = paginator.page(paginator.num_pages)
-            
-        #Paginate docemates
-        paginator1 = Paginator(model,5)
-        page1 = request.GET.get('pages:docemates')
-        try:
-            model = paginator1.page(page1)
-        except PageNotAnInteger:
-            model = paginator1.page(1)
-        except EmptyPage:
-            model = paginator1.page(paginator1.num_pages)
+        if not seme:
+            messages.warning(request,'No hay horarios creados, favor de crear uno')
+            return redirect('homeUser')
+        elif not doce and request.user.is_staff or not doce and request.user.is_admin or not doce and request.user.is_coordina :
+            messages.warning(request,'No hay docentes creados, favor de crear uno')
+            return redirect('usuarios:DocenteSignUp')
+        elif not mate:
+            messages.warning(request,'No hay materias creadas, favor de crear una')
+            return redirect('pages:pages')
+        else:
+            #Paginate historical 
+            paginator = Paginator(histo,3)
+            page = request.GET.get('pages')
+            try:
+                histo = paginator.page(page)
+            except PageNotAnInteger:
+                histo = paginator.page(1)
+            except EmptyPage:
+                histo = paginator.page(paginator.num_pages)
+                
+            #Paginate docemates
+            paginator1 = Paginator(model,5)
+            page1 = request.GET.get('pages:docemates')
+            try:
+                model = paginator1.page(page1)
+            except PageNotAnInteger:
+                model = paginator1.page(1)
+            except EmptyPage:
+                model = paginator1.page(paginator1.num_pages)
+            #Paginate historical 
+            paginator = Paginator(histo,3)
+            page = request.GET.get('pages')
+            try:
+                histo = paginator.page(page)
+            except PageNotAnInteger:
+                histo = paginator.page(1)
+            except EmptyPage:
+                histo = paginator.page(paginator.num_pages)
+                
+            #Paginate docemates
+            paginator1 = Paginator(model,5)
+            page1 = request.GET.get('pages:docemates')
+            try:
+                model = paginator1.page(page1)
+            except PageNotAnInteger:
+                model = paginator1.page(1)
+            except EmptyPage:
+                model = paginator1.page(paginator1.num_pages)
         
         return render(request,'pages/docentemateria_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo,'admin':admin,'coordina':coordina,'docente':docente})
 
@@ -267,22 +312,6 @@ class DoceMateCreate(SuccessMessageMixin,CreateView):
     form_class = DoceMateForms
     success_url = reverse_lazy('pages:docemates')
     success_message = "Materia asignada se ha creado con exito"
-
-    def get(self, request,*args,**kwargs):
-        mate = Page.objects.all()
-        doce = Docente.objects.all()
-        seme = Semestre.objects.all()
-        # if not mate:
-        #     messages.warning(request,'No hay materias creadas, favor de crear una')
-        # elif request.user.is_staff and not doce or request.user.is_admin and not doce or request.user.is_coordina and not doce:
-        #     messages.warning(request,'No hay docentes creados, favor de crear uno')
-        if not seme:
-            messages.warning(request,'No hay horarios creados, favor de crear uno')
-            return redirect('homeUser')
-        elif not doce and request.user.is_staff:
-            messages.warning(request,'No hay docentes creados, favor de crear uno')
-            return redirect('usuarios:DocenteSignUp')
-
 
     def get_context_data(self,**kwargs): 
         context = super().get_context_data(**kwargs)

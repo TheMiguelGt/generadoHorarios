@@ -75,10 +75,7 @@
             <th>Matricula</th>
             <th>Nombre</th>
             <th>Correo</th>
-            <th>Licenciatura</th>
-            {% if request.user.is_staff or request.user.is_admin %}
-                <th colspan="2">Acciones</th>
-            {% endif %}
+            
         </tr>
     </thead>
     <tbody>
@@ -89,10 +86,7 @@
                 <td class="">{{docente.user.username}}</td>
                 <td class="">{{docente.nombre}} {{docente.apepat}} {{docente.apemat}}</td>
                 <td class="">{{docente.email}}</td>
-                <td class=""></td>
-                {% if request.user.is_staff %}
-                    {% comment %} <td class=""><a class="btn-delete" href="{% url 'usuarios:deletecoordi' docente.user_id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>  {% endcomment %}
-                {% endif %}
+               
             </tr>
         {% endfor %}
     </tbody>
