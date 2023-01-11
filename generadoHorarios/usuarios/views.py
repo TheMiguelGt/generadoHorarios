@@ -34,8 +34,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password #mostrar o encryptar password
-
-
+from django.contrib.auth.models import Permission
 
 # Create your views here.
 # ------------ PERFIL DE USUARIO ---------------
@@ -213,7 +212,6 @@ class AdminDetailView(LoginRequiredMixin,DetailView):
 
 
 # ----------------COORDINADOR------------------
-
 #creation profile coordina
 def CoordinaSignUp(request):
     user_type = 'coordinador'

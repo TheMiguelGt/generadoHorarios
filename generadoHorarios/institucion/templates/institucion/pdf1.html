@@ -305,6 +305,7 @@
         
         {% regroup docema by dia as hora_list %}
         {% regroup docema by end_time as end_list %}
+        {% regroup docema by docente as doce_list %}
 
         <div class="divTable">
             <table class="tbMaterias">
@@ -314,12 +315,14 @@
                     <th>Materia</th>
                 </thead>
                 <tbody>
-                    {% for doc in docema|dictsort:'id' %}
-                        <tr>
-                            <td width="10%">{{forloop.counter}}</td>
-                            <td width="50%">{{doc.docente}}</td>
-                            <td width="40%">{{doc.materia}}</td>
-                        </tr>
+                    {% for doc in doce_list %}
+                        {% for doce in doc.list|dictsort:'id' %}
+                            <tr>
+                                <td width="10%">{{forloop.counter}}</td>
+                                <td width="50%">{{doce.docente}}</td>
+                                <td width="40%">{{doce.materia}}</td>
+                            </tr>
+                        {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>

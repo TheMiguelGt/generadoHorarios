@@ -47,10 +47,7 @@
             <th>Matricula</th>
             <th>Nombre</th>
             <th>Correo</th>
-            <th>Licenciatura</th>
-            {% if request.user.is_staff or request.user.is_admin %}
-                <th colspan="2">Acciones</th>
-            {% endif %}
+           
         </tr>
     </thead>
     <tbody>
@@ -61,10 +58,7 @@
                 <td class="">{{coordina.user.username}}</td>
                 <td class="">{{coordina.nombre}} {{coordina.apepat}} {{coordina.apemat}}</td>
                 <td class="">{{coordina.email}}</td>
-                <td class=""></td>
-                {% if request.user.is_staff %}
-                    <td class=""><a class="btn-delete" href="{% url 'usuarios:deletecoordi' coordina.user_id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td> 
-                {% endif %}
+                
             </tr>
         {% endfor %}
     </tbody>
@@ -75,10 +69,7 @@
             <th>Matricula</th>
             <th>Nombre</th>
             <th>Correo</th>
-            <th>Licenciatura</th>
-            {% if request.user.is_staff or request.user.is_admin %}
-                <th colspan="2">Acciones</th>
-            {% endif %}
+            
         </tr>
     </thead>
     <tbody>
@@ -89,10 +80,7 @@
                 <td class="">{{coordina.user.username}}</td>
                 <td class="">{{coordina.nombre}} {{coordina.apepat}} {{coordina.apemat}}</td>
                 <td class="">{{coordina.email}}</td>
-                <td class=""></td>
-                {% if request.user.is_staff %}
-                    <td class=""><a class="btn-delete" href="{% url 'usuarios:deletecoordi' coordina.user_id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td> 
-                {% endif %}
+                
             </tr>
         {% endfor %}
     </tbody>

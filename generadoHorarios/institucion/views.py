@@ -202,26 +202,30 @@ def licenciaturaList(request):
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()
         docente = Docente.objects.all()
-        
-        #Paginate historical
-        paginator = Paginator(history_list,3)
-        page = request.GET.get('pages')
-        try:
-            history_list = paginator.page(page)
-        except PageNotAnInteger:
-            history_list = paginator.page(1)
-        except EmptyPage:
-            history_list = paginator.page(paginator.num_pages)
-            
-        #Paginate licenciaturas
-        paginator1 = Paginator(licen,5)
-        page1 = request.GET.get('planteles:licenciaturas')
-        try:
-            licen = paginator1.page(page1)
-        except PageNotAnInteger:
-            licen = paginator1.page(1)
-        except EmptyPage:
-            licen = paginator1.page(paginator1.num_pages)
+        plantel = Plantel.objects.all()
+        if not plantel:
+            messages.warning(request,'No hay planteles creados, favor de crear uno')
+            return redirect('planteles:planteles')
+        else:
+            #Paginate historical
+            paginator = Paginator(history_list,3)
+            page = request.GET.get('pages')
+            try:
+                history_list = paginator.page(page)
+            except PageNotAnInteger:
+                history_list = paginator.page(1)
+            except EmptyPage:
+                history_list = paginator.page(paginator.num_pages)
+                
+            #Paginate licenciaturas
+            paginator1 = Paginator(licen,5)
+            page1 = request.GET.get('planteles:licenciaturas')
+            try:
+                licen = paginator1.page(page1)
+            except PageNotAnInteger:
+                licen = paginator1.page(1)
+            except EmptyPage:
+                licen = paginator1.page(paginator1.num_pages)
         
         return render(request,'institucion/licenciatura_list.html',{'searched':searched,'model':model,'licen':licen,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
@@ -233,26 +237,30 @@ def licenciaturaList(request):
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()
         docente = Docente.objects.all()
-        
-        #Paginate historical
-        paginator = Paginator(history_list,3)
-        page = request.GET.get('pages')
-        try:
-            history_list = paginator.page(page)
-        except PageNotAnInteger:
-            history_list = paginator.page(1)
-        except EmptyPage:
-            history_list = paginator.page(paginator.num_pages)
-            
-        #Paginate licenciaturas
-        paginator1 = Paginator(model,5)
-        page1 = request.GET.get('planteles:licenciaturas')
-        try:
-            model = paginator1.page(page1)
-        except PageNotAnInteger:
-            model = paginator1.page(1)
-        except EmptyPage:
-            model = paginator1.page(paginator1.num_pages)
+        plantel = Plantel.objects.all()
+        if not plantel:
+            messages.warning(request,'No hay planteles creados, favor de crear uno')
+            return redirect('planteles:planteles')
+        else:
+            #Paginate historical
+            paginator = Paginator(history_list,3)
+            page = request.GET.get('pages')
+            try:
+                history_list = paginator.page(page)
+            except PageNotAnInteger:
+                history_list = paginator.page(1)
+            except EmptyPage:
+                history_list = paginator.page(paginator.num_pages)
+                
+            #Paginate licenciaturas
+            paginator1 = Paginator(model,5)
+            page1 = request.GET.get('planteles:licenciaturas')
+            try:
+                model = paginator1.page(page1)
+            except PageNotAnInteger:
+                model = paginator1.page(1)
+            except EmptyPage:
+                model = paginator1.page(paginator1.num_pages)
         
         return render(request,'institucion/licenciatura_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
         
@@ -264,12 +272,6 @@ class LicenciaturaCreate(SuccessMessageMixin,CreateView):
     form_class = LicenciaturaForms
     success_url = reverse_lazy('planteles:licenciaturas')
     success_message = "Licenciatura creada con exito"
-
-    def get(self, request, *args, **kwargs):
-        plantel = Plantel.objects.all()
-        if not plantel:
-            messages.warning(request,'No hay planteles creados, favor de crear uno')
-            return redirect('planteles:planteles')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
