@@ -10,6 +10,8 @@
 {% url 'pages:docedel' docentemateria.id as my_view3 %}
 {% url 'pages:dispoupdate' disponibilidad.id as my_view4 %}
 {% url 'pages:dispodel' disponibilidad.id as my_view5 %}
+{% url 'pages:diaupdate' dia.id as view6 %}
+{% url 'pages:horaupdate' hora.id as view7 %}
 {% if request.user.is_staff or request.user.is_coordina%}
   {% if request.path == '/mate/materia/' %}
     <a href="{% url 'pages:create' %}"><div class="item add-product">
@@ -87,6 +89,90 @@
       </div>
     </div></a>
     <a href="{% url 'pages:createdi' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+    {% elif request.path == '/mate/dia/' %}
+      <a href="{% url 'pages:createdia' %}"><div class="item add-product">
+        <div>
+          <span class="material-icons-sharp">add</span>
+          <h3>Agregar</h3>
+        </div>
+      </div></a>
+    {% elif request.path == '/mate/dia/create/' %}
+    <a href="{% url 'pages:dias' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+    {% elif request.path == view6 %}
+    <a href="{% url 'pages:createdia' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+    <a href="{% url 'pages:dias' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+
+    {% elif request.path == '/mate/hora/' %}
+      <a href="{% url 'pages:createhora' %}"><div class="item add-product">
+        <div>
+          <span class="material-icons-sharp">add</span>
+          <h3>Agregar</h3>
+        </div>
+      </div></a>
+    {% elif request.path == '/mate/hora/create/' %}
+    <a href="{% url 'pages:horas' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+    {% elif request.path == view7 %}
+    <a href="{% url 'pages:createhora' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+    <a href="{% url 'pages:horas' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+  {% endif %}
+{% elif request.user.is_docente %}
+  {% if request.path == '/mate/docemate/' %}
+    <a href="{% url 'pages:createm' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == '/mate/docemate/create/' %}
+    <a href="{% url 'pages:docemates' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == my_view2 or request.path == my_view3 %}
+    <a href="{% url 'pages:docemates' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+    <a href="{% url 'pages:createm' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
         <h3>Agregar</h3>

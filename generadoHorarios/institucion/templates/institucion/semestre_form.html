@@ -1,39 +1,15 @@
 {% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
 {% load static %}
-{% block title %}Semestres{% endblock title %} 
-{% block subtitle %}Semestres{% endblock subtitle %}
-{% block activi %}en semestre{% endblock activi %}
-{% block tabletitle %}Agregar semestre{% endblock tabletitle %}
-{% block agregarItem %}Agregar semestre{% endblock agregarItem %}
+{% block title %}Horario{% endblock title %} 
+{% block subtitle %}Horario{% endblock subtitle %}
+{% block tabletitle %}Agregar horario {% endblock tabletitle %}
+{% block agregarItem %}Agregar horario{% endblock agregarItem %}
 {% block content %}
 {% include "institucion/includes/institucion_menu.html" %}
 
 {% endblock content %}
 
-{% block history %}
-{% if history_list.count == 0 %}
-<div class="update">
-  <div class="profile-photo">
-      
-  </div>
-  <div class="message">
-      <p><h2>Aun no hay cambios</h2> <p>
-          <small class="text-muted"></small>
-  </div>
-</div>
-{% else %}
-{% for r in history_list %}
-<div class="update">
-  <div class="profile-photo">
-      <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
-  </div>
-  <div class="message">
-    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito {% endif %} el semestre {{r.semestre}} de la {{r.licenciatura}}<p>
-  </div>
-</div>
-{% endfor %}
-{% endif %}
-{% endblock history %}
+
 
 {% block table %}
 <thead>
@@ -44,10 +20,13 @@
 </thead>
 <tbody>
 <tr>
-    {{form.as_table}}
+    {% csrf_token %}
+    {% load crispy_forms_tags %}
+    <td>{{ section|crispy }}</td>
 </tr>
 <tr>
     <td colspan="2"><input type="submit" class="btn-enviar"  value="Registrar semestre" /></td>
 </tr>
 </tbody>
+
 {% endblock table %}

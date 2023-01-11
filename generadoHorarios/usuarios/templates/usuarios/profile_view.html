@@ -1,0 +1,128 @@
+{% extends 'core/homeuser.html' %} 
+{% load static %}
+{% block table %}
+<thead>
+  <tr>
+      <th>
+        <div class="profile-card">
+            <div class="profile-header">
+                <img src="{% static 'core/img/fullunedl.jpg' %}" class="img" alt="">
+            </div>
+            <div class="profile-body">
+                  <div class="author-img">
+                    {% if request.user.is_admin or request.user.is_staff %}
+                        {% for owo in admin %}
+                            {% if user.id == owo.user_id %}
+                                {% if owo.admin_profile_pic %}
+                                <img src="{{owo.admin_profile_pic.url}}" class="img" alt="">
+                                {% else %}
+                                <img src="{% static 'usuarios/img/imgUser.png' %}" class="img" alt="">
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% elif request.user.is_coordina %}
+                        {% for owo in coordina %}
+                            {% if user.id == owo.user_id %}
+                                {% if owo.coordina_profile_pic %}
+                                <img src="{{owo.coordina_profile_pic.url}}" class="img" alt="">
+                                {% else %}
+                                <img src="{% static 'usuarios/img/imgUser.png' %}" class="img" alt="">
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% elif request.user.is_docente %}
+                        {% for owo in docente %}
+                            {% if user.id == owo.user_id %}
+                                {% if owo.docente_profile_pic %}
+                                <img src="{{owo.docente_profile_pic.url}}" class="img" alt="">
+                                {% else %}
+                                <img src="{% static 'usuarios/img/imgUser.png' %}" class="img" alt="">
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                      
+                  </div>
+                  <div class="name">
+                    {% comment %} HACER UN LOOP HASTA CONSEGUIR EL ADMIN {% endcomment %}
+                    {% if request.user.is_admin or request.user.is_staff %}
+                        {% for awa in admin %}
+                            {% if user.id == awa.user_id %}
+                                {{awa.nombre}} {{awa.apepat}} {{awa.apemat}}
+                            {% endif %}
+                        {% endfor %}
+                    {% comment %} HACER UN LOOP HASTA CONSEGUIR EL COORDINADOR {% endcomment %}
+                    {% elif request.user.is_coordina %} 
+                        {% for awa in coordina %}
+                            {% if user.id == awa.user_id  %}
+                                {{awa.nombre}} {{awa.apepat}} {{awa.apemat}}
+                            {% endif %}
+                        {% endfor %}
+                    {% comment %} HACER UN LOOP HASTA CONSEGUIR EL DOCENTE {% endcomment %}
+                    {% elif request.user.is_docente %}
+                        {% for awa in docente %}
+                            {% if user.id == awa.user_id  %}
+                                {{awa.nombre}} {{awa.apepat}} {{awa.apemat}}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                  </div>
+                  <div class="intro">
+                    <p><b></b></p>
+
+                     <p><b>Usuario:</b> {{user.username}}<br>
+                        <b>Email:</b>
+                        {% if request.user.is_admin or request.user.is_staff %}
+                            {% for awa in admin %}
+                                {% if user.id == awa.user_id %}
+                                    {{awa.email}}
+                                {% endif %}
+                            {% endfor %}
+                        {% elif request.user.is_coordina %}
+                            {% for awa in coordina %}
+                                {% if user.id == awa.user_id %}
+                                    {{awa.email}}
+                                {% endif %}
+                            {% endfor %}
+                        {% elif request.user.is_docente %}
+                            {% for awa in docente %}
+                                {% if user.id == awa.user_id %}
+                                    {{awa.email}}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}</p>
+                  </div>
+                  <div class="social-icon">
+                      <ul>
+                          <li>
+                              <a {% if request.user.is_admin or request.user.is_staff %}
+                                        href="{% url 'usuarios:admin_update' %}"
+                                {% elif request.user.is_coordina %}
+                                        href="{% url 'usuarios:coordina_profile' %}"
+                                {% elif request.user.is_docente %}
+                                        href="{% url 'usuarios:docente_update' %}"
+                                {% endif %} >
+                                <span class="material-icons-sharp">edit</span>
+                                {% comment %} <i class="fab fa-facebook-f"></i> {% endcomment %}
+                              </a>
+                          </li>
+                      </ul>
+                  </div>
+            </div>
+        </div>
+      </th>
+  </tr>
+</thead>
+
+{% if messages %}
+{% for message in messages %}
+    <script>
+        Swal.fire({
+            "title": "Felicidades",
+            "text": "{{message}}",
+            "icon": "success"
+        })
+    </script>
+{% endfor %}
+{% endif %}
+{% endblock table %}

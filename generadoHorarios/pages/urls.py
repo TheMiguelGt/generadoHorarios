@@ -1,6 +1,6 @@
 from django.urls import path
 from pages import views
-from .views import PageListView,PageDetailView,PageCreate,PageUpdate,PageDelete,DoceMateDetail,DoceMateCreate,DoceMateUpdate,DoceMateDelete,DispoListView,DispoCreate,DispoUpdate,DispoDelete,DiaList
+from .views import PageListView,PageDetailView,PageCreate,PageUpdate,PageDelete,DoceMateDetail,DoceMateCreate,DoceMateUpdate,DoceMateDelete,DispoListView,DispoCreate,DispoUpdate,DispoDelete,DiaList,DiaCreate,DiaUpdate,HoraCreate,HoraUpdate
 
 pages_patterns = ([ #se crea una tupla
     #MATERIAS
@@ -24,4 +24,10 @@ pages_patterns = ([ #se crea una tupla
     path('disponibilidad/delete/<int:pk>/',DispoDelete.as_view(),name="dispodel"),
     #DIA 
     path('dia/',DiaList.as_view(),name='dias'),
+    path('dia/create/',DiaCreate.as_view(),name='createdia'),
+    path('dia/update/<int:pk>/',DiaUpdate.as_view(),name='diaupdate'),
+    #HORA
+    path('hora/',views.HoraList,name='horas'),
+    path('hora/create/',HoraCreate.as_view(),name='createhora'),
+    path('hora/update/<int:pk>/',HoraUpdate.as_view(),name='horaupdate'),
 ],'pages')

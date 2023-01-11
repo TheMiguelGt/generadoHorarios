@@ -2,37 +2,12 @@
 {% load static %}
 {% block title %}Materias{% endblock title %} 
 {% block subtitle %}Materias{% endblock subtitle %}
-{% block activi %}en materias{% endblock activi %}
 {% block tabletitle %}Actualizar materia{% endblock tabletitle %}
 {% block content %}
   {% include "pages/includes/pages_menu.html" %}
 {% endblock content %}
 
-{% block history %}
-{% if history_list.count == 0 %}
-    <div class="update">
-        <div class="profile-photo">
-            
-        </div>
-        <div class="message">
-            <p><h2>Aun no hay cambios</h2> <p>
-                <small class="text-muted"></small>
-        </div>
-    </div>
-{% else %}
-  {% for r in history_list %}
-  <div class="update">
-      <div class="profile-photo">
-          <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
-      </div>
-      <div class="message">
-          <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio la materia {% elif r.history_type == '-' %} elimino la materia {% elif r.history_type == '~' %} edito la materia {% endif %} {{r.materia}}<p>
-              <small class="text-muted">{{r.history_date}}</small>
-      </div>
-  </div>
-{% endfor %}
-{% endif %}
-{% endblock history %}
+
 
 {% block table %}
 <thead>
@@ -54,6 +29,10 @@
       <tr>
         <td class="" style="border-bottom: 0px solid black;"><labe ><b>Carga</b></label></td>
         <td class="" ><input type="number" name="carga" class="txt-all" placeholder="Carga horaria" value="{{page.carga}}"></td>
+      </tr>
+      <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Aula</b></label></td>
+        <td class="" ><input type="number" name="aula" class="txt-all" placeholder="Grupo" value="{{page.aula}}"></td>
       </tr>
       <tr>
         <td colspan="2"><input type="submit" class="btn-editar"  value="Actualizar materia" /></td>

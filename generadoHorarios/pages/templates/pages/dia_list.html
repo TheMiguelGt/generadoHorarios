@@ -1,0 +1,48 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}D&iacute;as{% endblock title %} 
+{% block subtitle %}D&iacute;as{% endblock subtitle %}
+{% block tabletitle %}Listado de d&iacute;as{% endblock tabletitle %}
+{% block agregarItem %}Agregar d&iacute;a{% endblock agregarItem %}
+{% block content %}
+{% include "pages/includes/pages_menu.html" %}
+
+{% endblock content %}
+
+{% block table %}
+{% if not object_list %}
+<thead>
+    <tr>
+        <th><h1>No hay d&iacute;as por mostrar, necesitas registrarlas</h1></th>
+    </tr>
+</thead>
+{% else %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="text-center alert alert-{{ message.tags }}">
+            {{ message|safe }}
+        </div>
+    {% endfor %}
+    {% endif %}
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>D&iacute;a</th>
+            {% if request.user.is_staff %}
+                <th colspan="2">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for nom in object_list|dictsort:"dia" %}
+            <tr>
+                <td class="">{{forloop.counter}}</td>
+                <td class="">{{nom.dia}}</td>
+                {% if request.user.is_staff %}
+                    <td class=""><a class="btn-update" href="{% url 'pages:diaupdate' nom.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endif %}
+{% endblock table %}

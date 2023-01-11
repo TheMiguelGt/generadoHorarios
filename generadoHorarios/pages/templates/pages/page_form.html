@@ -2,90 +2,24 @@
 {% load static %}
 {% block title %}Materias{% endblock title %} 
 {% block subtitle %}Materias{% endblock subtitle %}
-{% block activi %}en materias{% endblock activi %}
+{% comment %} {% block activi %}en materias{% endblock activi %} {% endcomment %}
 {% block tabletitle %}Crear nueva materia{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia{% endblock agregarItem %}
 {% block content %}
   {% include "pages/includes/pages_menu.html" %}
 {% endblock content %}
 
-{% block history %}
-{% if history_list.count == 0 %}
-<div class="update">
-  <div class="profile-photo">
-      
-  </div>
-  <div class="message">
-      <p><h2>Aun no hay cambios</h2> <p>
-          <small class="text-muted"></small>
-  </div>
-</div>
-{% else %}
-{% for r in history_list %}
-<div class="update">
-  <div class="profile-photo">
-      <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
-  </div>
-  <div class="message">
-      <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio la materia {% elif r.history_type == '-' %} elimino la materia {% elif r.history_type == '~' %} edito la materia {% endif %} {{r.materia}}<p>
-          <small class="text-muted">{{r.history_date}}</small>
-  </div>
-</div>
-{% endfor %}
-{% endif %}
-{% endblock history %}
+
 
 {% block table %}
 
 
 <script>
-  {% if form.errors %}
-  var errors = '';
-    {% for field in form %}
-      {% for error in field.errors %}
-        errors+='{{ error }}\n';
-      {% endfor %}
-    {% endfor %}
-      Swal.fire({
-        title: 'Error!',
-        text: errors,
-        icon: 'error',
-      })
-  {% endif %}
   
-  $('form').on('submit', function (e){
-    e.preventDefault();
-    var parameters = $(this).serializeArray();
-    console.log(parameters);
-    $.ajax({
-      url: '{% url 'pages:create' %}',
-      type: 'POST',
-      data: parameters,
-      dataType: 'json'
-    }).done(function (data){
-      console.log(data);
-      if(!data.hasOwnProperty('error')){
-        location.href = '{{list_url}}';
-        return false;
-      }
-      message_error(data.error);
-    }).fail(function(jqXHR, textStatus, errorThrown){
-      alert(textStatus + ': ' + errorThrown);
-    }).always(function(data){
-  
-    });
-  });
-
-  </script>
+</script>
 
 
-  {% if messages %}
-  {% for message in messages %}
-      <div class="text-center alert alert-{{ message.tags }}">
-          {{ message|safe }}
-      </div>
-  {% endfor %}
-{% endif %}
+
 <form method="POST">
   {% csrf_token %}
   <input type="hidden" name="action" value="{{action}}">
@@ -97,16 +31,7 @@
   </thead>
   <tbody>
     <tr>
-      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Clave</b></label></td>
-      <td class="" ><input type="text" name="clave" class="txt-all" placeholder="Clave de la materia"></td>
-    </tr>
-    <tr>
-      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Nombre</b></label></td>
-      <td class="" ><input type="text" name="materia" class="txt-all" placeholder="Nombre de la materia"></td>
-    </tr>
-    <tr>
-      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Carga</b></label></td>
-      <td class="" ><input type="number" name="carga" class="txt-all" placeholder="Carga horaria"></td>
+      <td class="" style="border-bottom: 0px solid black;"><labe ><b>{{form.as_table}}</b></label></td>
     </tr>
     <tr>
       <td colspan="2"><input type="submit" class="btn-enviar"  value="Crear materia" /></td>

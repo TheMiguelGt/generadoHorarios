@@ -1,6 +1,6 @@
 from django.urls import path 
 from institucion import views
-from .views import PlantelListView,PlantelCreate,PlantelUpdate,PlantelDelete,LicenciaturaListView,LicenciaturaCreate,LicenciaturaUpdate,LicenciaturaDelete,AulaListView,AulaCreate,AulaUpdate,AulaDelete,SemestreListView,SemestreCreate,SemestreUpdate,SemestreDelete
+from .views import PlantelListView,PlantelCreate,PlantelUpdate,PlantelDelete,LicenciaturaListView,LicenciaturaCreate,LicenciaturaUpdate,LicenciaturaDelete,AulaListView,AulaCreate,AulaUpdate,AulaDelete,SemestreUpdate,SemestreDelete,horario_render_pdf_view
 
 planteles_patterns = ([
     #planteles
@@ -23,8 +23,11 @@ planteles_patterns = ([
     path('aula/delete/<int:pk>/',AulaDelete.as_view(),name="auladel"),
     #semestre
     # path('semestre/',SemestreListView.as_view(),name="semestres"),
-    path('semestre/',views.semestreList,name='semestres'),
-    path('semestre/create/',SemestreCreate.as_view(),name='create3'),#path de crea
-    path('semestre/update/<int:pk>/',SemestreUpdate.as_view(),name="semeupdate"),
-    path('semestre/delete/<int:pk>/',SemestreDelete.as_view(),name="semedel"),
+    path('semestre-class/',views.semestreList,name='semestres'),
+    path('semestre-class/create/',views.semestreCreate,name='create3'),
+    path('semestre-class/update/<int:pk>/',SemestreUpdate.as_view(),name="semeupdate"),
+    path('semestre-class/delete/<int:pk>/',SemestreDelete.as_view(),name="semedel"),
+    #tabla del horario
+    path('semestre-class/horario/<str:id>/',views.TimeTableView,name='timetable'),
+    path('semestre-class/horario/pdf/<pk>/',horario_render_pdf_view,name='horario-pdf-view'),
 ],'planteles')

@@ -17,13 +17,19 @@ class User(AbstractUser):
     class Meta:
         db_table = 'user_usuario'
     
+#eliminar imagenes del admin cada que actualice
+def custom_admin_upload_to(instance, filename):
+    old_instance = Admin.objects.get(pk=instance.pk)
+    old_instance.admin_profile_pic.delete()
+    return 'usuarios/admin/admin_profile_pic' + filename
+
 class Admin(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='Admin')
     nombre=models.CharField(max_length=50)
     apepat=models.CharField(max_length=50)
     apemat=models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
-    admin_profile_pic = models.ImageField(upload_to="usuarios/admin_profile_pic",blank=True)
+    admin_profile_pic = models.ImageField(upload_to=custom_admin_upload_to,blank=True)
     
     def get_absolute_url(self):
         return reverse("usuarios:admin_detail", kwargs={"pk": self.pk})
@@ -39,13 +45,19 @@ class Admin(models.Model):
         db_table = 'user_administrador'
         default_permissions = ('add','change','delete','view')
     
+#eliminar imagenes del coordinador cada que actualice
+def custom_coordina_upload_to(instance, filename):
+    old_instance = Coordina.objects.get(pk=instance.pk)
+    old_instance.coordina_profile_pic.delete()
+    return 'usuarios/coordinador/coordina_profile_pic' + filename
+
 class Coordina(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='Coordinador')
     nombre=models.CharField(max_length=50)
     apepat=models.CharField(max_length=50)
     apemat=models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
-    coordina_profile_pic = models.ImageField(upload_to="usuarios/cordina_profile_pic",blank=True)
+    coordina_profile_pic = models.ImageField(upload_to=custom_coordina_upload_to,blank=True)
     history = HistoricalRecords()
     
     def get_absolute_url(self):
@@ -57,6 +69,12 @@ class Coordina(models.Model):
     class Meta:
         db_table = 'user_coordinador'
         default_permissions = ('add','change','delete','view')
+        
+#eliminar imagenes del docente cada que actualice
+def custom_docente_upload_to(instance,filename):
+    old_instance = Docente.objects.get(pk=instance.pk)
+    old_instance.docente_profile_pic.delete()
+    return 'usuarios/docente/docente_profile_pic' + filename
     
 class Docente(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,related_name='Docente')
@@ -64,7 +82,7 @@ class Docente(models.Model):
     apepat=models.CharField(max_length=50)
     apemat=models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
-    docente_profile_pic = models.ImageField(upload_to="usuarios/docente_profile_pic",blank=True)
+    docente_profile_pic = models.ImageField(upload_to=custom_docente_upload_to,blank=True)
     history = HistoricalRecords()
     
     def get_absolute_url(self):
@@ -96,6 +114,7 @@ class Alumno(models.Model):
     class Meta:
         db_table = 'user_alumno'
         default_permissions = ('change','view')
+        
 
 
     

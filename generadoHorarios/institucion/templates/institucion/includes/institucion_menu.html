@@ -12,6 +12,9 @@
 {% url 'planteles:auladel' aula.id as view6 %}
 {% url 'planteles:semeupdate' semestre.id as view7 %}
 {% url 'planteles:semedel' semestre.id as view8 %}
+{% url 'planteles:timetable' semestre.id as view12 %}
+{% url 'planteles:dicupdate' ciclo.id as view9 %}
+{% url 'planteles:cicdel' ciclo.id as view10 %}
 {% if request.user.is_staff %}
   {% if request.path == '/insti/plantel/' %}
     <a href="{% url 'planteles:create' %}"><div class="item add-product">
@@ -94,15 +97,15 @@
         <h3>Listar</h3>
       </div>
     </div></a>
-  {% elif request.path == '/insti/semestre/' %}
+  {% elif request.path == '/home/' %}
     <a href="{% url 'planteles:create3' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
         <h3>Agregar</h3>
       </div>
     </div></a>
-  {% elif request.path == '/insti/semestre/create/' %}
-    <a href="{% url 'planteles:semestres' %}"><div class="item add-product">
+  {% elif request.path == '/insti/semestre-class/create/' %}
+    <a href="{% url 'homeUser' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>
         <h3>Listar</h3>
@@ -115,7 +118,34 @@
         <h3>Agregar</h3>
       </div>
     </div></a>
-    <a href="{% url 'planteles:semestres' %}"><div class="item add-product">
+    <a href="{% url 'homeUser' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+    {% elif request.path == '/insti/ciclo/' %}
+    <a href="{% url 'planteles:createcic' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == '/insti/ciclo/create/' %}
+    <a href="{% url 'planteles:ciclos' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == view9 or request.path == view10 %}
+    <a href="{% url 'planteles:createcic' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+    <a href="{% url 'planteles:ciclos' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>
         <h3>Listar</h3>

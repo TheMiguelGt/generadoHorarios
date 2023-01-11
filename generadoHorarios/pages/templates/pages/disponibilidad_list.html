@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Disponibilidad horaria{% endblock title %} 
 {% block subtitle %}Disponibilidad horaria{% endblock subtitle %}
-{% block activi %}en disponibilidad horaria{% endblock activi %}
+{% block activi %}Acciones recientes{% endblock activi %}
 {% block tabletitle %}Listado de disponibilidad horaria del docente{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia al docente{% endblock agregarItem %}
 {% block content %}
@@ -25,10 +25,24 @@
 {% for r in history_list %}
 <div class="update">
   <div class="profile-photo">
-      <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+    {% for awa in admin %}
+        {% if r.history_user_id == awa.user_id %}
+            <img {% if awa.admin_profile_pic %} src="{{awa.admin_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+        {% endif %}
+    {% endfor %}
+    {% for owo in coordina %}
+        {% if r.history_user_id == owo.user_id %}
+            <img {% if owo.coordina_profile_pic %} src="{{owo.coordina_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+        {% endif %}
+    {% endfor %}
+    {% for ewe in docente %}
+        {% if r.history_user_id == ewe.user_id %}
+            <img {% if ewe.docente_profile_pic %} src="{{ewe.docente_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+        {% endif %}
+    {% endfor %}
   </div>
   <div class="message">
-    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito a {% endif %} a {{r.docente}} con el d&iacute;a {{r.dia}} y hora {{r.hora}}<p>
+    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito a {% endif %} a {{r.docente}} con el d&iacute;a {{r.dia}}<p>
   </div>
 </div>
 {% endfor %}
@@ -36,7 +50,7 @@
 {% endblock history %}
 
 {% block table %}
-{% if not model %}
+{% if not disponi %}
     <thead>
         <tr>
             <th><h1>El docente a&uacute;n no ha seleccionado su disponibilidad horaria</h1></th>
@@ -58,11 +72,12 @@
     <thead>
         <tr>
             <th>Numero</th>
-            <th>ID Materia</th>
-            <th>Nombre de la Materia</th>
-            <th>Carga horaria</th>
-            <th>Grado</th>
-            <th>Aula</th>
+            <th>D&iacute;a</th>
+            <th>Hora</th>
+            <th>Docente</th>
+            <th>Semestre</th>
+            <th>Licenciatura</th>
+            <th>Ciclo</th>
             {% if request.user.is_staff %}
                 <th colspan="2">Acciones</th>
             {% endif %}
@@ -73,14 +88,29 @@
             <tr>
                 <td class="">{{forloop.counter}}</td>
                 <td class="">{{disponibilidad.dia}}</td>
-                <td class="">{{disponibilidad.hora}}</td>
+                <td class="">{{disponibilidad.horaini}} a {{disponibilidad.horafin}}</td>
                 <td class="">{{disponibilidad.docente}}</td>
+                <td class="">{{disponibilidad.semestre}}</td>
+                <td class="">{{disponibilidad.licenciatura}}</td>
+                <td class="">{{disponibilidad.ciclo}}</td>
                 {% if request.user.is_staff %}
                     <td class=""><a class="btn-update" href="{% url 'pages:dispoupdate' disponibilidad.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                     <td class=""><a class="btn-delete" href="{% url 'pages:dispodel' disponibilidad.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
                 {% endif %}
             </tr>
         {% endfor %}
+        <tr>
+            <td>
+                <span class="step-links pagination">
+                    {% if disdo.has_previous %}
+                        <a href="?pages:pages={{ disdo.previous_page_number }}"> < Prev </a>
+                    {% endif %}
+                    {% if disdo.has_next %}
+                        <a href="?pages:pages={{ disdo.next_page_number }}"> Next > </a>
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
     </tbody>
 {% else %}
     <thead>
@@ -89,24 +119,42 @@
             <th>D&iacute;a</th>
             <th>Hora</th>
             <th>Docente</th>
+            <th>Semestre</th>
+            <th>Licenciatura</th>
+            <th>Ciclo</th>
             {% if request.user.is_staff %}
                 <th colspan="2">Acciones</th>
             {% endif %}
         </tr>
     </thead>
     <tbody>
-        {% for disponibilidad in model%}
+        {% for disponibilidad in disdo%}
             <tr>
                 <td class="">{{forloop.counter}}</td>
                 <td class="">{{disponibilidad.dia}}</td>
-                <td class="">{{disponibilidad.hora}}</td>
+                <td class="">{{disponibilidad.horaini}} a {{disponibilidad.horafin}}</td>
                 <td class="">{{disponibilidad.docente}}</td>
+                <td class="">{{disponibilidad.semestre}}</td>
+                <td class="">{{disponibilidad.licenciatura}}</td>
+                <td class="">{{disponibilidad.ciclo}}</td>
                 {% if request.user.is_staff %}
                     <td class=""><a class="btn-update" href="{% url 'pages:dispoupdate' disponibilidad.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                     <td class=""><a class="btn-delete" href="{% url 'pages:dispodel' disponibilidad.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
                 {% endif %}
             </tr>
         {% endfor %}
+        <tr>
+            <td>
+                <span class="step-links pagination">
+                    {% if disdo.has_previous %}
+                        <a href="?pages:pages={{ disdo.previous_page_number }}"> < Prev </a>
+                    {% endif %}
+                    {% if disdo.has_next %}
+                        <a href="?pages:pages={{ disdo.next_page_number }}"> Next > </a>
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
     </tbody>
 {% endif %}
 {% endif %}

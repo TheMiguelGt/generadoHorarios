@@ -3,7 +3,7 @@
 <link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
 {% block title %}Materias{% endblock title %} 
 {% block subtitle %}Materias{% endblock subtitle %}
-{% block activi %}en materias{% endblock activi %}
+{% block activi %}Acciones recientes{% endblock activi %}
 {% block tabletitle %}Listado de materias{% endblock tabletitle %}
 {% block agregarItem %}Agregar materia{% endblock agregarItem %}
 {% block content %}
@@ -25,7 +25,21 @@
     {% for r in page_obj %}
     <div class="update">
         <div class="profile-photo">
-            <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+            {% for awa in admin %}
+                {% if r.history_user_id == awa.user_id %}
+                    <img {% if awa.admin_profile_pic %} src="{{awa.admin_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+                {% endif %}
+            {% endfor %}
+            {% for owo in coordina %}
+                {% if r.history_user_id == owo.user_id %}
+                    <img {% if owo.coordina_profile_pic %} src="{{owo.coordina_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+                {% endif %}
+            {% endfor %}
+            {% for ewe in docente %}
+                {% if r.history_user_id == ewe.user_id %}
+                    <img {% if ewe.docente_profile_pic %} src="{{ewe.docente_profile_pic.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="message">
             <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio la materia {% elif r.history_type == '-' %} elimino la materia {% elif r.history_type == '~' %} edito la materia {% endif %} {{r.materia}}<p>
@@ -33,10 +47,24 @@
         </div>
     </div>
 {% endfor %}
+
 {% endif %}
 {% endblock history %}
 
 {% block table %}
+
+{% if messages %}
+{% for message in messages %}
+    <script>
+        Swal.fire({
+            "title": "Felicidades",
+            "text": "{{message}}",
+            "icon": "success"
+        })
+    </script>
+{% endfor %}
+{% endif %}
+
 {% if not pages %}
     <thead>
         <tr>
@@ -44,13 +72,7 @@
         </tr>
     </thead>
 {% else %}
-    {% if messages %}
-    {% for message in messages %}
-        <div class="text-center alert alert-{{ message.tags }}">
-            {{ message|safe }}
-        </div>
-    {% endfor %}
-    {% endif %}
+   
 <form method="POST" action="{% url 'pages:pages' %}">
     {% csrf_token %}
     <div style="display:flex; margin-bottom:20px;">
@@ -69,9 +91,8 @@
             <th>ID Materia</th>
             <th>Nombre de la Materia</th>
             <th>Carga horaria</th>
-            <th>Grado</th>
             <th>Aula</th>
-            {% if request.user.is_staff %}
+            {% if request.user.is_staff or request.user.is_admin or request.user.is_coordina  %}
                 <th colspan="2">Acciones</th>
             {% endif %}
         </tr>
@@ -84,14 +105,25 @@
             <td class="">{{page.clave}}</td>
             <td class="">{{page.materia}}</td>
             <td class="">{{page.carga}}</td>
-            <td class=""></td>
-            <td class=""></td>
-            {% if request.user.is_staff %}
+            <td class="">{{page.aula}}</td>
+            {% if request.user.is_staff or request.user.is_admin or request.user.is_coordina %}
                 <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                 <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
             {% endif %}
         </tr>
         {% endfor %}
+        <tr>
+            <td>
+                <span class="step-links pagination">
+                    {% if page_Search.has_previous %}
+                        <a href="?pages:pages={{ page_Search.previous_page_number }}"> < Prev </a>
+                    {% endif %}
+                    {% if page_Search.has_next %}
+                        <a href="?pages:pages={{ page_Search.next_page_number }}"> Next > </a>
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
     </tbody>
 {% else %}
 <thead>
@@ -100,24 +132,22 @@
         <th>ID Materia</th>
         <th>Nombre de la Materia</th>
         <th>Carga horaria</th>
-        <th>Grado</th>
         <th>Aula</th>
-        {% if request.user.is_staff %}
+        {% if request.user.is_staff or request.user.is_admin or request.user.is_coordina %}
             <th colspan="2">Acciones</th>
         {% endif %}
     </tr>
 </thead>
 <tbody>
-    {% for page in pages|dictsort:"id" %}
+    {% for page in page_Search|dictsort:"id" %}
         <tr>
             {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
             <td class="">{{forloop.counter}}</td>
             <td class="">{{page.clave}}</td>
             <td class="">{{page.materia}}</td>
             <td class="">{{page.carga}}</td>
-            <td class=""></td>
-            <td class=""></td>
-            {% if request.user.is_staff %}
+            <td class="">{{page.aula}}</td>
+            {% if request.user.is_staff or request.user.is_admin or request.user.is_coordina %}
                 <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                 <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
             {% endif %}
@@ -128,6 +158,18 @@
                 {% endif %} {% endcomment %}
         </tr>
     {% endfor %}
+    <tr>
+        <td>
+            <span class="step-links pagination">
+                {% if page_Search.has_previous %}
+                    <a href="?pages:pages={{ page_Search.previous_page_number }}"> < Prev </a>
+                {% endif %}
+                {% if page_Search.has_next %}
+                    <a href="?pages:pages={{ page_Search.next_page_number }}"> Next > </a>
+                {% endif %}
+            </span>
+        </td>
+    </tr>
 </tbody>
 {% endif %}
 {% endif %}

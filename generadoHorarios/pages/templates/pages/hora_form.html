@@ -1,0 +1,31 @@
+{% extends 'core/homeuser.html' %}<!--este script te manda todas las paginas que se han creado con un breve resumen-->
+{% load static %}
+{% block title %}Hora{% endblock title %} 
+{% block subtitle %}Hora{% endblock subtitle %}
+{% block tabletitle %}Registrar hora{% endblock tabletitle %}
+{% block content %}
+{% include "pages/includes/pages_menu.html" %}
+
+{% endblock content %}
+
+{% block table %}
+<thead>
+<tr>
+    <th width="30%"></th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+    <tr>
+      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Hora de inicio</b></label></td>
+      <td class="" ><input type="text" name="iniHora" class="txt-all" placeholder="ejem. 7:00"></td>
+    </tr>
+    <tr>
+        <td class="" style="border-bottom: 0px solid black;"><labe ><b>Hora final</b></label></td>
+        <td class="" ><input type="text" name="finHora" class="txt-all" placeholder="ejem. 8:00"></td>
+      </tr>
+    <tr>
+      <td colspan="2"><input type="submit" class="btn-enviar"  value="Registrar horas" /></td>
+    </tr>
+  </tbody>
+{% endblock table %}

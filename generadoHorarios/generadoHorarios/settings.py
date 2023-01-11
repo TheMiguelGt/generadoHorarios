@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'institucion',
     'pages.apps.PagesConfig',
     'usuarios',
+    'multiselectfield',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -121,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-mx'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Mexico_City'
 
 USE_I18N = True
 

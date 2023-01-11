@@ -1,0 +1,71 @@
+{% extends 'core/homeuser.html' %} 
+{% load static %}
+{% block table %}
+<thead>
+  <tr>
+      <th>
+        <form action="" method="post" enctype="multipart/form-data">
+          <div class="profile-card">
+              <div class="profile-header">
+                  <img src="{% static 'core/img/fullunedl.jpg' %}" class="img" alt="">
+              </div>
+              <div class="profile-body">
+                    <div class="author-img">
+                        {% if request.user.is_docente %}
+                            {% for owo in docente %}
+                                {% if user.id == owo.user_id %}
+                                    {% if owo.docente_profile_pic %}
+                                        <img src="{{owo.docente_profile_pic.url}}" class="img" alt="">
+                                    {% else %}
+                                        <img src="{% static 'usuarios/img/imgUser.png' %}" class="img" alt="">
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="name">
+                      {% comment %} HACER UN LOOP HASTA CONSEGUIR EL DOCENTE {% endcomment %}
+                      {% if request.user.is_docente %}
+                          {% for awa in docente %}
+                              {% if user.id == awa.user_id %}
+                                  {{awa.nombre}} {{awa.apepat}} {{awa.apemat}}
+                              {% endif %}
+                          {% endfor %}
+                      {% endif %}
+                    </div>
+                    <div class="intro">
+                      <p><b></b></p>
+                      {% for awa in docente %}
+                        {% if user.id == awa.user_id %}
+                          <p><b>Email</b> <input type="text" name="email" id="email" class="txt-all" placeholder="{{awa.email}}" value="{{awa.email}}"></p>
+                          <br>
+                          <p><input type="file" name="docente_profile_pic" id="docente_profile_pic" /></p>
+                        {% endif %}
+                      {% endfor %} 
+                    </div>
+                    <div class="social-icon">
+                        <ul>
+                            <li>
+                                <input type="submit" class="up-Profile" value="Actualizar perfil" />
+                            </li>
+                        </ul>
+                    </div>
+              </div>
+          </div>
+        </form>
+      </th>
+  </tr>
+</thead>
+
+{% if messages %}
+{% for message in messages %}
+    <script>
+        Swal.fire({
+            "title": "Felicidades",
+            "text": "{{message}}",
+            "icon": "success"
+        })
+    </script>
+{% endfor %}
+{% endif %}
+{% endblock table %}

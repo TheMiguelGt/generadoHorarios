@@ -1,0 +1,63 @@
+{% extends 'core/homeuser.html' %} 
+{% load static %}
+{% block title %}Importar docentes{% endblock %}
+{% block subtitle %}Docente{% endblock subtitle %}
+{% block tabletitle %}Importar docentes{% endblock tabletitle %}
+{% block content %}
+  {% include "usuarios/includes/usuarios_menu.html" %}
+{% endblock content %}
+
+{% block table %}
+{% csrf_token %}
+<thead>
+    <tr>
+        <th>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="file" class="drop-container">
+                    <span class="drop-title">Click aqu&iacute;</span>
+                    o
+                    <input type="file" name="myfile" id="file" />
+                </label>
+            </form>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <br>
+            <button type="submit" id="btnUpload">Upload</button>
+        </th>
+    </tr>
+</thead>
+
+    {% comment %} <img src="{% static 'images/login-background.PNG' %}" alt=""> {% endcomment %}
+<script>
+  {% if user_form.errors %}
+    var errors = '';
+    {% for field in user_form %}
+      {% for error in field.errors %}
+        errors+='{{error}}\n';
+      {% endfor %}
+      Swal.fire({
+        title: 'Error!',
+        text: "Es necesario llenar todos los campos",
+        icon: 'error',
+      })
+    {% endfor %}
+  {% endif %}
+
+  {% if coordina_profile_form.errors %}
+      var errors = '';
+      {% for field in coordina_profile_form %}
+        {% for error in field.errors %}
+          errors+='{{error}}\n';
+        {% endfor %}
+        Swal.fire({
+          title: 'Error!',
+          text: "Es necesario llenar todos los campos",
+          icon: 'error',
+        })
+      {% endfor %}
+  {% endif %}
+</script>
+{% endblock table %}

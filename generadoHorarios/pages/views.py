@@ -15,8 +15,10 @@ from django.shortcuts import redirect
 from itertools import chain
 from operator import attrgetter
 from .models import Disponibilidad, Page,DocenteMateria,Dia,Hora
-from .forms import PageForms,DoceMateForms,DispoForms
-from django.core.paginator import Paginator
+from usuarios.models import Admin,Coordina,Docente
+from institucion.models import Aula,Semestre
+from .forms import PageForms,DoceMateForms,DispoForms,DiaForms,HoraForms
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
@@ -38,6 +40,9 @@ class PageListView(ListView):#listar
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
     def post(self,request,*args,**kwargs):
@@ -61,17 +66,62 @@ def pageListSearch(request):
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'pages/page_list_search.html',{'searched':searched,'page_Search':page_Search,'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        
+        # Paginate historical
+        paginator = Paginator(page_obj,3)
+        page = request.GET.get('pages')
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+            
+        # Paginate pages
+        paginator1 = Paginator(page_Search,5)
+        page1 = request.GET.get('pages:pages')
+        try:
+            page_Search = paginator1.page(page1)
+        except PageNotAnInteger:
+            page_Search = paginator1.page(1)
+        except EmptyPage:
+            page_Search = paginator1.page(paginator1.num_pages)
+        
+        return render(request,'pages/page_list_search.html',{'searched':searched,'page_Search':page_Search,'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
-        page_obj = Page.history.all()
+        page_obj = Page.history.all()    
         pages = Page.objects.all()
+        page_Search = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        paginator = Paginator(pages,8)
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
         
-        page_number = request.GET.get('pages')
-        owo_list = paginator.get_page(page_number)
-        return render(request,'pages/page_list_search.html',{'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'owo_list':owo_list})
+        # Paginate historical
+        paginator = Paginator(page_obj,3)
+        page = request.GET.get('pages')
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+            
+        # Paginate pages
+        paginator1 = Paginator(page_Search,5)
+        page1 = request.GET.get('pages:pages')
+        try:
+            page_Search = paginator1.page(page1)
+        except PageNotAnInteger:
+            page_Search = paginator1.page(1)
+        except EmptyPage:
+            page_Search = paginator1.page(paginator1.num_pages)
+        
+        return render(request,'pages/page_list_search.html',{'page_Search':page_Search,'page_obj':page_obj,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     
 class PageDetailView(DetailView):#ver detalles
     model = Page
@@ -83,22 +133,8 @@ class PageCreate(SuccessMessageMixin, CreateView):#crear
     success_url = reverse_lazy('pages:pages') #se puede hacer de dos maneras 
     template_name = 'pages/page_form.html'
     success_message = "Materia creada con exito"
-    
-    def post(self,request,*args,**kwargs):
-        data = {}
-        try:
-            action = request.POST['action']
-            if action == 'add':
-                forms = self.get_form()
-                if forms.is_valid():
-                    forms.save()
-                else:
-                    data['error'] = forms.errors
-            else:
-                data['error'] = 'No ha ingresado ningun dato'
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
+
+
 
     def get_context_data(self,**kwargs): 
         context = super().get_context_data(**kwargs)
@@ -106,32 +142,21 @@ class PageCreate(SuccessMessageMixin, CreateView):#crear
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        context['aul'] = Aula.objects.all()
         context['action'] = 'add'
         context['list_url'] = '/mate/materia/'
         
         return context
 
 # @method_decorator(staff_member_required,name='dispatch')
-class PageUpdate(UpdateView):
+class PageUpdate(SuccessMessageMixin,UpdateView):
     model = Page
     form_class = PageForms #campos para actualizar
     template_name_suffix = '_update_form' #se pasa un subfijo para usar otro formulario
-
-    def get_context_data(self, **kwargs): 
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Page.history.all()
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        return context
-
-    def get_success_url(self): #mostrar el formulario para ver los cambios
-        # success_url = reverse_lazy('pages:pages')
-        return reverse_lazy('pages:update', args=[self.object.id]) + '?ok' #se recrea la url, donde se le pasa el update y la clave primaria con el indicador 
-
-# @method_decorator(staff_member_required,name='dispatch')
-class PageDelete(DeleteView):#eliminar
-    model = Page 
+    success_message = "Materia editada con exito"
     success_url = reverse_lazy('pages:pages')
 
     def get_context_data(self, **kwargs): 
@@ -140,6 +165,32 @@ class PageDelete(DeleteView):#eliminar
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        context['aul'] = Aula.objects.all()
+        return context
+
+    def get_success_url(self): #mostrar el formulario para ver los cambios
+        success_url = reverse_lazy('pages:pages')
+        # return reverse_lazy('pages:pages', args=[self.object.id]) + '?ok' #se recrea la url, donde se le pasa el update y la clave primaria con el indicador 
+        return success_url
+
+# @method_decorator(staff_member_required,name='dispatch')
+class PageDelete(SuccessMessageMixin,DeleteView):#eliminar
+    model = Page 
+    success_url = reverse_lazy('pages:pages')
+    success_message = "Materia eliminada con exito"
+
+    def get_context_data(self, **kwargs): 
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Page.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 #create docente materia
@@ -151,50 +202,107 @@ def DoceMateListView(request):#listar
         histo = DocenteMateria.history.select_related('materia','docente')
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
-        return render(request,'pages/docentemateria_list.html',{'searched':searched,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        
+        #Paginate historical 
+        paginator = Paginator(histo,3)
+        page = request.GET.get('pages')
+        try:
+            histo = paginator.page(page)
+        except PageNotAnInteger:
+            histo = paginator.page(1)
+        except EmptyPage:
+            histo = paginator.page(paginator.num_pages)
+            
+        #Paginate docemates
+        paginator1 = Paginator(model,5)
+        page1 = request.GET.get('pages:docemates')
+        try:
+            model = paginator1.page(page1)
+        except PageNotAnInteger:
+            model = paginator1.page(1)
+        except EmptyPage:
+            model = paginator1.page(paginator1.num_pages)
+        
+        return render(request,'pages/docentemateria_list.html',{'searched':searched,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
         model = DocenteMateria.objects.all()
         histo = DocenteMateria.history.select_related('materia','docente')
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        paginator = Paginator(histo,3)
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
         
-        page_number = request.GET.get('docemates')
-        page_obj = paginator.get_page(page_number)
-        return render(request,'pages/docentemateria_list.html',{'page_obj':page_obj,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo})
-    # paginate_by = 8 #paginacion de la lista, para mostrar de 3 en 3
+        #Paginate historical 
+        paginator = Paginator(histo,3)
+        page = request.GET.get('pages')
+        try:
+            histo = paginator.page(page)
+        except PageNotAnInteger:
+            histo = paginator.page(1)
+        except EmptyPage:
+            histo = paginator.page(paginator.num_pages)
+            
+        #Paginate docemates
+        paginator1 = Paginator(model,5)
+        page1 = request.GET.get('pages:docemates')
+        try:
+            model = paginator1.page(page1)
+        except PageNotAnInteger:
+            model = paginator1.page(1)
+        except EmptyPage:
+            model = paginator1.page(paginator1.num_pages)
+        
+        return render(request,'pages/docentemateria_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo,'admin':admin,'coordina':coordina,'docente':docente})
 
 class DoceMateDetail(DetailView):
     model = DocenteMateria
 
-class DoceMateCreate(CreateView):
+class DoceMateCreate(SuccessMessageMixin,CreateView):
     model = DocenteMateria
     form_class = DoceMateForms
     success_url = reverse_lazy('pages:docemates')
+    success_message = "Materia asignada se ha creado con exito"
 
-    def get_context_data(self, **kwargs): 
-        context = super().get_context_data(**kwargs)
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        return context
-    
+    def get(self, request,*args,**kwargs):
+        mate = Page.objects.all()
+        doce = Docente.objects.all()
+        seme = Semestre.objects.all()
+        # if not mate:
+        #     messages.warning(request,'No hay materias creadas, favor de crear una')
+        # elif request.user.is_staff and not doce or request.user.is_admin and not doce or request.user.is_coordina and not doce:
+        #     messages.warning(request,'No hay docentes creados, favor de crear uno')
+        if not seme:
+            messages.warning(request,'No hay horarios creados, favor de crear uno')
+            return redirect('homeUser')
+        elif not doce and request.user.is_staff:
+            messages.warning(request,'No hay docentes creados, favor de crear uno')
+            return redirect('usuarios:DocenteSignUp')
+
+
     def get_context_data(self,**kwargs): 
         context = super().get_context_data(**kwargs)
         context['history_list'] = DocenteMateria.history.select_related('materia','docente')
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         context['action'] = 'add'
         context['list_url'] = '/mate/materia/'
         
         return context
     
-class DoceMateUpdate(UpdateView):
+class DoceMateUpdate(SuccessMessageMixin,UpdateView):
     model = DocenteMateria
     form_class = DoceMateForms
     template_name_suffix = '_update_form'
+    success_message = "Materia asignada se ha editado con exito"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -202,14 +310,18 @@ class DoceMateUpdate(UpdateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context 
     
     def get_success_url(self):
-        return reverse_lazy('pages:doceupdate',args=[self.object.id]) + '?ok'
+        return reverse_lazy('pages:docemates')
 
 class DoceMateDelete(DeleteView):
     model = DocenteMateria
     success_url = reverse_lazy('pages:docemates')
+    success_message = "Materia asignada se ha eliminado con exito"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -217,6 +329,9 @@ class DoceMateDelete(DeleteView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context 
     
 #Disponibilidad de horario docente
@@ -230,6 +345,9 @@ class DispoListView(ListView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 def dispoListSearch(request):
@@ -237,18 +355,66 @@ def dispoListSearch(request):
         searched = request.POST['searched']
         model = Disponibilidad.objects.all()
         disdo = Disponibilidad.objects.filter(Q(docente__nombre__icontains=searched) )
-        history_list = Disponibilidad.history.select_related('docente','dia','hora')
+        history_list = Disponibilidad.history.select_related('docente','dia','horaini','horafin')
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'pages/disponibilidad_list.html',{'searched':searched,'disdo':disdo,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        
+        #Paginate historical 
+        paginator = Paginator(history_list,3)
+        page = request.GET.get('pages:disponi')
+        try:
+            history_list = paginator.page(page)
+        except PageNotAnInteger:
+            history_list = paginator.page(1)
+        except EmptyPage:
+            history_list = paginator.page('pages:disponi') 
+            
+        #Paginate disponi
+        paginator1 = Paginator(disdo,5)
+        page1 = request.GET.get('pages:disponi')
+        try:
+            disdo = paginator1.page(page1)
+        except PageNotAnInteger:
+            disdo = paginator1.page(1)
+        except EmptyPage:
+            disdo = paginator1.page(paginator1.num_pages)
+        
+        return render(request,'pages/disponibilidad_list.html',{'searched':searched,'disdo':disdo,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     else:
-        model = Disponibilidad.objects.all()
-        history_list = Disponibilidad.history.select_related('docente','dia','hora')
+        disdo = Disponibilidad.objects.all()
+        history_list = Disponibilidad.history.select_related('docente','dia')
         pages = Page.objects.all()
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
-        return render(request,'pages/disponibilidad_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        
+        #Paginate historical 
+        paginator = Paginator(history_list,3)
+        page = request.GET.get('pages:disponi')
+        try:
+            history_list = paginator.page(page)
+        except PageNotAnInteger:
+            history_list = paginator.page(1)
+        except EmptyPage:
+            history_list = paginator.page(paginator.num_pages)
+            
+        #Paginate disponi
+        paginator1 = Paginator(disdo,5)
+        page1 = request.GET.get('pages:disponi')
+        try:
+            disdo = paginator1.page(page1)
+        except PageNotAnInteger:
+            disdo = paginator1.page(1)
+        except EmptyPage:
+            disdo = paginator1.page(paginator1.num_pages)
+        
+        return render(request,'pages/disponibilidad_list.html',{'disdo':disdo,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
     
 class DispoCreate(CreateView):
     model = Disponibilidad
@@ -261,6 +427,9 @@ class DispoCreate(CreateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 class DispoUpdate(UpdateView):
@@ -274,6 +443,9 @@ class DispoUpdate(UpdateView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
     def get_success_url(self):
@@ -289,11 +461,14 @@ class DispoDelete(DeleteView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
     
 class DiaList(ListView):
     model = Dia
-    paginate_by = 8 
+    paginate_by = 6 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -301,6 +476,122 @@ class DiaList(ListView):
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
         context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        return context
+    
+class DiaCreate(CreateView):
+    model = Dia
+    form_class = DiaForms
+    success_url = reverse_lazy('pages:dias')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        context['dia_nom'] = Dia.objects.all().order_by('dia')
+        return context
+
+class DiaUpdate(UpdateView):
+    model = Dia
+    form_class = DiaForms
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('pages:dias')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        context['dia_nom'] = Dia.objects.all().order_by('dia')
+        return context
+    
+def HoraList(request):
+    if request.method == 'POST':
+        searched = request.POST['searched']
+        histo = DocenteMateria.history.select_related('materia','docente')
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        horas =Hora.objects.all().order_by('iniHora','finHora').values()
+        hora_li =Hora.objects.filter(Q(iniHora__icontains=searched) | Q(finHora__icontains=searched))
+        
+        #Paginate horas
+        paginator1 = Paginator(hora_li,5)
+        page1 = request.GET.get('pages:horas')
+        try:
+            hora_li = paginator1.page(page1)
+        except PageNotAnInteger:
+            hora_li = paginator1.page(1)
+        except EmptyPage:
+            hora_li = paginator1.page(paginator1.num_pages)
+        
+        return render(request,'pages/hora_list.html',{'searched':searched,'horas':horas,'hora_li':hora_li,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo,'admin':admin,'coordina':coordina,'docente':docente})
+    else:
+        histo = DocenteMateria.history.select_related('materia','docente')
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        admin = Admin.objects.all()
+        coordina = Coordina.objects.all()
+        docente = Docente.objects.all()
+        horas =Hora.objects.all().order_by('iniHora','finHora').values()
+        hora_li =Hora.objects.all().order_by('iniHora','finHora').values()
+        
+        #Paginate horas
+        paginator1 = Paginator(hora_li,5)
+        page1 = request.GET.get('pages:horas')
+        try:
+            hora_li = paginator1.page(page1)
+        except PageNotAnInteger:
+            hora_li = paginator1.page(1)
+        except EmptyPage:
+            hora_li = paginator1.page(paginator1.num_pages)
+        
+        return render(request,'pages/hora_list.html',{'hora_li':hora_li,'horas':horas,'pages':pages,'disponi':disponi,'matedo':matedo,'histo':histo,'admin':admin,'coordina':coordina,'docente':docente})
+
+class HoraCreate(CreateView):
+    model = Hora
+    form_class = HoraForms
+    success_url = reverse_lazy('pages:horas')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_obj'] = Page.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        return context
+    
+class HoraUpdate(UpdateView):
+    model = Hora
+    form_class = HoraForms
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('pages:horas')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_obj'] = Page.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
         return context
 
 #Horario
