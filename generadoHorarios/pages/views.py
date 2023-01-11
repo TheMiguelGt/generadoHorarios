@@ -16,7 +16,7 @@ from itertools import chain
 from operator import attrgetter
 from .models import Disponibilidad, Page,DocenteMateria,Dia,Hora
 from usuarios.models import Admin,Coordina,Docente
-from institucion.models import Aula
+from institucion.models import Aula,Semestre
 from .forms import PageForms,DoceMateForms,DispoForms,DiaForms,HoraForms
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib import messages
@@ -133,22 +133,8 @@ class PageCreate(SuccessMessageMixin, CreateView):#crear
     success_url = reverse_lazy('pages:pages') #se puede hacer de dos maneras 
     template_name = 'pages/page_form.html'
     success_message = "Materia creada con exito"
-    
-    # def post(self,request,*args,**kwargs):
-    #     data = {}
-    #     try:
-    #         action = request.POST['action']
-    #         if action == 'add':
-    #             forms = self.get_form()
-    #             if forms.is_valid():
-    #                 forms.save()
-    #             else:
-    #                 data['error'] = forms.errors
-    #         else:
-    #             data['error'] = 'No ha ingresado ningun dato'
-    #     except Exception as e:
-    #         data['error'] = str(e)
-    #     return JsonResponse(data)
+
+
 
     def get_context_data(self,**kwargs): 
         context = super().get_context_data(**kwargs)
@@ -166,10 +152,11 @@ class PageCreate(SuccessMessageMixin, CreateView):#crear
         return context
 
 # @method_decorator(staff_member_required,name='dispatch')
-class PageUpdate(UpdateView):
+class PageUpdate(SuccessMessageMixin,UpdateView):
     model = Page
     form_class = PageForms #campos para actualizar
     template_name_suffix = '_update_form' #se pasa un subfijo para usar otro formulario
+    success_message = "Materia editada con exito"
     success_url = reverse_lazy('pages:pages')
 
     def get_context_data(self, **kwargs): 
@@ -190,9 +177,10 @@ class PageUpdate(UpdateView):
         return success_url
 
 # @method_decorator(staff_member_required,name='dispatch')
-class PageDelete(DeleteView):#eliminar
+class PageDelete(SuccessMessageMixin,DeleteView):#eliminar
     model = Page 
     success_url = reverse_lazy('pages:pages')
+    success_message = "Materia eliminada con exito"
 
     def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs)
@@ -274,10 +262,27 @@ def DoceMateListView(request):#listar
 class DoceMateDetail(DetailView):
     model = DocenteMateria
 
-class DoceMateCreate(CreateView):
+class DoceMateCreate(SuccessMessageMixin,CreateView):
     model = DocenteMateria
     form_class = DoceMateForms
     success_url = reverse_lazy('pages:docemates')
+    success_message = "Materia asignada se ha creado con exito"
+
+    def get(self, request,*args,**kwargs):
+        mate = Page.objects.all()
+        doce = Docente.objects.all()
+        seme = Semestre.objects.all()
+        # if not mate:
+        #     messages.warning(request,'No hay materias creadas, favor de crear una')
+        # elif request.user.is_staff and not doce or request.user.is_admin and not doce or request.user.is_coordina and not doce:
+        #     messages.warning(request,'No hay docentes creados, favor de crear uno')
+        if not seme:
+            messages.warning(request,'No hay horarios creados, favor de crear uno')
+            return redirect('homeUser')
+        elif not doce and request.user.is_staff:
+            messages.warning(request,'No hay docentes creados, favor de crear uno')
+            return redirect('usuarios:DocenteSignUp')
+
 
     def get_context_data(self,**kwargs): 
         context = super().get_context_data(**kwargs)
@@ -293,10 +298,11 @@ class DoceMateCreate(CreateView):
         
         return context
     
-class DoceMateUpdate(UpdateView):
+class DoceMateUpdate(SuccessMessageMixin,UpdateView):
     model = DocenteMateria
     form_class = DoceMateForms
     template_name_suffix = '_update_form'
+    success_message = "Materia asignada se ha editado con exito"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -315,6 +321,7 @@ class DoceMateUpdate(UpdateView):
 class DoceMateDelete(DeleteView):
     model = DocenteMateria
     success_url = reverse_lazy('pages:docemates')
+    success_message = "Materia asignada se ha eliminado con exito"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

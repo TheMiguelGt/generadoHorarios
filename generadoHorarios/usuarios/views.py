@@ -31,6 +31,7 @@ import csv,datetime
 from tablib import Dataset
 from usuarios import models
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password #mostrar o encryptar password
 
@@ -162,10 +163,11 @@ class AdminListView(ListView):
         return context
     
 @method_decorator(login_required, name="dispatch")
-class AdminUpView(UpdateView):
+class AdminUpView(SuccessMessageMixin,UpdateView):
     model = Admin
     fields = ['email','admin_profile_pic']
     success_url = reverse_lazy('usuarios:profile_view')
+    success_message = "Se actualizo tu perfil"
     template_name = "usuarios/admin_detail_page.html"
     
     def get_object(self):
@@ -249,10 +251,11 @@ def CoordinaSignUp(request):
     return render(request,'usuarios/coordina_signup.html',{'user_form':user_form,'coordina_profile_form':coordina_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
 @method_decorator(login_required, name="dispatch")
-class CoordinaUpView(UpdateView):
+class CoordinaUpView(SuccessMessageMixin,UpdateView):
     model = Coordina
     fields = ['email','coordina_profile_pic']
     success_url = reverse_lazy('usuarios:profile_view')
+    success_message = "Se actualizo tu perfil"
     template_name = "usuarios/coordina_update.html"
     
     def get_object(self):
@@ -401,10 +404,11 @@ def DocenteSignUp(request):
     return render(request,'usuarios/docente_signup.html',{'user_form':user_form,'docente_profile_form':docente_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
 @method_decorator(login_required, name="dispatch")
-class DocenteUpView(UpdateView):
+class DocenteUpView(SuccessMessageMixin,UpdateView):
     model = Docente
     fields = ['email','docente_profile_pic']
     success_url = reverse_lazy('usuarios:profile_view')
+    success_message = "Se actualizo tu perfil"
     template_name = "usuarios/docente_update.html"
     
     def get_object(self):

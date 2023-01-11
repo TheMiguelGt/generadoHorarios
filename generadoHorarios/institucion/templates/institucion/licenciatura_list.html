@@ -124,4 +124,26 @@
     {% endif %}
         
     {% endif %}
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <script>
+                    Swal.fire({
+                        "title": "Felicidades",
+                        "text": "{{message}}",
+                        "icon": "success"
+                    })
+                </script>
+            {% elif message.tags == 'warning' %}
+                <script>
+                    Swal.fire({
+                        "title": "Alerta",
+                        "text": "{{message}}",
+                        "icon": "warning"
+                    })
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 {% endblock table %}

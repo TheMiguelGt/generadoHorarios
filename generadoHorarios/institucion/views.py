@@ -18,7 +18,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.db.models import Q,Count
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib import messages
-
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 # Create your views here.
@@ -120,10 +120,11 @@ class PlantelDetailView(DetailView):
         context['docente'] = Docente.objects.all()
         return context
 
-class PlantelCreate(CreateView):
+class PlantelCreate(SuccessMessageMixin,CreateView):
     model = Plantel
     form_class = PlantelForms
     success_url = reverse_lazy('planteles:licenciaturas')
+    success_message = "Plantel creado con exito"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -136,10 +137,11 @@ class PlantelCreate(CreateView):
         context['docente'] = Docente.objects.all()
         return context
 
-class PlantelUpdate(UpdateView):
+class PlantelUpdate(SuccessMessageMixin,UpdateView):
     model = Plantel
     form_class = PlantelForms
     template_name_suffix = '_update_form'
+    success_message = "Plantel editado con exito"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -156,9 +158,10 @@ class PlantelUpdate(UpdateView):
         success_url = reverse_lazy('planteles:planteles')
         return success_url
     
-class PlantelDelete(DeleteView):
+class PlantelDelete(SuccessMessageMixin,DeleteView):
     model = Plantel
     success_url = reverse_lazy('planteles:planteles')
+    success_message = "Plantel eliminado con exito"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -256,13 +259,21 @@ def licenciaturaList(request):
 class LicenciaturaDetailView(DetailView):
     model = Licenciatura
 
-class LicenciaturaCreate(CreateView):
+class LicenciaturaCreate(SuccessMessageMixin,CreateView):
     model = Licenciatura
     form_class = LicenciaturaForms
     success_url = reverse_lazy('planteles:licenciaturas')
+    success_message = "Licenciatura creada con exito"
+
+    def get(self, request, *args, **kwargs):
+        plantel = Plantel.objects.all()
+        if not plantel:
+            messages.warning(request,'No hay planteles creados, favor de crear uno')
+            return redirect('planteles:planteles')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['plantel'] = Plantel.objects.all()
         context['history_list'] = Licenciatura.history.select_related('plantel')
         context['pages'] = Page.objects.all()
         context['disponi'] = Disponibilidad.objects.all()
@@ -270,12 +281,14 @@ class LicenciaturaCreate(CreateView):
         context['admin'] = Admin.objects.all()
         context['coordina'] = Coordina.objects.all()
         context['docente'] = Docente.objects.all()
+
         return context
     
-class LicenciaturaUpdate(UpdateView):
+class LicenciaturaUpdate(SuccessMessageMixin,UpdateView):
     model = Licenciatura
     form_class = LicenciaturaForms
     template_name_suffix = '_update_form'
+    success_message = "Licenciatura editada con exito"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -289,11 +302,12 @@ class LicenciaturaUpdate(UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy('planteles:licenciupdate',args=[self.object.id]) + '?ok'
+        return reverse_lazy('planteles:licenciaturas')
 
-class LicenciaturaDelete(DeleteView):
+class LicenciaturaDelete(SuccessMessageMixin,DeleteView):
     model = Licenciatura
     success_url = reverse_lazy('planteles:licenciaturas')
+    success_message = "Licenciatura eliminada con exito"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -347,7 +361,7 @@ def aulaList(request):
 # class AulaDetailView(DetailView):
 #     model = Aula
 
-class AulaCreate(CreateView):
+class AulaCreate(SuccessMessageMixin,CreateView):
     model = Aula
     form_class = AulaForms
     success_url = reverse_lazy('planteles:aulas')
@@ -363,7 +377,7 @@ class AulaCreate(CreateView):
         context['docente'] = Docente.objects.all()
         return context
     
-class AulaUpdate(UpdateView):
+class AulaUpdate(SuccessMessageMixin,UpdateView):
     model = Aula
     form_class = AulaForms
     template_name_suffix = '_update_form'
@@ -382,7 +396,7 @@ class AulaUpdate(UpdateView):
     def get_success_url(self):
         return reverse_lazy('planteles:aulaupdate',args=[self.object.id]) + '?ok'
     
-class AulaDelete(DeleteView):
+class AulaDelete(SuccessMessageMixin,DeleteView):
     model = Aula
     success_url = reverse_lazy('planteles:aulas')
 
@@ -422,20 +436,35 @@ def semestreList(request):
         return render(request,'institucion/semestre_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
         
 def semestreCreate(request):
+    licen = Licenciatura.objects.all()
     section = SemestreForms()
     sections = Semestre.objects.all()
-    context = {'section':section,'sections':sections}
+    admin = Admin.objects.all()
+    coordina = Coordina.objects.all()
+    docente = Docente.objects.all()
+    model = Semestre.objects.all()
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
+    context = {'section':section,'sections':sections,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente,'licen':licen}
+
+    if not licen: 
+        messages.warning(request, 'Favor de crear una licenciatura antes de crear un horario')
+        return redirect('planteles:licenciaturas')
+       
+
     if request.method == 'POST':
         section = SemestreForms(request.POST)
         if section.is_valid():
-            messages.success(request,'Clase creada con exito')
+            messages.success(request,'Horario creado con exito')
             section.save()
-            return redirect('/semestre-class') 
+            return  render(request,'pages/docentemateria_list.html',context)
         else:
             messages.error(request,'Favor de ingresar datos correctos')
+            
     return render(request,'institucion/semestre_form.html',context)
         
-class SemestreCreate(CreateView):
+class SemestreCreate(SuccessMessageMixin,CreateView):
     model = Semestre
     form_class = SemestreForms
     success_url = reverse_lazy('planteles:semestres')
@@ -452,10 +481,11 @@ class SemestreCreate(CreateView):
         context['licenciatura'] = Licenciatura.objects.all()
         return context
 
-class SemestreUpdate(UpdateView):
+class SemestreUpdate(SuccessMessageMixin,UpdateView):
     model = Semestre
     form_class = SemestreForms
     template_name_suffix = '_update_form'
+    success_message = "Horario editado con exito"
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -469,11 +499,12 @@ class SemestreUpdate(UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy('planteles:semeupdate',args=[self.object.id]) + '?ok'
+        return reverse_lazy('homeUser')
 
-class SemestreDelete(DeleteView):
+class SemestreDelete(SuccessMessageMixin,DeleteView):
     model = Semestre
-    success_url = reverse_lazy('planteles:semestres')
+    success_url = reverse_lazy('homeUser')
+    success_message = "Horario eliminado con exito"
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -490,7 +521,14 @@ class SemestreDelete(DeleteView):
 def TimeTableView(request,id):
     try:
         section = Semestre.objects.get(id=id)
-        docema = DocenteMateria.objects.select_related('materia','docente','clase').filter(clase_id=section.id)
+        docema = DocenteMateria.objects.select_related('materia','docente','clase').filter(clase_id=section.id).order_by('dia')
+        for day in docema:
+            if day.dia == 'Lunes':
+                print("coco")
+                day.dia == 2
+                print(day.dia)
+            elif day.dia == 'Miercoles':
+                print("no bobo")
         results = DocenteMateria.objects.raw('SELECT * from pages_docenteMateria GROUP BY dia')
         admin = Admin.objects.all()
         coordina = Coordina.objects.all()

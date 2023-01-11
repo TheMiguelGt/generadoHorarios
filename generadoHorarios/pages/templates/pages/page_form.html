@@ -19,13 +19,7 @@
 </script>
 
 
-  {% if messages %}
-  {% for message in messages %}
-      <div class="text-center alert alert-{{ message.tags }}">
-          {{ message|safe }}
-      </div>
-  {% endfor %}
-{% endif %}
+
 <form method="POST">
   {% csrf_token %}
   <input type="hidden" name="action" value="{{action}}">

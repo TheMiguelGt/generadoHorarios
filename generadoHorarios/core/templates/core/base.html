@@ -20,16 +20,48 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">  
     </head>
     <body >
+        <header>
+            <img src="{% static 'core/img/logo.png' %}" width="45px">
+
+            <section class="menu">
+                <ul class="menu-list">
+                    <li class="active">Home</li>
+                    <li>Acerca de</li>
+                    <li>Contacto</li>
+                </ul>
+
+                <button>
+                    <i class="fas fa-times"></i>
+                    <i class="fas fa-bars"></i>
+                </button>
+            </section>
+        </header>
+
+            <section class="main">
+                <section class="left">
+                    <p class="title">Cambia el estilo de trabajo.</p>
+                    <p class="mmsg">Administra de manera sencilla los horarios escolares de cualquier clase.</p>
+
+                    <a href="{% url 'usuarios:login' %}" class="nav_link"><button class="cta">Login</button></a>
+                </section>
+
+                <section class="right">
+                    <img src="{% static 'core/img/imgLading.png' %}" alt="Landing image">
+                </section>
+            </section>
+        
+
+
         <!-- particles.js container --> 
         
 
         {% comment %} Objetos del landing page {% endcomment %}
-        <div class="containerHeader">
+        {% comment %} <div class="containerHeader">
             <div id="particles-js"></div> 
             <div class="containerMain contenedor">
                 <div class="item">
                     <h1>Es momento de hacer cambios. <br>Cambia tu estilo de trabajo.</h1>
-                    <p>Administra de manera facil, los horarios escolares.</p>
+                    <p>Administra de manera sencilla los horarios escolares de cualquier clase.</p>
                     <a href="{% url 'usuarios:login' %}" class="nav_link"><div class="item add-product">
                         <div>
                           <span class="material-icons-sharp">login</span>
@@ -62,11 +94,11 @@
                     </a>
                 </div>
             </div>
-        </nav>
+        </nav> {% endcomment %}
         <!-- stats - count particles --> 
-        <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> 
+        {% comment %} <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>  {% endcomment %}
         <!-- stats.js lib --> 
-        <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+        {% comment %} <script src="http://threejs.org/examples/js/libs/stats.min.js"></script> {% endcomment %}
         {% comment %} <header>
             <div class="logo">
                 <a href="" class="header_logo"><img src="{% static 'core/img/logo.png' %}"></a> 

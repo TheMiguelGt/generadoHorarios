@@ -20,7 +20,13 @@
         <script src="{% static 'core/lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
         {% comment %} <script src= "https //kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script> {% endcomment %}
     </head>
-    <script></script>
+    {% comment %} {% if messages %}
+        {% for message in messages %}
+            <div class="text-center alert alert-{{ message.tags }}">
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+    {% endif %} {% endcomment %}
     <body id="body">
     {% csrf_token %} 
     <div class="container">
@@ -120,11 +126,11 @@
                     <span class="material-icons-sharp">analytics</span>
                     <div class="middle">
                         <div class="left">
-                            <h3>Docentes que han seleccionado su disponibilidad horaria</h3>
-                            {% if disponi %}
-                                <h1>{{disponi.count}}</h1>
+                            <h3>Administradores creados</h3>
+                            {% if admin %}
+                                <h1>{{admin.count}}</h1>
                             {% else %}
-                                <h1>{{disponi.count}}</h1>
+                                <h1>{{admin.count}}</h1>
                             {% endif %}
                         </div>
                         <div class="progress">
@@ -132,10 +138,10 @@
                                 <circle cx='38' cy='38' r='38'></circle>
                             </svg>
                             <div class="number">
-                                {% if disponi %}
-                                    <p>{{disponi.count}}</p>
+                                {% if admin %}
+                                    <p>{{admin.count}}</p>
                                 {% else %}
-                                    <p>{{disponi.count}}</p>
+                                    <p>{{admin.count}}</p>
                                 {% endif %}
                             </div>
                         </div>
@@ -147,11 +153,11 @@
                     <span class="material-icons-sharp">analytics</span>
                     <div class="middle">
                         <div class="left">
-                            <h3>Docentes que han seleccionado su materia</h3>
-                            {% if matedo %}
-                                <h1>{{matedo.count}}</h1>
+                            <h3>Docentes Creados</h3>
+                            {% if docente %}
+                                <h1>{{docente.count}}</h1>
                             {% else %}
-                                <h1>{{matedo.count}}</h1>
+                                <h1>{{docente.count}}</h1>
                             {% endif %}
                         </div>
                         <div class="progress">
@@ -159,10 +165,10 @@
                                 <circle cx='38' cy='38' r='38'></circle>
                             </svg>
                             <div class="number">
-                                {% if matedo %}
-                                    <p>{{matedo.count}}</p>
+                                {% if docente %}
+                                    <p>{{docente.count}}</p>
                                 {% else %}
-                                    <p>{{matedo.count}}</p>
+                                    <p>{{docente.count}}</p>
                                 {% endif %}
                             </div>
                         </div>
@@ -186,7 +192,7 @@
                 <button id="menu-btn">
                     <span class="material-icons-sharp">menu</span>
                 </button>
-                <div class="theme-toggler">
+                <div class="theme-toggler escondido">
                     <span class="material-icons-sharp active">light_mode</span>
                     <span class="material-icons-sharp">dark_mode</span>
                 </div>
@@ -229,9 +235,9 @@
                                 {% for owo in admin %}
                                 {% if user.id == owo.user_id %}
                                     {% if owo.admin_profile_pic %}
-                                    <img src="{{owo.admin_profile_pic.url}}" class="img" alt="">
+                                    <img src="{{owo.admin_profile_pic.url}}" class="img" alt="" title="Editar perfil">
                                     {% else %}
-                                    <img src="{% static 'usuarios/img/imgUser.png' %}" class="img" alt="">
+                                    <img src="{% static 'usuarios/img/imgUser.png' %}" class="img" alt="" title="Editar perfil">
                                     {% endif %}
                                 {% endif %}
                                 {% endfor %}

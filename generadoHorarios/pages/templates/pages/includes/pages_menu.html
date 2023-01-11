@@ -150,4 +150,33 @@
       </div>
     </div></a>
   {% endif %}
+{% elif request.user.is_docente %}
+  {% if request.path == '/mate/docemate/' %}
+    <a href="{% url 'pages:createm' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == '/mate/docemate/create/' %}
+    <a href="{% url 'pages:docemates' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == my_view2 or request.path == my_view3 %}
+    <a href="{% url 'pages:docemates' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+    <a href="{% url 'pages:createm' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+  {% endif %}
 {% endif %}

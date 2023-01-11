@@ -78,7 +78,7 @@
             <th>D&iacute;a</th>
             <th>Horario</th>
             <th>Clase</th>
-            {% if request.user.is_staff %}
+            {% if request.user.is_staff or request.user.is_coordina or request.user.is_docente %}
                 <th colspan="2">Acciones</th>
             {% endif %}
         </tr>
@@ -92,7 +92,7 @@
                 <td class="">{{docemate.dia}}</td>
                 <td class="">{{docemate.start_time}}:00 - {{docemate.end_time}}:00</td>
                 <td class="">{{docemate.clase}}</td>
-                {% if request.user.is_staff %}
+                {% if request.user.is_staff or request.user.is_coordina or request.user.is_docente %}
                     <td class=""><a class="btn-update" href="{% url 'pages:doceupdate' docemate.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                     <td class=""><a class="btn-delete" href="{% url 'pages:docedel' docemate.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
                 {% endif %}
@@ -120,7 +120,7 @@
             <th>D&iacute;a</th>
             <th>Horario</th>
             <th>Clase</th>
-            {% if request.user.is_staff %}
+            {% if request.user.is_staff or request.user.is_coordina or request.user.is_docente %}
                 <th colspan="2">Acciones</th>
             {% endif %}
         </tr>
@@ -134,7 +134,7 @@
                 <td class="">{{docemate.dia}}</td>
                 <td class="">{{docemate.start_time}}:00 - {{docemate.end_time}}:00</td>
                 <td class="">{{docemate.clase}}</td>
-                {% if request.user.is_staff %}
+                {% if request.user.is_staff or request.user.is_coordina or request.user.is_docente %}
                     <td class=""><a class="btn-update" href="{% url 'pages:doceupdate' docemate.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                     <td class=""><a class="btn-delete" href="{% url 'pages:docedel' docemate.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
                 {% endif %}
@@ -156,5 +156,17 @@
 {% endif %}
 
     
+{% endif %}
+
+{% if messages %}
+{% for message in messages %}
+    <script>
+        Swal.fire({
+            "title": "Felicidades",
+            "text": "{{message}}",
+            "icon": "success"
+        })
+    </script>
+{% endfor %}
 {% endif %}
 {% endblock table %}

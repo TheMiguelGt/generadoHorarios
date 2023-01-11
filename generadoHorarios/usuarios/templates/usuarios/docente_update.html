@@ -57,4 +57,15 @@
   </tr>
 </thead>
 
+{% if messages %}
+{% for message in messages %}
+    <script>
+        Swal.fire({
+            "title": "Felicidades",
+            "text": "{{message}}",
+            "icon": "success"
+        })
+    </script>
+{% endfor %}
+{% endif %}
 {% endblock table %}

@@ -8,15 +8,16 @@
         <link rel="shortcut icon" href="{% static 'core/img/logo.png' %}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link type='text/css' rel="stylesheet" href="{% static "core/css/login.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
+        <script src="{% static 'core/lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
     </head>
     <body>
-        <header id="main-header">
+        {% comment %} <header id="main-header">
             <a id="logo-header2" href="{% url 'home' %}">
                 <img id="unedlimg" src="{% static 'core/img/unedl.png' %}" height="63" >
             </a>
 
-        </header>
+        </header> {% endcomment %}
         {% block content %}{% endblock content %}
-        
+        <script src="{% static 'core/js/login.js' %}"></script> 
     </body>
 </html>

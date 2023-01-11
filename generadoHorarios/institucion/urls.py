@@ -1,6 +1,6 @@
 from django.urls import path 
 from institucion import views
-from .views import PlantelListView,PlantelCreate,PlantelUpdate,PlantelDelete,LicenciaturaListView,LicenciaturaCreate,LicenciaturaUpdate,LicenciaturaDelete,AulaListView,AulaCreate,AulaUpdate,AulaDelete,SemestreCreate,SemestreUpdate,SemestreDelete,SemestreCreate,horario_render_pdf_view
+from .views import PlantelListView,PlantelCreate,PlantelUpdate,PlantelDelete,LicenciaturaListView,LicenciaturaCreate,LicenciaturaUpdate,LicenciaturaDelete,AulaListView,AulaCreate,AulaUpdate,AulaDelete,SemestreUpdate,SemestreDelete,horario_render_pdf_view
 
 planteles_patterns = ([
     #planteles

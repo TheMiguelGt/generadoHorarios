@@ -52,6 +52,19 @@
 {% endblock history %}
 
 {% block table %}
+
+{% if messages %}
+{% for message in messages %}
+    <script>
+        Swal.fire({
+            "title": "Felicidades",
+            "text": "{{message}}",
+            "icon": "success"
+        })
+    </script>
+{% endfor %}
+{% endif %}
+
 {% if not pages %}
     <thead>
         <tr>
@@ -59,13 +72,7 @@
         </tr>
     </thead>
 {% else %}
-    {% comment %} {% if messages %}
-    {% for message in messages %}
-        <div class="text-center alert alert-{{ message.tags }}">
-            {{ message|safe }}
-        </div>
-    {% endfor %}
-    {% endif %} {% endcomment %}
+   
 <form method="POST" action="{% url 'pages:pages' %}">
     {% csrf_token %}
     <div style="display:flex; margin-bottom:20px;">
@@ -84,9 +91,8 @@
             <th>ID Materia</th>
             <th>Nombre de la Materia</th>
             <th>Carga horaria</th>
-            <th>Grado</th>
             <th>Aula</th>
-            {% if request.user.is_staff %}
+            {% if request.user.is_staff or request.user.is_admin or request.user.is_coordina  %}
                 <th colspan="2">Acciones</th>
             {% endif %}
         </tr>
@@ -99,9 +105,8 @@
             <td class="">{{page.clave}}</td>
             <td class="">{{page.materia}}</td>
             <td class="">{{page.carga}}</td>
-            <td class="">{{page.grupo}}</td>
             <td class="">{{page.aula}}</td>
-            {% if request.user.is_staff %}
+            {% if request.user.is_staff or request.user.is_admin or request.user.is_coordina %}
                 <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                 <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
             {% endif %}
@@ -127,9 +132,8 @@
         <th>ID Materia</th>
         <th>Nombre de la Materia</th>
         <th>Carga horaria</th>
-        <th>Grado</th>
         <th>Aula</th>
-        {% if request.user.is_staff %}
+        {% if request.user.is_staff or request.user.is_admin or request.user.is_coordina %}
             <th colspan="2">Acciones</th>
         {% endif %}
     </tr>
@@ -142,9 +146,8 @@
             <td class="">{{page.clave}}</td>
             <td class="">{{page.materia}}</td>
             <td class="">{{page.carga}}</td>
-            <td class="">{{page.grupo}}</td>
             <td class="">{{page.aula}}</td>
-            {% if request.user.is_staff %}
+            {% if request.user.is_staff or request.user.is_admin or request.user.is_coordina %}
                 <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                 <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
             {% endif %}
