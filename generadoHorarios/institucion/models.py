@@ -5,25 +5,25 @@ from simple_history.models import HistoricalRecords
 
 # Create your models here.
 class Plantel(models.Model):
-    clave = models.CharField(max_length=10,null=False)
+    clave = models.CharField(max_length=10,null=False,unique=True)
     plantel = models.CharField(max_length=200)
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'plantel'
+        db_table = 'institucion_plantel'
     
     def __str__(self):
-        template = '{0.plantel}'
+        template = '{0.clave} {0.plantel}'
         return template.format(self)
 
 class Licenciatura(models.Model):
-    clave = models.CharField(max_length=10,null=False)
+    clave = models.CharField(max_length=10,null=False,unique=True)
     licenciatura = models.CharField(max_length=45)
     plantel = models.ForeignKey(Plantel, null=False,on_delete=models.CASCADE,max_length=200)
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'licenciatura'
+        db_table = 'institucion_licenciatura'
 
     def __str__(self):
         template = '{0.licenciatura}'
@@ -35,19 +35,19 @@ class Semestre(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'semestre'
+        db_table = 'institucion_semestre'
 
     def __str__(self):
         return self.semestre,self.licenciatura
 
 class Aula(models.Model):
-    clave = models.CharField(max_length=10,null=False)
+    clave = models.CharField(max_length=10,null=False,unique=True)
     piso = models.CharField(max_length=2)
     plantel = models.ForeignKey(Plantel, null=False,on_delete=models.CASCADE)
     history = HistoricalRecords()
 
     class Meta:
-        db_table = 'aula'
+        db_table = 'institucion_aula'
 
     def __str__(self):
         template = '{0.clave} en {0.plantel}'

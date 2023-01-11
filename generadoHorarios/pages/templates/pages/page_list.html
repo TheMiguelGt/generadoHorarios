@@ -10,7 +10,6 @@
 {% include "pages/includes/pages_menu.html" %}
 
 {% endblock content %}
-
 {% block history %}
 {% if page_obj.count == 0 %}
     <div class="update">
@@ -38,13 +37,32 @@
 {% endblock history %}
 
 {% block table %}
-{% if model.count == 0 %}
+{% if page_list.count == 0 %}
     <thead>
         <tr>
             <th><h1>No hay materias por mostrar, necesitas crearlas</h1></th>
         </tr>
     </thead>
 {% else %}
+    {% if messages %}
+    {% for message in messages %}
+        <div class="text-center alert alert-{{ message.tags }}">
+            {{ message|safe }}
+        </div>
+    {% endfor %}
+    {% endif %}
+<form method="POST" action="{% url 'pages:pages' %}">
+        {% csrf_token %}
+        <input class="" type="search" placeholder="Buscar materia" name="searched" >
+        <button class="" type="submit" >Buscar</button>
+</form>
+    {% if searched %}
+    <thead>
+        <tr>
+            <ADSDADSAD
+        </tr>
+    </thead>
+    {% else %}
     <thead>
         <tr>
             <th>Numero</th>
@@ -59,18 +77,18 @@
         </tr>
     </thead>
     <tbody>
-        {% for page in model|dictsort:"id" %}
+        {% for object in object_list|dictsort:"id" %}
             <tr>
                 {% comment %} contador para poner el numero de materia que esta en la lista {% endcomment %}
                 <td class="">{{forloop.counter}}</td>
-                <td class="">{{page.clave}}</td>
-                <td class="">{{page.materia}}</td>
-                <td class="">{{page.carga}}</td>
+                <td class="">{{object.clave}}</td>
+                <td class="">{{object.materia}}</td>
+                <td class="">{{object.carga}}</td>
                 <td class=""></td>
                 <td class=""></td>
                 {% if request.user.is_staff %}
-                    <td class=""><a class="btn-update" href="{% url 'pages:update' page.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
-                    <td class=""><a class="btn-delete" href="{% url 'pages:delete' page.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                    <td class=""><a class="btn-update" href="{% url 'pages:update' object.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                    <td class=""><a class="btn-delete" href="{% url 'pages:delete' object.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
                 {% endif %}
                     {% comment %} <a class="btn1" href="{% url 'pages:page' page.id page.nomMateria|slugify %}"><i class="fa-sharp fa-solid fa-circle-info"></i></a></td> {% endcomment %}
                     {% comment %} {% if request.user.is_staff %}<!--Condicion por si el usuario esta registrado o es un super usuario-->
@@ -80,6 +98,9 @@
             </tr>
         {% endfor %}
     </tbody>
+    {% endif %}
+    
+
 {% endif %}
 
 {% comment %} {% if is_paginated %}

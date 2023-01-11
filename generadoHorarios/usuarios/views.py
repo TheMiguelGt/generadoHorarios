@@ -1,5 +1,6 @@
 from asyncore import write
 from atexit import register
+from http.client import responses
 import imp
 from multiprocessing import connection, context
 import profile
@@ -20,15 +21,18 @@ from django.urls import reverse,reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from django.http import HttpResponseRedirect,HttpResponse, JsonResponse
-from .models import History, User,Admin,Coordina,Docente,Alumno
+from .models import User,Admin,Coordina,Docente,Alumno
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
-from pages.models import Dia,Hora,Disponibilidad
+from pages.models import Dia,Hora,Disponibilidad,Page,DocenteMateria
 from .models import Docente
 from django.db.models import Count,Max
 import csv,datetime
-# from tablib import Dataset
-# from .resources import AdminResource
+from tablib import Dataset
+from .resources import AdminResource
+from usuarios import models
+from django.contrib import messages
+from django.db.models import Q
 
 
 # Create your views here.
@@ -36,10 +40,11 @@ import csv,datetime
 # ----------------Horario------------------
 #tabla del horario
 def horarioEsc(request):
-    dias = Dia.objects.all().values('days').annotate(tot=Count('dia')).order_by('dia').distinct()
+    dias = Dia.objects.all().order_by('id').distinct()
     print(dias.query)
-    horas = Hora.objects.all().values()
-    pubs = Disponibilidad.objects.select_related('dia','hora').annotate(tot=Count('dia__id')).order_by('dia','hora')
+    horas = Hora.objects.all().order_by('id').distinct()
+    print(horas.query)
+    pubs = Disponibilidad.objects.select_related('dia','hora','docente').annotate(tot=Count('hora')).order_by('hora__id','dia__id')
     print(pubs.query)
     context = {
         'dias':dias,
@@ -48,6 +53,23 @@ def horarioEsc(request):
         'pubs':pubs,
     }
     return render(request,'usuarios/horario.html',context)
+
+def importExcel(request):
+    if request.method == 'POST':
+        user_resource = AdminResource()
+        dataset = Dataset()
+        new_admins = request.FILES['my_file']
+        imported_data = dataset.load(new_admins.read(),format='xlsx')
+        for data in imported_data:
+            value = Admin(
+                data[0],
+                data[1],
+                data[2],
+                data[3],
+            )
+            value.save()
+
+    return render(request,'usuarios/admin_signup.html')
 
 def export_csv(request):
     response =HttpResponse(content_type='text/csv')
@@ -61,7 +83,6 @@ def export_csv(request):
     horas = Hora.objects.all()
     for hora in horas:
         writer.writerow([hora.iniHora+" - "+hora.finHora])
-        
     
     return response
 
@@ -70,16 +91,10 @@ def export_csv(request):
 def AdminSignUp(request):
     user_type = 'administrador'
     registered = False
-    url = reverse('usuarios:administradores')
-
-    def post(self,request,*args,**kwargs):
-        data = {}
-        try:
-            data = Admin.objects.get(pk=request.POST['id']).toJSON()
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
-
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
+    
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
         admin_profile_form = AdminProfileForm(data = request.POST)
@@ -97,34 +112,21 @@ def AdminSignUp(request):
 
             registered = True
             
-            return HttpResponseRedirect(url)
+            messages.success(request, "Administrador creado con exito")
+            return HttpResponseRedirect(reverse('usuarios:administradores'))
     else:
         user_form = UserForm()
         admin_profile_form = AdminProfileForm()
-    
-    return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type})
-    
-# def importExcel(request):
-#     user_type = 'administrador'
-#     registered = False
-#     url = reverse('usuarios:administradores')
-    
-#     if request.method == 'POST':
-#         admin_resource = AdminResource()
-#         dataset = Dataset()
-#         new_admin = request.FILES['my_file']
-#         imported_data = dataset.load(new_admin.read(),format='xlsx')
-#         for data in imported_data:
-#             value = Admin(
-#                 data[0],
-#                 data[4],
-#                 data[5],
-#                 data[6],
-#                 data[7],
-#             )
-#             value.save()
 
-#     return render(request,'usuarios/admin_import.html')
+    def post(self,request,*args,**kwargs):
+        data = {}
+        try:
+            data = Admin.objects.get(pk=request.POST['id']).toJSON()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+    
+    return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
 
 #Admin list view
 class AdminListView(ListView):
@@ -146,14 +148,59 @@ class AdminListView(ListView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs)
         context['title'] = 'Listado de administradores'
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
+    
+def adminList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        adm = Admin.objects.filter(Q(user__username__icontains=searched) | Q(nombre__icontains=searched) | Q(apepat__icontains=searched) | Q(apemat__icontains=searched))
+        model = Admin.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/admin_list.html',{'searched':searched,'adm':adm,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else: 
+        model = Admin.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/admin_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
 
+class AdminDetailView(LoginRequiredMixin,DetailView):
+    context_object_name = "admin"
+    model = models.Admin
+    template_name = 'usuarios/admin_detail_page.html'
+
+@login_required
+def AdminUpdateView(request,pk):
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
+    profile_updated = False
+    
+    if request.method == "POST":
+        form = AdminProfileIUpdateForm(data = request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            if 'admin_profile_pic' in request.FILES:
+                profile.admin_profile_pic = request.FILES['admin_profile_pic']
+            profile.save()
+            profile_updated = True
+    else:
+        form = AdminProfileIUpdateForm()
+    return render(request,'usuarios/admin_update.html',{'profile_updated':profile_updated,'form':form,'pages':pages,'disponi':disponi,'matedo':matedo})
 # ----------------COORDINADOR------------------
 
 #creation profile coordina
 def CoordinaSignUp(request):
     user_type = 'coordinador'
     registered = False
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
     
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
@@ -169,18 +216,37 @@ def CoordinaSignUp(request):
             profile.save()
             
             registered = True
+
+            messages.success(request, "Coordinador creado con exito")
+            return HttpResponseRedirect(reverse('usuarios:coordinadores'))
         else:
             print(user_form.errors,coordina_profile_form.errors)
     else:
         user_form = UserForm()
         coordina_profile_form = CoordinaProfileForm()
     
-    return render(request,'usuarios/coordina_signup.html',{'user_form':user_form,'coordina_profile_form':coordina_profile_form,'registered':registered,'user_type':user_type})
+    return render(request,'usuarios/coordina_signup.html',{'user_form':user_form,'coordina_profile_form':coordina_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
 
 #list all corrdinators users
 class CoordinaListView(ListView):
     model = Coordina
-    #paginate_by=8
+    paginate_by=8
+
+def coordinaList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        cor = Coordina.objects.filter(Q(user__username__icontains=searched) | Q(nombre__icontains=searched) | Q(apepat__icontains=searched) | Q(apemat__icontains=searched))
+        model = Coordina.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/coordina_list.html',{'searched':searched,'cor':cor,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        model = Coordina.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/coordina_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
 
 #delete coordinatior user
 @method_decorator(login_required, name='dispatch')
@@ -200,6 +266,9 @@ class CoordinaDelete(DeleteView):
 def DocenteSignUp(request):
     user_type = 'docente'
     registered = False
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
     
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
@@ -215,23 +284,43 @@ def DocenteSignUp(request):
             profile.save()
             
             registered = True
-        else:
-            print(user_form.errors,docente_profile_form.errors)
+
+            messages.success(request, "Docente creado con exito")
+            return HttpResponseRedirect(reverse('usuarios:docentes'))
     else:
         user_form = UserForm()
         docente_profile_form = DocenteProfileForm()
     
-    return render(request,'usuarios/docente_signup.html',{'user_form':user_form,'docente_profile_form':docente_profile_form,'registered':registered,'user_type':user_type})
+    return render(request,'usuarios/docente_signup.html',{'user_form':user_form,'docente_profile_form':docente_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
 
 #list all docente users
 class DocenteListView(ListView):
     model = Docente
     #paginate_by=8
 
+def docenteList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        doc = Docente.objects.filter(Q(user__username__icontains=searched) | Q(nombre__icontains=searched) | Q(apepat__icontains=searched) | Q(apemat__icontains=searched))
+        model = Docente.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/docente_list.html',{'searched':searched,'doc':doc,'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        model = Docente.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'usuarios/docente_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo})
+
 #docente profile coordina
 def AlumnoSignUp(request):
     user_type = 'alumno'
     registered = False
+    pages = Page.objects.all()
+    disponi = Disponibilidad.objects.all()
+    matedo = DocenteMateria.objects.all()
     
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
@@ -253,7 +342,7 @@ def AlumnoSignUp(request):
         user_form = UserForm()
         alumno_profile_form = AlumnoProfileForm()
     
-    return render(request,'usuarios/alumno_signup.html',{'user_form':user_form,'alumno_profile_form':alumno_profile_form,'registered':registered,'user_type':user_type})
+    return render(request,'usuarios/alumno_signup.html',{'user_form':user_form,'alumno_profile_form':alumno_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo})
 
 #list all docente users
 class AlumnoListView(ListView):

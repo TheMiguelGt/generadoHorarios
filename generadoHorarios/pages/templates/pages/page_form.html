@@ -36,38 +36,81 @@
 {% endblock history %}
 
 {% block table %}
-<thead>
-  <tr>
-      <th width="30%"></th>
-      <th></th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Clave</b></label></td>
-    <td class="" ><input type="text" name="clave" class="txt-all" placeholder="Clave de la materia"></td>
-  </tr>
-  <tr>
-    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Nombre</b></label></td>
-    <td class="" ><input type="text" name="materia" class="txt-all" placeholder="Nombre de la materia"></td>
-  </tr>
-  <tr>
-    <td class="" style="border-bottom: 0px solid black;"><labe ><b>Carga</b></label></td>
-    <td class="" ><input type="number" name="carga" class="txt-all" placeholder="Carga horaria"></td>
-  </tr>
-  <tr>
-    <td colspan="2"><input type="submit" class="btn-enviar"  value="Crear materia" /></td>
-  </tr>
-</tbody>
-{% comment %} <thead>
-  <tr>
-    
-  </tr>
-</thead>
-<tbody>
-      <tr>
-        <td class="">{{ form }}</td>
-        
-      </tr>
-</tbody> {% endcomment %}
+
+
+<script>
+  {% if form.errors %}
+  var errors = '';
+    {% for field in form %}
+      {% for error in field.errors %}
+        errors+='{{ error }}\n';
+      {% endfor %}
+    {% endfor %}
+      Swal.fire({
+        title: 'Error!',
+        text: errors,
+        icon: 'error',
+      })
+  {% endif %}
+  
+  $('form').on('submit', function (e){
+    e.preventDefault();
+    var parameters = $(this).serializeArray();
+    console.log(parameters);
+    $.ajax({
+      url: '{% url 'pages:create' %}',
+      type: 'POST',
+      data: parameters,
+      dataType: 'json'
+    }).done(function (data){
+      console.log(data);
+      if(!data.hasOwnProperty('error')){
+        location.href = '{{list_url}}';
+        return false;
+      }
+      message_error(data.error);
+    }).fail(function(jqXHR, textStatus, errorThrown){
+      alert(textStatus + ': ' + errorThrown);
+    }).always(function(data){
+  
+    });
+  });
+
+  </script>
+
+
+  {% if messages %}
+  {% for message in messages %}
+      <div class="text-center alert alert-{{ message.tags }}">
+          {{ message|safe }}
+      </div>
+  {% endfor %}
+{% endif %}
+<form method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="action" value="{{action}}">
+  <thead>
+    <tr>
+        <th width="30%"></th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Clave</b></label></td>
+      <td class="" ><input type="text" name="clave" class="txt-all" placeholder="Clave de la materia"></td>
+    </tr>
+    <tr>
+      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Nombre</b></label></td>
+      <td class="" ><input type="text" name="materia" class="txt-all" placeholder="Nombre de la materia"></td>
+    </tr>
+    <tr>
+      <td class="" style="border-bottom: 0px solid black;"><labe ><b>Carga</b></label></td>
+      <td class="" ><input type="number" name="carga" class="txt-all" placeholder="Carga horaria"></td>
+    </tr>
+    <tr>
+      <td colspan="2"><input type="submit" class="btn-enviar"  value="Crear materia" /></td>
+    </tr>
+  </tbody>
+</form>
 {% endblock %}

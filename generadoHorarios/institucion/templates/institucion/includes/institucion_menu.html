@@ -6,6 +6,12 @@
 
 {% url 'planteles:planupdate' plantel.id as view1 %}
 {% url 'planteles:plandel' plantel.id as view2 %}
+{% url 'planteles:licenupdate' licenciatura.id as view3 %}
+{% url 'planteles:licendele' licenciatura.id as view4 %}
+{% url 'planteles:aulaupdate' aula.id as view5 %}
+{% url 'planteles:auladel' aula.id as view6 %}
+{% url 'planteles:semeupdate' semestre.id as view7 %}
+{% url 'planteles:semedel' semestre.id as view8 %}
 {% if request.user.is_staff %}
   {% if request.path == '/insti/plantel/' %}
     <a href="{% url 'planteles:create' %}"><div class="item add-product">
@@ -48,6 +54,19 @@
         <h3>Listar</h3>
       </div>
     </div></a>
+  {% elif request.path == view3 or request.path == view4 %}
+    <a href="{% url 'planteles:create1' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+    <a href="{% url 'planteles:licenciaturas' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
   {% elif request.path == '/insti/aula/' %}
     <a href="{% url 'planteles:create2' %}"><div class="item add-product">
       <div>
@@ -62,6 +81,19 @@
         <h3>Listar</h3>
       </div>
     </div></a>
+  {% elif request.path == view5 or request.path == view6 %}
+    <a href="{% url 'planteles:create2' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
+    <a href="{% url 'planteles:aulas' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
   {% elif request.path == '/insti/semestre/' %}
     <a href="{% url 'planteles:create3' %}"><div class="item add-product">
       <div>
@@ -70,6 +102,19 @@
       </div>
     </div></a>
   {% elif request.path == '/insti/semestre/create/' %}
+    <a href="{% url 'planteles:semestres' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">format_list_bulleted</span>
+        <h3>Listar</h3>
+      </div>
+    </div></a>
+  {% elif request.path == view7 or request.path == view8 %}
+    <a href="{% url 'planteles:create3' %}"><div class="item add-product">
+      <div>
+        <span class="material-icons-sharp">add</span>
+        <h3>Agregar</h3>
+      </div>
+    </div></a>
     <a href="{% url 'planteles:semestres' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">format_list_bulleted</span>

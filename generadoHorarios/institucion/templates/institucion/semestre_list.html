@@ -2,35 +2,107 @@
 {% load static %}
 {% block title %}Semestres{% endblock title %} 
 {% block subtitle %}Semestres{% endblock subtitle %}
+{% block activi %}en semestre{% endblock activi %}
 {% block tabletitle %}Listado de semestres{% endblock tabletitle %}
 {% block agregarItem %}Agregar semestres{% endblock agregarItem %}
 {% block content %}
 {% include "institucion/includes/institucion_menu.html" %}
 
 {% endblock content %}
+
+{% block history %}
+{% if history_list.count == 0 %}
+<div class="update">
+  <div class="profile-photo">
+      
+  </div>
+  <div class="message">
+      <p><h2>Aun no hay cambios</h2> <p>
+          <small class="text-muted"></small>
+  </div>
+</div>
+{% else %}
+{% for r in history_list %}
+<div class="update">
+  <div class="profile-photo">
+      <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+  </div>
+  <div class="message">
+    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito {% endif %} el semestre {{r.semestre}} de la {{r.licenciatura}}<p>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock history %}
+
 {% block table %}
-    {% if semestre_list.count == 0 %}
+    {% if not model %}
         <thead>
             <tr>
                 <th><h1>No hay semestres por mostrar, necesitas registrarlos</h1></th>
             </tr>
         </thead>
     {% else %}
+    <form method="POST" action="{% url 'planteles:semestres' %}">
+        {% csrf_token %}
+        <div style="display:flex; margin-bottom:20px;">
+            <div style="margin-right:10px;">
+                <input type="search" id="textSearch" placeholder="Buscar disponibilidad" name="searched" />
+            </div>
+            <div>
+                <button type="submit" id="btnBuscar" ><span class="material-icons-sharp">search</span></button>
+            </div>
+        </div>
+    </form>
+    {% if searched %}
         <thead>
             <tr>
                 <th>No.</th>
                 <th>Semestre</th>
                 <th>Licenciatura</th>
+                {% if request.user.is_staff %}
+                    <th colspan="2">Acciones</th> 
+                {% endif %}
             </tr>
         </thead>
         <tbody>
-            {% for semestre in semestre_list|dictsort:"id" %}
+            {% for semestre in seme %}
                 <tr>
                     <td class="">{{forloop.counter}}</td>
                     <td class="">{{semestre.semestre}}</td>
                     <td class="">{{semestre.licenciatura}}</td>
+                    {% if request.user.is_staff %}
+                        <td class=""><a class="btn-update" href="{% url 'planteles:semeupdate' semestre.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                        <td class=""><a class="btn-delete" href="{% url 'planteles:semedel' semestre.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
+    {% else %}
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Semestre</th>
+                <th>Licenciatura</th>
+                {% if request.user.is_staff %}
+                    <th colspan="2">Acciones</th> 
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for semestre in model|dictsort:"id" %}
+                <tr>
+                    <td class="">{{forloop.counter}}</td>
+                    <td class="">{{semestre.semestre}}</td>
+                    <td class="">{{semestre.licenciatura}}</td>
+                    {% if request.user.is_staff %}
+                        <td class=""><a class="btn-update" href="{% url 'planteles:semeupdate' semestre.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                        <td class=""><a class="btn-delete" href="{% url 'planteles:semedel' semestre.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    {% endif %}
+        
     {% endif %}
 {% endblock table %}

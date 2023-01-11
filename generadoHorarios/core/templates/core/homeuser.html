@@ -1,4 +1,4 @@
-{% load static %} <!--Bloque para cargar archivos estaticos-->
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="{% static 'core/img/logo.png' %}">
         <title>{% block title %}{% endblock title %}</title>
-        <link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}"> <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
+        <link type='text/css' rel="stylesheet" href="{% static "core/css/userStyle.css" %}" > <!--es necesario poner static para trabajar con los archivos estaticos de dicho directorio-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
@@ -47,20 +47,26 @@
                 {% url 'pages:dispodel' disponibilidad.id as my_view5 %}
                 {% url 'planteles:planupdate' plantel.id as view1 %}
                 {% url 'planteles:plandel' plantel.id as view2 %}
+                {% url 'planteles:licenupdate' licenciatura.id as view3 %}
+                {% url 'planteles:licendele' licenciatura.id as view4 %}
+                {% url 'planteles:aulaupdate' aula.id as view5 %}
+                {% url 'planteles:auladel' aula.id as view6 %}
+                {% url 'planteles:semeupdate' semestre.id as view8 %}
+                {% url 'planteles:semedel' semestre.id as view9 %}
                 {% if request.user.is_staff or request.user.is_admin %}
                 <a href="{% url 'planteles:planteles' %}" class="{% if request.path == '/insti/plantel/' or request.path == '/insti/plantel/create/' or request.path == view1 or request.path == view2 %}active{% endif %}">
                     <span class="material-icons-sharp">school</span>
                     <h3>Plantel</h3>
                 </a>
-                <a href="{% url 'planteles:semestres' %}" class="{% if request.path == '/insti/semestre/' or request.path == '/insti/semestre/create/' %}active{% endif %}">
+                <a href="{% url 'planteles:semestres' %}" class="{% if request.path == '/insti/semestre/' or request.path == '/insti/semestre/create/' or request.path == view8 or request.path == view9 %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Semestres</h3>
                 </a>
-                <a href="{% url 'planteles:aulas' %}" class="{% if request.path == '/insti/aula/' or request.path == '/insti/aula/create/' %}active{% endif %}">
+                <a href="{% url 'planteles:aulas' %}" class="{% if request.path == '/insti/aula/' or request.path == '/insti/aula/create/' or request.path == view5 or request.path == view6 %}active{% endif %}">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Aulas</h3>
                 </a>
-                <a href="{% url 'planteles:licenciaturas' %}" class="{% if request.path == '/insti/licenciatura/' or request.path == '/insti/licenciatura/create/' %}active{% endif %}">
+                <a href="{% url 'planteles:licenciaturas' %}" class="{% if request.path == '/insti/licenciatura/' or request.path == '/insti/licenciatura/create/' or request.path == view3 or request.path == view4 %}active{% endif %}">
                     <span class="material-icons-sharp">history_edu</span>
                     <h3>Licenciaturas</h3>
                 </a>
@@ -100,15 +106,23 @@
                     <span class="material-icons-sharp">analytics</span>
                     <div class="middle">
                         <div class="left">
-                            <h3>Materias asignadas</h3>
-                            <h1>221</h1>
+                            <h3>Materias creadas</h3>
+                            {% if pages %}
+                                <h1>{{pages.count}}</h1>
+                            {% else %}
+                                <h1>{{pages.count}}</h1>
+                            {% endif %}
                         </div>
                         <div class="progress">
                             <svg>
                                 <circle cx='38' cy='38' r='38'></circle>
                             </svg>
                             <div class="number">
-                                <p>80%</p>
+                                {% if pages %}
+                                    <p>{{pages.count}}</p>
+                                {% else %}
+                                    <p>{{pages.count}}</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -119,15 +133,23 @@
                     <span class="material-icons-sharp">analytics</span>
                     <div class="middle">
                         <div class="left">
-                            <h3>Horarios asignados</h3>
-                            <h1>201</h1>
+                            <h3>Docentes que han seleccionado su disponibilidad horaria</h3>
+                            {% if disponi %}
+                                <h1>{{disponi.count}}</h1>
+                            {% else %}
+                                <h1>{{disponi.count}}</h1>
+                            {% endif %}
                         </div>
                         <div class="progress">
                             <svg>
                                 <circle cx='38' cy='38' r='38'></circle>
                             </svg>
                             <div class="number">
-                                <p>80%</p>
+                                {% if disponi %}
+                                    <p>{{disponi.count}}</p>
+                                {% else %}
+                                    <p>{{disponi.count}}</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -138,15 +160,23 @@
                     <span class="material-icons-sharp">analytics</span>
                     <div class="middle">
                         <div class="left">
-                            <h3>Horarios asignados</h3>
-                            <h1>201</h1>
+                            <h3>Docentes que han seleccionado su materia</h3>
+                            {% if matedo %}
+                                <h1>{{matedo.count}}</h1>
+                            {% else %}
+                                <h1>{{matedo.count}}</h1>
+                            {% endif %}
                         </div>
                         <div class="progress">
                             <svg>
                                 <circle cx='38' cy='38' r='38'></circle>
                             </svg>
                             <div class="number">
-                                <p>80%</p>
+                                {% if matedo %}
+                                    <p>{{matedo.count}}</p>
+                                {% else %}
+                                    <p>{{matedo.count}}</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -187,7 +217,7 @@
                         {% endif %}
                     </div>
                     <div class="profile-photo">
-                        <a href="#"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt=""></a>
+                        <a href="{% url 'usuarios:admin_detail' pk=user.pk %}"><img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt=""></a>
                     </div>
                 </div>
             </div>  
@@ -222,7 +252,7 @@
                     </div>
                     <div class="right">
                         <div class="info">
-                            <h3>Es necesario crear las materias</h3>
+                            <h3>Es necesario primero crear los planteles y licenciaturas</h3>
                         </div>
                         <h5 class="seccess"></h5>
                         <h3></h3>
@@ -234,7 +264,7 @@
                     </div>
                     <div class="right">
                         <div class="info">
-                            <h3>Es necesario crear las materias</h3>
+                            <h3>Despues crear los usuarios con los roles que se utilizaran</h3>
                         </div>
                         <h5 class="seccess"></h5>
                         <h3></h3>
@@ -246,7 +276,7 @@
                     </div>
                     <div class="right">
                         <div class="info">
-                            <h3>Es necesario crear las materias</h3>
+                            <h3>Por ultimo crear y asignar materias a los docentes y automaticamente se ira generando el horario</h3>
                         </div>
                         <h5 class="seccess"></h5>
                         <h3></h3>
@@ -282,5 +312,6 @@
         </div> {% endcomment %}
         <script src="{% static 'core/js/userStyle.js' %}"></script>
         <script src="{% static 'usuarios/js/user_list.js' %}"></script>
+        <script src="{% static 'pages/js/functions.js' %}"></script>
     </body>
 </html>

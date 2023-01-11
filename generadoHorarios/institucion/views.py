@@ -6,6 +6,9 @@ from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 from institucion.models import Aula, Plantel,Licenciatura, Semestre
 from .forms import PlantelForms,LicenciaturaForms,AulaForms,SemestreForms
+from pages.models import Page,Disponibilidad,DocenteMateria
+from django.shortcuts import render
+from django.db.models import Q
 
 # Create your views here.
 class StaffRequiredMixin(object):
@@ -21,8 +24,29 @@ class PlantelListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Plantel.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
+def plantelList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        plant = Plantel.objects.filter(Q(clave__icontains=searched) | Q(plantel__icontains=searched))
+        history_list = Plantel.history.all()
+        model = Plantel.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/plantel_list.html',{'searched':searched,'plant':plant,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        model = Plantel.objects.all()
+        history_list = Plantel.history.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/plantel_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        
 class PlantelDetailView(DetailView):
     model = Plantel
 
@@ -34,6 +58,9 @@ class PlantelCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Plantel.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
 class PlantelUpdate(UpdateView):
@@ -44,6 +71,9 @@ class PlantelUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Plantel.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
     def get_success_url(self):
@@ -56,6 +86,9 @@ class PlantelDelete(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['history_list'] = Plantel.history.all()
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 # END OF PLANTELES
 
@@ -65,9 +98,30 @@ class LicenciaturaListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        context['history_list'] = Licenciatura.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
+def licenciaturaList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        model = Licenciatura.objects.all()
+        licen = Licenciatura.objects.filter(Q(clave__icontains=searched) | Q(licenciatura__icontains=searched) | Q(plantel__plantel__icontains=searched))
+        history_list = Licenciatura.history.select_related('plantel')
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/licenciatura_list.html',{'searched':searched,'model':model,'licen':licen,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        model = Licenciatura.objects.all()
+        history_list = Licenciatura.history.select_related('plantel')
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/licenciatura_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        
 class LicenciaturaDetailView(DetailView):
     model = Licenciatura
 
@@ -78,7 +132,10 @@ class LicenciaturaCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        context['history_list'] = Licenciatura.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
     
 class LicenciaturaUpdate(UpdateView):
@@ -88,7 +145,10 @@ class LicenciaturaUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        context['history_list'] = Licenciatura.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 
     def get_success_url(self):
@@ -100,13 +160,43 @@ class LicenciaturaDelete(DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history_list'] = Licenciatura.history.select_related('clave','licenciatura','plantel')
+        context['history_list'] = Licenciatura.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
         return context
 # END OF LICENCIATURA
 
 # START OF AULA
 class AulaListView(ListView):
     model = Aula
+    paginate_by = 8
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Aula.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        return context
+    
+def aulaList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        aul = Aula.objects.filter(Q(clave__icontains=searched) | Q(plantel__plantel__icontains=searched))
+        history_list = Aula.history.select_related('plantel')
+        model = Aula.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/aula_list.html',{'searched':searched,'aul':aul,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        history_list = Aula.history.select_related('plantel')
+        model = Aula.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/aula_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
     
 # class AulaDetailView(DetailView):
 #     model = Aula
@@ -115,28 +205,114 @@ class AulaCreate(CreateView):
     model = Aula
     form_class = AulaForms
     success_url = reverse_lazy('planteles:aulas')
-    
-# class AulaDelete(DeleteView):
-#     model = Aula
-#     success_url = reverse_lazy('planteles:aulas')
-# END OF AULA
 
-# START OF AULA
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Aula.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        return context
+    
+class AulaUpdate(UpdateView):
+    model = Aula
+    form_class = AulaForms
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Aula.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('planteles:aulaupdate',args=[self.object.id]) + '?ok'
+    
+class AulaDelete(DeleteView):
+    model = Aula
+    success_url = reverse_lazy('planteles:aulas')
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Aula.history.select_related('plantel')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        return context
+
+# START OF semestre
 class SemestreListView(ListView):
     model = Semestre
-    
-# class AulaDetailView(DetailView):
-#     model = Aula
+    paginate_by = 8
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Semestre.history.select_related('licenciatura')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        return context
+    
+def semestreList(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        seme = Semestre.objects.filter(Q(semestre__icontains=searched) | Q(licenciatura__licenciatura__icontains=searched))
+        history_list = Semestre.history.select_related('licenciatura')
+        model = Semestre.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/semestre_list.html',{'searched':searched,'seme':seme,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+    else:
+        history_list = Semestre.history.select_related('licenciatura')
+        model = Semestre.objects.all()
+        pages = Page.objects.all()
+        disponi = Disponibilidad.objects.all()
+        matedo = DocenteMateria.objects.all()
+        return render(request,'institucion/semestre_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo})
+        
 class SemestreCreate(CreateView):
     model = Semestre
     form_class = SemestreForms
     success_url = reverse_lazy('planteles:semestres')
-    
-# class AulaDelete(DeleteView):
-#     model = Aula
-#     success_url = reverse_lazy('planteles:aulas')
-# END OF AULA
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Semestre.history.select_related('licenciatura')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        return context
+
+class SemestreUpdate(UpdateView):
+    model = Semestre
+    form_class = SemestreForms
+    template_name_suffix = '_update_form'
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Semestre.history.select_related('licenciatura')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('planteles:semeupdate',args=[self.object.id]) + '?ok'
+
+class SemestreDelete(DeleteView):
+    model = Semestre
+    success_url = reverse_lazy('planteles:semestres')
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Semestre.history.select_related('licenciatura')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        return context
 
     
 

@@ -63,6 +63,22 @@ body{
     gap: 1.8rem;
     grid-template-columns: 14rem auto 23rem;
 }
+#textSearch{
+    width: 210px;
+    height: 40px;
+    background: var(--color-white);
+    font-size: 14px;
+    border-radius:var(--border-radius-1);
+    box-shadow: var(--box-shadow);
+    padding: 20px 10px 20px 10px;
+}
+#btnBuscar{
+    width: 50px;
+    height: 40px;
+    background: var(--color-primary);
+    border-radius: var(--border-radius-1);
+    color: var(--color-dark-variant);
+}
 a{
     color: var(--color-dark);
 }
@@ -453,7 +469,7 @@ main .list-div a{
     padding: 0.6rem;
     color: var(--color-white);
     border-radius: 50%;
-    background: var(--color-warning);
+    background: var(--color-success);
     display: flex;
 }
 .right .sales-analytics .add-product{

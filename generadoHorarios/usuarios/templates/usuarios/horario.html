@@ -10,24 +10,25 @@
 {% endblock content %}
 {% block table %}
 <a href="{% url 'usuarios:export-csv' %}">Export csv</a>
+{% regroup pubs by hora as hora_list %}
 <thead>
     <tr>
         <th>Horario <br> disponible</th>
-        {% for r in pubs %}
+        {% for r in dias %}
             <th>{{r.dia}}</th>
         {% endfor %}
-        {% comment %} {% for h in dias %}
-            <th>{{h.days}}</th>
-        {% endfor %} {% endcomment %}
     </tr>
-<tbody>
-    <tr>
-        {% for r in pubs %}
-            <td>{{r.hora}}</td>
-        
-        {% comment %} <td class="">{{r.hora}}</td> {% endcomment %}
-    </tr>
-        {% endfor %}
+<tbody>         
+         
+            {% for hora in hora_list %}
+            <tr> 
+                <td>{{hora.grouper}}</td>
+                {% for doce in hora.list %}
+                    <td>{{doce.docente}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+    
 </tbody>
 </thead>
 {% endblock table %}

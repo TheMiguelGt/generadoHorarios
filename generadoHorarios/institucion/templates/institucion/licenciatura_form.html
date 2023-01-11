@@ -2,12 +2,39 @@
 {% load static %}
 {% block title %}Licenciaturas{% endblock title %} 
 {% block subtitle %}Licenciaturas{% endblock subtitle %}
+{% block activi %}en licenciaturas{% endblock activi %}
 {% block tabletitle %}Agregar licenciatura{% endblock tabletitle %}
 {% block agregarItem %}Agregar licenciatura{% endblock agregarItem %}
 {% block content %}
 {% include "institucion/includes/institucion_menu.html" %}
 
 {% endblock content %}
+
+{% block history %}
+{% if history_list.count == 0 %}
+<div class="update">
+  <div class="profile-photo">
+      
+  </div>
+  <div class="message">
+      <p><h2>Aun no hay cambios</h2> <p>
+          <small class="text-muted"></small>
+  </div>
+</div>
+{% else %}
+{% for r in history_list %}
+<div class="update">
+  <div class="profile-photo">
+      <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'usuarios/img/imgUser.png' %}" {% endif %} alt="">
+  </div>
+  <div class="message">
+    <p><b>{{r.history_user}}</b> {% if r.history_type == '+' %} a&ntilde;adio {% elif r.history_type == '-' %} elimino {% elif r.history_type == '~' %} edito a {% endif %} {{r.licenciatura}} en el plantel {{r.plantel}}<p>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock history %}
+
 {% block table %}
 <thead>
   <tr>

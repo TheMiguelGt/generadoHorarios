@@ -1,0 +1,22 @@
+{% extends 'core/homeuser.html' %} 
+{% load static %}
+
+{% block table %}
+<thead>
+    <tr>
+        <th>
+          {{form.as_table}}
+        </th>
+        <th>
+            <input class="btn-editar" type="SUBMIT" name="submit" value="Update"/>
+        </th>
+    </tr>
+  </thead>
+{% comment %} <form id="admin_update" method="POST" action="/userprofile/update_user/">
+    {% csrf_token %}
+    <img src="{% static 'usuarios/img/imgUser.png' %}" alt="">
+    {{ profile_updated.as_p }}
+    <br />
+    
+</form> {% endcomment %}
+{% endblock table %}
