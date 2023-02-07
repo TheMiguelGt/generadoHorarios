@@ -1,5 +1,5 @@
 from django.urls import path
-
+from django.contrib.auth.decorators import login_required
 from core import views 
 from .views import HomePageView,UserPageView
 

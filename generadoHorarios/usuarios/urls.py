@@ -1,15 +1,16 @@
 from django.urls import path 
 from usuarios import views
-from .views import CoordinaListView,ProfileView,CoordinaUpView,CoordinaDelete,AdminListView,AdminSignUp,AdminDetailView,AdminUpView,DocenteListView,DocenteUpView,AlumnoListView
+from django.contrib.auth.decorators import login_required
+from .views import ProfileView,CoordinaUpView,CoordinaDelete,AdminSignUp,AdminDetailView,AdminUpView,DocenteListView,DocenteUpView,AlumnoListView,ControlUsers
 
 app_name = 'usuarios'
 
 urlpatterns = [
     path('login/',views.user_login,name="login"),
     path('logout/',views.user_logout,name="logout"),
+    #control_users
+    path('control_users/',ControlUsers.as_view(),name="control_users"),
     #admin
-    # path('admin_import/',views.importExcel,name="push_admin"),
-    # path('admin_list/',AdminListView.as_view(),name='administradores'),
     path('admin_signup/',views.AdminSignUp,name="AdminSignUp"),
     path('admin_list/',views.adminList,name='administradores'),
     path('admin/<int:pk>/',views.AdminDetailView.as_view(),name="admin_detail"),

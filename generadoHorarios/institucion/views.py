@@ -19,28 +19,30 @@ from django.db.models import Q,Count
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 class StaffRequiredMixin(object):
-    @method_decorator(staff_member_required)
     def dispatch(self, request, *args, **kwargs):
+        if request.user.is_docente or request.user.is_coordina:
+            return redirect('homeUser')
         return super(StaffRequiredMixin,self).dispatch(request, *args, **kwargs)
 
-# START OF PLANTELES
-class PlantelListView(ListView):
-    model = Plantel
-    paginate_by = 8
+class StaffCoordinaRequiredMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_docente:
+            return redirect("homeUser")
+        return super(StaffCoordinaRequiredMixin,self).dispatch(request, *args, **kwargs)
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Plantel.history.all()
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        return context
-    
+# START OF PLANTELES    
+@login_required(login_url="usuarios:login")
 def plantelList(request):
+
+    if request.user.is_docente or request.user.is_coordina:
+        return redirect('homeUser')
+
     if request.method == "POST":
         searched = request.POST['searched']
         plant = Plantel.objects.filter(Q(clave__icontains=searched) | Q(plantel__icontains=searched))
@@ -106,8 +108,9 @@ def plantelList(request):
             
         return render(request,'institucion/plantel_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
         
-class PlantelDetailView(DetailView):
+class PlantelDetailView(LoginRequiredMixin,StaffRequiredMixin, DetailView):
     model = Plantel
+    redirect_field_name = "usuarios:login"
     
     def get_context_data(self, **kwargs):
         context = super(PlantelDetailView,self).get_context_data(**kwargs)
@@ -120,11 +123,12 @@ class PlantelDetailView(DetailView):
         context['docente'] = Docente.objects.all()
         return context
 
-class PlantelCreate(SuccessMessageMixin,CreateView):
+class PlantelCreate(LoginRequiredMixin,StaffRequiredMixin,CreateView):
     model = Plantel
     form_class = PlantelForms
     success_url = reverse_lazy('planteles:licenciaturas')
     success_message = "Plantel creado con exito"
+    redirect_field_name = "usuarios:login"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -137,11 +141,12 @@ class PlantelCreate(SuccessMessageMixin,CreateView):
         context['docente'] = Docente.objects.all()
         return context
 
-class PlantelUpdate(SuccessMessageMixin,UpdateView):
+class PlantelUpdate(LoginRequiredMixin,StaffRequiredMixin,UpdateView):
     model = Plantel
     form_class = PlantelForms
     template_name_suffix = '_update_form'
     success_message = "Plantel editado con exito"
+    redirect_field_name = "usuarios:login"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -158,10 +163,11 @@ class PlantelUpdate(SuccessMessageMixin,UpdateView):
         success_url = reverse_lazy('planteles:planteles')
         return success_url
     
-class PlantelDelete(SuccessMessageMixin,DeleteView):
+class PlantelDelete(LoginRequiredMixin,StaffRequiredMixin,DeleteView):
     model = Plantel
     success_url = reverse_lazy('planteles:planteles')
     success_message = "Plantel eliminado con exito"
+    redirect_field_name = "usuarios:login"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -176,21 +182,12 @@ class PlantelDelete(SuccessMessageMixin,DeleteView):
 # END OF PLANTELES
 
 # START OF LICENCIATURA
-class LicenciaturaListView(ListView):
-    model = Licenciatura
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Licenciatura.history.select_related('plantel')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-    
+@login_required(login_url="usuarios:login")
 def licenciaturaList(request):
+
+    if request.user.is_docente or request.user.is_coordina:
+        return redirect("homeUser")
+
     if request.method == "POST":
         searched = request.POST['searched']
         model = Licenciatura.objects.all()
@@ -264,14 +261,16 @@ def licenciaturaList(request):
         
         return render(request,'institucion/licenciatura_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
         
-class LicenciaturaDetailView(DetailView):
+class LicenciaturaDetailView(LoginRequiredMixin,StaffRequiredMixin,DetailView):
     model = Licenciatura
+    redirect_field_name = "usuarios:login"
 
-class LicenciaturaCreate(SuccessMessageMixin,CreateView):
+class LicenciaturaCreate(LoginRequiredMixin,StaffRequiredMixin,CreateView):
     model = Licenciatura
     form_class = LicenciaturaForms
     success_url = reverse_lazy('planteles:licenciaturas')
     success_message = "Licenciatura creada con exito"
+    redirect_field_name = "usuarios:login"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -286,11 +285,12 @@ class LicenciaturaCreate(SuccessMessageMixin,CreateView):
 
         return context
     
-class LicenciaturaUpdate(SuccessMessageMixin,UpdateView):
+class LicenciaturaUpdate(LoginRequiredMixin,StaffRequiredMixin,UpdateView):
     model = Licenciatura
     form_class = LicenciaturaForms
     template_name_suffix = '_update_form'
     success_message = "Licenciatura editada con exito"
+    redirect_field_name = "usuarios:login"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -306,10 +306,11 @@ class LicenciaturaUpdate(SuccessMessageMixin,UpdateView):
     def get_success_url(self):
         return reverse_lazy('planteles:licenciaturas')
 
-class LicenciaturaDelete(SuccessMessageMixin,DeleteView):
+class LicenciaturaDelete(LoginRequiredMixin,StaffRequiredMixin,DeleteView):
     model = Licenciatura
     success_url = reverse_lazy('planteles:licenciaturas')
     success_message = "Licenciatura eliminada con exito"
+    redirect_field_name = "usuarios:login"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -323,98 +324,8 @@ class LicenciaturaDelete(SuccessMessageMixin,DeleteView):
         return context
 # END OF LICENCIATURA
 
-# START OF AULA
-class AulaListView(ListView):
-    model = Aula
-    paginate_by = 8
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Aula.history.select_related('plantel')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        return context
-    
-def aulaList(request):
-    if request.method == "POST":
-        searched = request.POST['searched']
-        aul = Aula.objects.filter(Q(clave__icontains=searched) | Q(plantel__plantel__icontains=searched))
-        history_list = Aula.history.select_related('plantel')
-        model = Aula.objects.all()
-        pages = Page.objects.all()
-        disponi = Disponibilidad.objects.all()
-        matedo = DocenteMateria.objects.all()
-        admin = Admin.objects.all()
-        coordina = Coordina.objects.all()
-        docente = Docente.objects.all()
-        return render(request,'institucion/aula_list.html',{'searched':searched,'aul':aul,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
-    else:
-        history_list = Aula.history.select_related('plantel')
-        model = Aula.objects.all()
-        pages = Page.objects.all()
-        disponi = Disponibilidad.objects.all()
-        matedo = DocenteMateria.objects.all()
-        admin = Admin.objects.all()
-        coordina = Coordina.objects.all()
-        docente = Docente.objects.all()
-        return render(request,'institucion/aula_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
-    
-# class AulaDetailView(DetailView):
-#     model = Aula
-
-class AulaCreate(SuccessMessageMixin,CreateView):
-    model = Aula
-    form_class = AulaForms
-    success_url = reverse_lazy('planteles:aulas')
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Aula.history.select_related('plantel')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-    
-class AulaUpdate(SuccessMessageMixin,UpdateView):
-    model = Aula
-    form_class = AulaForms
-    template_name_suffix = '_update_form'
-    
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Aula.history.select_related('plantel')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-
-    def get_success_url(self):
-        return reverse_lazy('planteles:aulaupdate',args=[self.object.id]) + '?ok'
-    
-class AulaDelete(SuccessMessageMixin,DeleteView):
-    model = Aula
-    success_url = reverse_lazy('planteles:aulas')
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Aula.history.select_related('plantel')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-
 # START OF semestre o clase por semestre
-
+@login_required(login_url="usuarios:login")
 def semestreList(request):
     admin = Admin.objects.all()
     coordina = Coordina.objects.all()
@@ -436,8 +347,13 @@ def semestreList(request):
         disponi = Disponibilidad.objects.all()
         matedo = DocenteMateria.objects.all()
         return render(request,'institucion/semestre_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
-        
+    
+@login_required(login_url="usuarios:login")
 def semestreCreate(request):
+
+    if request.user.is_docente:
+        return redirect("homeUser")
+
     licen = Licenciatura.objects.all()
     section = SemestreForms()
     sections = Semestre.objects.all()
@@ -466,10 +382,11 @@ def semestreCreate(request):
             
     return render(request,'institucion/semestre_form.html',context)
         
-class SemestreCreate(SuccessMessageMixin,CreateView):
+class SemestreCreate(LoginRequiredMixin,CreateView):
     model = Semestre
     form_class = SemestreForms
     success_url = reverse_lazy('planteles:semestres')
+    redirect_field_name = "usuarios:login"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -483,11 +400,12 @@ class SemestreCreate(SuccessMessageMixin,CreateView):
         context['licenciatura'] = Licenciatura.objects.all()
         return context
 
-class SemestreUpdate(SuccessMessageMixin,UpdateView):
+class SemestreUpdate(LoginRequiredMixin,StaffCoordinaRequiredMixin,UpdateView):
     model = Semestre
     form_class = SemestreForms
     template_name_suffix = '_update_form'
     success_message = "Horario editado con exito"
+    redirect_field_name = "usuarios:login"
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -503,10 +421,11 @@ class SemestreUpdate(SuccessMessageMixin,UpdateView):
     def get_success_url(self):
         return reverse_lazy('homeUser')
 
-class SemestreDelete(SuccessMessageMixin,DeleteView):
+class SemestreDelete(LoginRequiredMixin,StaffCoordinaRequiredMixin,DeleteView):
     model = Semestre
     success_url = reverse_lazy('homeUser')
     success_message = "Horario eliminado con exito"
+    redirect_field_name = "usuarios:login"
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -520,6 +439,7 @@ class SemestreDelete(SuccessMessageMixin,DeleteView):
         return context
 
 #generar tabla del horario
+@login_required(login_url="usuarios:login")
 def TimeTableView(request,id):
     try:
         section = Semestre.objects.get(id=id)
@@ -555,6 +475,7 @@ def TimeTableView(request,id):
         return render(request,'institucion/semestre_list.html',context_2)
 
 #Generate PDF 
+@login_required(login_url="usuarios:login")
 def horario_render_pdf_view(request,*args, **kwargs):
     pk = kwargs.get('pk')   
     horario = get_object_or_404(Semestre,pk=pk)

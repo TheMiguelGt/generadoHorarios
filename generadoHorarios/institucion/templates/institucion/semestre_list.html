@@ -78,7 +78,7 @@
                 <th>Ciclo</th>
                 <th>Horario</th>
                 <th>PDF</th>
-                {% if request.user.is_staff %}
+                {% if request.user.is_staff or request.user.is_coordina %}
                     <th colspan="2">Acciones</th> 
                 {% endif %}
             </tr>
@@ -92,7 +92,7 @@
                     <td class="">{{semestre.ciclo}}</td>
                     <td class=""><a href="{% url 'planteles:timetable' semestre.id %}"><span class="material-icons-sharp btn-view">visibility</span></a></td>
                     <td class=""><a href="{% url 'planteles:horario-pdf-view' semestre.id %}"><span class="material-icons-sharp btn-pdf">picture_as_pdf</span></a></td>
-                    {% if request.user.is_staff %}
+                    {% if request.user.is_staff or request.user.is_coordina %}
                         <td class=""><a class="btn-update" href="{% url 'planteles:semeupdate' semestre.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                         <td class=""><a class="btn-delete" href="{% url 'planteles:semedel' semestre.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
                     {% endif %}
@@ -108,7 +108,7 @@
                 <th>Ciclo</th>
                 <th>Horario</th>
                 <th>PDF</th>
-                {% if request.user.is_staff %}
+                {% if request.user.is_staff or request.user.is_coordina %}
                     <th colspan="2">Acciones</th> 
                 {% endif %}
             </tr>
@@ -122,7 +122,7 @@
                     <td class="">{{semestre.ciclo}}</td>
                     <td class=""><a href="{% url 'planteles:timetable' semestre.id %}"><span class="material-icons-sharp btn-view">visibility</span></a></td>
                     <td class=""><a href="{% url 'planteles:horario-pdf-view' semestre.id %}"><span class="material-icons-sharp btn-pdf">picture_as_pdf</span></a></td>
-                    {% if request.user.is_staff %}
+                    {% if request.user.is_staff or request.user.is_coordina %}
                         <td class=""><a class="btn-update" href="{% url 'planteles:semeupdate' semestre.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
                         <td class=""><a class="btn-delete" href="{% url 'planteles:semedel' semestre.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
                     {% endif %}

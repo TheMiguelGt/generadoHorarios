@@ -17,24 +17,7 @@ class HomePageView(TemplateView): #se crea una clase para poder hacer la vista d
     def get(self, request, *args, **kwargs):#importante traer los argumentos y clave valor
         return render(request,self.template_name,{'title':'Home'})
 
-
-class HomeUserView(TemplateView): #se crea una clase para poder hacer la vista del home
-    template_name = 'core/homeuser.html'
-    #se obtiene la ruta por medio de la variable 
-    @method_decorator(login_required)
-    def dispatch(self, request,*args,**kwargs):
-        return super().dispatch(request, *args, **kwargs)
-    
-    def get(self, request, *args, **kwargs):#importante traer los argumentos y clave valor
-        return render(request,self.template_name,{'title':'UserView'})
-    
-    def get_context_data(self, **kwargs):
-        context = super(HomeUserView, self).get_context_data(**kwargs)
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-
+@login_required(login_url="usuarios:login")
 def homePage2View(request):
     admin = Admin.objects.all()
     coordina = Coordina.objects.all()

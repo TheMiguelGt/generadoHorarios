@@ -1,0 +1,56 @@
+{% extends 'core/homeuser.html' %} 
+{% load static %} 
+{% block title %}Administrar{% endblock title %} 
+{% block subtitle %}Administrar usuarios{% endblock subtitle %}
+{% block tabletitle %}Administrar usuarios{% endblock tabletitle %}
+{% block content %}
+
+{% endblock content %}
+{% block table %}
+    <thead>
+        <tr>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if request.user.is_staff or request.user.is_admin %}
+            <tr>
+                <td ><a href="{% url 'usuarios:administradores' %}" class="btnTest">
+                    <div class="item add-product">
+                        <div>
+                        <span class="material-icons-sharp">manage_accounts</span>
+                        <h3>Administradores</h3>
+                        </div>
+                    </div></a></td>
+            </tr>
+            <tr>
+                <td ><a href="{% url 'usuarios:coordinadores' %}" >
+                    <div class="item add-product">
+                        <div>
+                        <span class="material-icons-sharp">manage_accounts</span>
+                        <h3>Coordinadores</h3>
+                        </div>
+                    </div></a></td>
+            </tr>
+            <tr>
+                <td ><a href="{% url 'usuarios:docentes' %}" >
+                    <div class="item add-product">
+                        <div>
+                        <span class="material-icons-sharp">manage_accounts</span>
+                        <h3>Docente</h3>
+                        </div>
+                    </div></a></td>
+            </tr>
+        {% elif request.user.is_coordina %}
+            <tr>
+                <td ><a href="{% url 'usuarios:docentes' %}" >
+                    <div class="item add-product">
+                        <div>
+                        <span class="material-icons-sharp">manage_accounts</span>
+                        <h3>Docente</h3>
+                        </div>
+                    </div></a></td>
+            </tr>
+        {% endif %}
+    </tbody>
+{% endblock table %}

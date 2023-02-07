@@ -35,12 +35,17 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password #mostrar o encryptar password
 from django.contrib.auth.models import Permission
+from django.contrib.auth import logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from institucion.views import StaffRequiredMixin,StaffCoordinaRequiredMixin
 
 # Create your views here.
 # ------------ PERFIL DE USUARIO ---------------
-@method_decorator(login_required, name="dispatch")
-class ProfileView(TemplateView):
+class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = "usuarios/profile_view.html"
+    redirect_field_name = "usuarios:login"
+
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         context['pages'] = Page.objects.all()
@@ -53,6 +58,7 @@ class ProfileView(TemplateView):
 
 # ----------------Horario------------------
 #tabla del horario
+@login_required(login_url="usuarios:login")
 def horarioEsc(request):
     admin = Admin.objects.all()
     coordina = Coordina.objects.all()
@@ -73,6 +79,7 @@ def horarioEsc(request):
     }
     return render(request,'usuarios/horario.html',context)
 
+@login_required(login_url="usuarios:login")
 def export_csv(request):
     response =HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=Horario'+\
@@ -90,7 +97,12 @@ def export_csv(request):
 
 # ----------------ADMINISTRADOR------------------
 #creation user admin
+@login_required(login_url="usuarios:login")
 def AdminSignUp(request):
+
+    if request.user.is_docente or request.user.is_coordina:
+        return redirect("homeUser")
+
     user_type = 'administrador'
     registered = False
     pages = Page.objects.all()
@@ -133,34 +145,7 @@ def AdminSignUp(request):
     
     return render(request,'usuarios/admin_signup.html',{'user_form':user_form,'admin_profile_form':admin_profile_form,'registered':registered,'user_type':user_type,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
-#Admin list view
-class AdminListView(ListView):
-    model = Admin
-    paginate_by=8
-    
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)    
-    
-    def post(self,request,*args,**kwargs):
-        data = {}
-        try:
-            data = Admin.objects.get(pk=request.POST['id']).toJSON()
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
-
-    def get_context_data(self, **kwargs):
-        context = super(AdminListView,self).get_context_data(**kwargs)
-        context['title'] = 'Listado de administradores'
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-    
+#Admin Update
 @method_decorator(login_required, name="dispatch")
 class AdminUpView(SuccessMessageMixin,UpdateView):
     model = Admin
@@ -182,8 +167,14 @@ class AdminUpView(SuccessMessageMixin,UpdateView):
         context['coordina'] = Coordina.objects.all()
         context['docente'] = Docente.objects.all()
         return context
-    
+
+#Admin list view    
+@login_required(login_url="usuarios:login")
 def adminList(request):
+
+    if request.user.is_docente or request.user.is_coordina:
+        return redirect("homeUser")
+
     if request.method == "POST":
         searched = request.POST['searched']
         adm = Admin.objects.filter(Q(user__username__icontains=searched) | Q(nombre__icontains=searched) | Q(apepat__icontains=searched) | Q(apemat__icontains=searched))
@@ -205,6 +196,7 @@ def adminList(request):
         docente = Docente.objects.all()
         return render(request,'usuarios/admin_list.html',{'model':model,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
+#Admin Detail
 class AdminDetailView(LoginRequiredMixin,DetailView):
     context_object_name = "admin"
     model = models.Admin
@@ -213,7 +205,12 @@ class AdminDetailView(LoginRequiredMixin,DetailView):
 
 # ----------------COORDINADOR------------------
 #creation profile coordina
+@login_required(login_url="usuarios:login")
 def CoordinaSignUp(request):
+
+    if request.user.is_docente or request.user.is_coordina:
+        return redirect("homeUser")
+    
     user_type = 'coordinador'
     registered = False
     pages = Page.objects.all()
@@ -270,7 +267,12 @@ class CoordinaUpView(SuccessMessageMixin,UpdateView):
         context['docente'] = Docente.objects.all()
         return context
 
+@login_required(login_url="usuarios:login")
 def coordina_upload(request):
+
+    if request.user.is_docente or request.user.is_coordina:
+        return redirect("homeUser")
+
     pages = Page.objects.all()
     disponi = Disponibilidad.objects.all()
     matedo = DocenteMateria.objects.all()
@@ -317,11 +319,12 @@ def coordina_upload(request):
     return render(request,'usuarios/coordina_file.html',{'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
 
 #list all corrdinators users
-class CoordinaListView(ListView):
-    model = Coordina
-    paginate_by=8
-
+@login_required(login_url="usuarios:login")
 def coordinaList(request):
+
+    if request.user.is_docente or request.user.is_coordina:
+        return redirect("homeUser")
+
     if request.method == "POST":
         searched = request.POST['searched']
         cor = Coordina.objects.filter(Q(user__username__icontains=searched) | Q(nombre__icontains=searched) | Q(apepat__icontains=searched) | Q(apemat__icontains=searched))
@@ -369,6 +372,10 @@ class CoordinaDelete(DeleteView):
 
 #docente profile coordina
 def DocenteSignUp(request):
+
+    if request.user.is_docente:
+        return redirect("homeUser")
+
     user_type = 'docente'
     registered = False
     pages = Page.objects.all()
@@ -424,6 +431,10 @@ class DocenteUpView(SuccessMessageMixin,UpdateView):
         return context
 
 def docente_upload(request):
+
+    if request.user.is_docente:
+        return redirect("homeUser")
+
     pages = Page.objects.all()
     disponi = Disponibilidad.objects.all()
     matedo = DocenteMateria.objects.all()
@@ -475,6 +486,10 @@ class DocenteListView(ListView):
     #paginate_by=8
 
 def docenteList(request):
+
+    if request.user.is_docente:
+        return redirect("homeUser")
+
     if request.method == "POST":
         searched = request.POST['searched']
         doc = Docente.objects.filter(Q(user__username__icontains=searched) | Q(nombre__icontains=searched) | Q(apepat__icontains=searched) | Q(apemat__icontains=searched))
@@ -498,6 +513,10 @@ def docenteList(request):
 
 #docente profile coordina
 def AlumnoSignUp(request):
+
+    if request.user.is_docente or request.user.is_coordina:
+        return redirect("homeUser")
+
     user_type = 'alumno'
     registered = False
     pages = Page.objects.all()
@@ -529,32 +548,50 @@ def AlumnoSignUp(request):
 #list all docente users
 class AlumnoListView(ListView):
     model = Alumno
-    #paginate_by=8
-
 
 #login view
 def user_login(request):
+    if request.user.is_authenticated:
+        return redirect("homeUser")
+    
     if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        user = authenticate(username=username,password=password)
-        
-        if user:
-            if user.is_active:
-                login(request,user)
-                return HttpResponseRedirect(reverse('homeUser'))
-            else:
-                return HttpResponse("Cuenta no activa")
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            user = authenticate(username = form.cleaned_data["username"],
+                                password = form.cleaned_data["password"],)
+            if user is not None:
+                login(request, user)
+                messages.success(request, f"¡Bienvenido {user.username}!, favor de leer las recomencadiones")
+                return redirect("homeUser")
         else:
-            messages.error(request, "Detalles invalidos")
-            return redirect('usuarios:login')
-    else:
-        return render(request,'usuarios/login.html',{})
+            for error in list(form.errors.values()):
+                messages.error(request,error)
+
+    form = AuthenticationForm()
+
+    
+    return render(request=request,template_name='usuarios/login.html',context={'form':form})
 
 #logout view
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('home'))
+    messages.info(request, "Te has deslogueado con exito!")
+    return redirect("usuarios:login")
+
+#view to control users
+class ControlUsers(LoginRequiredMixin,StaffCoordinaRequiredMixin,TemplateView):
+    template_name = "usuarios/control_users.html"
+    redirect_field_name = "usuarios:login"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        return context
         
