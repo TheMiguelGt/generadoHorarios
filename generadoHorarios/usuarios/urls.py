@@ -1,13 +1,20 @@
 from django.urls import path 
 from usuarios import views
 from django.contrib.auth.decorators import login_required
-from .views import ProfileView,CoordinaUpView,CoordinaDelete,AdminSignUp,AdminDetailView,AdminUpView,DocenteListView,DocenteUpView,AlumnoListView,ControlUsers
+from django.contrib.auth import views as auth_views
+from .views import ProfileView,CoordinaUpView,CoordinaDelete,AdminSignUp,AdminDetailView,AdminUpView,DocenteListView,DocenteUpView,AlumnoListView,ControlUsers,ResetPasswordView
 
 app_name = 'usuarios'
 
 urlpatterns = [
     path('login/',views.user_login,name="login"),
     path('logout/',views.user_logout,name="logout"),
+    #password reset
+    path('password_reset',ResetPasswordView.as_view(), name="password_reset"),
+    path('password_reset_confirm/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='usuarios/password_reset_confirm.html'),
+    name="password_reset_confirm"),
+    path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(template_name = "password_reset_complete.html"),
+    name="password_reset_complete"),
     #control_users
     path('control_users/',ControlUsers.as_view(),name="control_users"),
     #admin

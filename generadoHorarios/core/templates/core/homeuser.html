@@ -57,7 +57,7 @@
                 {% url 'pages:horaupdate' hora.id as view11 %}
                 {% url 'planteles:semeupdate' semestre.id as view8 %}
                 {% url 'planteles:semedel' semestre.id as view9 %}
-                {% url 'planteles:timetable' semestre.id as view12 %}
+                {% url 'planteles:timetable' semestre.str as view12 %}
                 <a title="Dashboard" href="{% url 'homeUser' %}" class="{% if request.path == '/home/' or request.path == '/insti/semestre-class/create/' or request.path == view8 or request.path == view9 or request.path == view12 %}active{% endif %}">
                     <span class="material-icons-sharp">hourglass_top</span>
                     <h3>Dashboard</h3>

@@ -3,7 +3,7 @@
 {% block title %}Horario{% endblock title %} 
 {% block subtitle %}Horario{% endblock subtitle %}
 {% comment %} {% block activi %}Actividades recientes{% endblock activi %} {% endcomment %}
-{% block tabletitle %}Horario escolar {% endblock tabletitle %}
+{% block tabletitle %}Horario escolar de {{section.licenciatura}} semestre {{section.semestre}} {% endblock tabletitle %}
 {% comment %} {% block agregarItem %}Agregar materia{% endblock agregarItem %} {% endcomment %}
 {% block content %}
 {% include "institucion/includes/institucion_menu.html" %}

@@ -2,39 +2,6 @@
 {% load static %}
 {% block title %}Iniciar sesion{% endblock %}
 {% block content %}
-{% comment %} <div class="login-page"> {% endcomment %}
-    {% comment %} <img src="{% static 'images/login-background.PNG' %}" alt=""> {% endcomment %}
-    {% comment %} <div class="login-form">
-      <div class="avatar"> {% endcomment %}
-        {% comment %} <img src="{% static 'images/login-avatar.PNG' %}" alt=""> {% endcomment %}
-      {% comment %} </div>
-      {% if messages %}
-      <div class="alert alert-primary alert-dismissible fade show" role="alert">
-        {% for message in messages %}
-          <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
-        {% endfor %}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      {% endif %}
-      <h1>Login</h1>
-      <form action="{% url 'usuarios:login' %}" method="post">
-        {% csrf_token %}
-        <p>Username:</p>
-        <input type="text" name="username" placeholder="matricula de usuario">
-        <br>
-        <br>
-        <p>Password:</p>
-        <input type="password" name="password" placeholder="contrasena">
-        <br>
-        <br>
-        <input class="btn btn-primary" type="submit" name="" value="Login">
-      </form> {% endcomment %}
-      {% comment %} <a href="{% url 'classroom:signup' %}">Don't have an account.</a> {% endcomment %}
-    {% comment %} </div> {% endcomment %}
-  {% comment %} </div> {% endcomment %}
-
 
 <img class="wave" src="{% static 'core/img/wave.png' %}">
 <div class="container">
@@ -48,7 +15,7 @@
       <h2>Bienvenido</h2>
       <div class="input-div one">
         <div class="i ">
-          <i class="fas fa-user"></i>
+          <i class="fas fa-user"><span class="material-icons-sharp">person</span></i>
         </div>
         <div>
           <h5>Username</h5>
@@ -58,7 +25,7 @@
 
       <div class="input-div two">
         <div class="i">
-          <i class="fas fa-lock"></i>
+          <i class="fas fa-lock"><span class="material-icons-sharp">key</span></i>
         </div>
         <div>
           <h5>Contrase&ntilde;a</h5>
@@ -67,6 +34,7 @@
       </div>
 
       <input class="btn btn-primary" type="submit" name="" value="Login">
+      <a href="{% url 'usuarios:password_reset' %}">Has olvidado tu contrase&ntilde;a?</a>
     </form>
   </div>
 </div>

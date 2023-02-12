@@ -16,7 +16,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from pages.models import Dia
-from .forms import UserForm,AdminProfileForm,CoordinaProfileForm,DocenteProfileForm,AlumnoProfileForm,AdminProfileIUpdateForm,CoordinaProfileIUpdateForm,DocenteProfileIUpdateForm,AlumnoProfileIUpdateForm
+from .forms import UserForm,AdminProfileForm,CoordinaProfileForm,DocenteProfileForm,AlumnoProfileForm
 from django.urls import reverse,reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
@@ -39,6 +39,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from institucion.views import StaffRequiredMixin,StaffCoordinaRequiredMixin
+from django.contrib.auth.views import PasswordResetView
 
 # Create your views here.
 # ------------ PERFIL DE USUARIO ---------------
@@ -571,6 +572,15 @@ def user_login(request):
 
     
     return render(request=request,template_name='usuarios/login.html',context={'form':form})
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'usuarios/password_reset.html'
+    email_template_name = 'usuarios/password_reset_email.html'
+    # subject_template_name = 'usuarios/password_reset_subject'
+    success_message = "Hemos enviado un email con instrucciones para configurar tu contraseña, "\
+                    "favor de revisar en tu bandeja de entrada."
+    success_url = reverse_lazy('usuarios:login')
+
 
 #logout view
 @login_required
