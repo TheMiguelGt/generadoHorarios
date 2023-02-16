@@ -1,6 +1,6 @@
 from django.urls import path 
 from institucion import views
-from .views import PlantelCreate,PlantelUpdate,PlantelDelete,LicenciaturaCreate,LicenciaturaUpdate,LicenciaturaDelete,SemestreUpdate,SemestreDelete,horario_render_pdf_view
+from .views import PlantelCreate,PlantelUpdate,PlantelDelete,LicenciaturaCreate,LicenciaturaUpdate,LicenciaturaDelete,horario_render_pdf_view
 
 planteles_patterns = ([
     #planteles
@@ -14,10 +14,9 @@ planteles_patterns = ([
     path('licenciatura/update/<int:pk>/',LicenciaturaUpdate.as_view(),name="licenupdate"),
     path('licenciatura/delete/<int:pk>/',LicenciaturaDelete.as_view(),name="licendele"),
     #semestre
-    path('semestre-class/',views.semestreList,name='semestres'),
-    path('semestre-class/create/',views.semestreCreate,name='create3'),
-    path('semestre-class/update/<int:pk>/',SemestreUpdate.as_view(),name="semeupdate"),
-    path('semestre-class/delete/<int:pk>/',SemestreDelete.as_view(),name="semedel"),
+    # path('semestre-class/create/',views.semestreCreate,name='create3'),
+    # path('semestre-class/update/<int:pk>/',SemestreUpdate.as_view(),name="semeupdate"),
+    # path('semestre-class/delete/<int:pk>/',SemestreDelete.as_view(),name="semedel"),
     #tabla del horario
     path('semestre-class/horario/<str:id>/',views.TimeTableView,name='timetable'),
     path('semestre-class/horario/pdf/<pk>/',horario_render_pdf_view,name='horario-pdf-view'),

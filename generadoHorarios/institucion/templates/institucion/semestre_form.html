@@ -22,7 +22,7 @@
 <tr>
     {% csrf_token %}
     {% load crispy_forms_tags %}
-    <td>{{ section|crispy }}</td>
+    <td>{{ form|crispy }}</td>
 </tr>
 <tr>
     <td colspan="2"><input type="submit" class="btn-enviar"  value="Registrar semestre" /></td>

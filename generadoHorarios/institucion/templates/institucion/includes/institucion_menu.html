@@ -10,8 +10,8 @@
 {% url 'planteles:licendele' licenciatura.id as view4 %}
 {% url 'planteles:aulaupdate' aula.id as view5 %}
 {% url 'planteles:auladel' aula.id as view6 %}
-{% url 'planteles:semeupdate' semestre.id as view7 %}
-{% url 'planteles:semedel' semestre.id as view8 %}
+{% url 'semeupdate' semestre.id as view7 %}
+{% url 'semedel' semestre.id as view8 %}
 {% url 'planteles:timetable' semestre.id as view12 %}
 {% url 'planteles:dicupdate' ciclo.id as view9 %}
 {% url 'planteles:cicdel' ciclo.id as view10 %}
@@ -98,7 +98,7 @@
       </div>
     </div></a>
   {% elif request.path == '/home/' %}
-    <a href="{% url 'planteles:create3' %}"><div class="item add-product">
+    <a href="{% url 'create3' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
         <h3>Agregar</h3>
@@ -112,7 +112,7 @@
       </div>
     </div></a>
   {% elif request.path == view7 or request.path == view8 %}
-    <a href="{% url 'planteles:create3' %}"><div class="item add-product">
+    <a href="{% url 'create3' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
         <h3>Agregar</h3>
@@ -154,7 +154,7 @@
   {% endif %}
 {% elif request.user.is_staff or request.user.is_coordina %}
   {% if request.path == '/home/' %}
-    <a href="{% url 'planteles:create3' %}"><div class="item add-product">
+    <a href="{% url 'create3' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
         <h3>Agregar</h3>
@@ -168,7 +168,7 @@
       </div>
     </div></a>
   {% elif request.path == view7 or request.path == view8 %}
-    <a href="{% url 'planteles:create3' %}"><div class="item add-product">
+    <a href="{% url 'create3' %}"><div class="item add-product">
       <div>
         <span class="material-icons-sharp">add</span>
         <h3>Agregar</h3>

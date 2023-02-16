@@ -58,70 +58,94 @@
             </tr>
         </thead>
     {% else %}
-    <form method="POST" action="{% url 'planteles:licenciaturas' %}">
-        {% csrf_token %}
-        <div style="display:flex; margin-bottom:20px;">
-            <div style="margin-right:10px;">
-                <input type="search" id="textSearch" placeholder="Buscar licenciatura" name="searched" />
+        <form method="POST" action="{% url 'planteles:licenciaturas' %}">
+            {% csrf_token %}
+            <div style="display:flex; margin-bottom:20px;">
+                <div style="margin-right:10px;">
+                    <input type="search" id="textSearch" placeholder="Buscar licenciatura" name="searched" />
+                </div>
+                <div>
+                    <button type="submit" id="btnBuscar" ><span class="material-icons-sharp">search</span></button>
+                </div>
             </div>
-            <div>
-                <button type="submit" id="btnBuscar" ><span class="material-icons-sharp">search</span></button>
-            </div>
-        </div>
-    </form>
-    {% if searched %}
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Clave</th>
-                <th>licenciatura</th>
-                <th>Plantel</th>
-                {% if request.user.is_staff %}
-                    <th colspan="2">Acciones</th>
-                {% endif %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for licenciatura in licen %}
+        </form>
+        {% if searched %}
+            <thead>
                 <tr>
-                    <td class="">{{forloop.counter}}</td>
-                    <td class="">{{licenciatura.clave}}</td>
-                    <td class="">{{licenciatura.licenciatura}}</td>
-                    <td class="">{{licenciatura.plantel}}</td>
+                    <th>No.</th>
+                    <th>Clave</th>
+                    <th>licenciatura</th>
+                    <th>Plantel</th>
                     {% if request.user.is_staff %}
-                        <td class=""><a class="btn-update" href="{% url 'planteles:licenupdate' licenciatura.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
-                        <td class=""><a class="btn-delete" href="{% url 'planteles:licendele' licenciatura.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                        <th colspan="2">Acciones</th>
                     {% endif %}
                 </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Clave</th>
-                <th>licenciatura</th>
-                <th>Plantel</th>
-                {% if request.user.is_staff %}
-                    <th colspan="2">Acciones</th>
-                {% endif %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for licenciatura in model|dictsort:"id" %}
+            </thead>
+            <tbody>
+                {% for licenciatura in licen %}
+                    <tr>
+                        <td class="">{{forloop.counter}}</td>
+                        <td class="">{{licenciatura.clave}}</td>
+                        <td class="">{{licenciatura.licenciatura}}</td>
+                        <td class="">{{licenciatura.plantel}}</td>
+                        {% if request.user.is_staff %}
+                            <td class=""><a class="btn-update" href="{% url 'planteles:licenupdate' licenciatura.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                            <td class=""><a class="btn-delete" href="{% url 'planteles:licendele' licenciatura.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
                 <tr>
-                    <td class="">{{forloop.counter}}</td>
-                    <td class="">{{licenciatura.clave}}</td>
-                    <td class="">{{licenciatura.licenciatura}}</td>
-                    <td class="">{{licenciatura.plantel}}</td>
+                    <td>
+                        <span class="step-links pagination">
+                            {% if licen.has_previous %}
+                                <a href="?pages:pages={{ licen.previous_page_number }}"> < Prev </a>
+                            {% endif %}
+                            {% if licen.has_next %}
+                                <a href="?pages:pages={{ licen.next_page_number }}"> Next > </a>
+                            {% endif %}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        {% else %}
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Clave</th>
+                    <th>licenciatura</th>
+                    <th>Plantel</th>
                     {% if request.user.is_staff %}
-                        <td class=""><a class="btn-update" href="{% url 'planteles:licenupdate' licenciatura.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
-                        <td class=""><a class="btn-delete" href="{% url 'planteles:licendele' licenciatura.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                        <th colspan="2">Acciones</th>
                     {% endif %}
                 </tr>
-            {% endfor %}
-        </tbody>
-    {% endif %}
+            </thead>
+            <tbody>
+                {% for licenciatura in model|dictsort:"id" %}
+                    <tr>
+                        <td class="">{{forloop.counter}}</td>
+                        <td class="">{{licenciatura.clave}}</td>
+                        <td class="">{{licenciatura.licenciatura}}</td>
+                        <td class="">{{licenciatura.plantel}}</td>
+                        {% if request.user.is_staff %}
+                            <td class=""><a class="btn-update" href="{% url 'planteles:licenupdate' licenciatura.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                            <td class=""><a class="btn-delete" href="{% url 'planteles:licendele' licenciatura.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td>
+                        <span class="step-links pagination">
+                            {% if model.has_previous %}
+                                <a href="?pages:pages={{ model.previous_page_number }}"> < Prev </a>
+                            {% endif %}
+                            {% if model.has_next %}
+                                <a href="?pages:pages={{ model.next_page_number }}"> Next > </a>
+                            {% endif %}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        {% endif %}
         
     {% endif %}
 

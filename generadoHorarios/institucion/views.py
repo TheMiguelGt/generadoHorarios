@@ -123,7 +123,7 @@ class PlantelDetailView(LoginRequiredMixin,StaffRequiredMixin, DetailView):
         context['docente'] = Docente.objects.all()
         return context
 
-class PlantelCreate(LoginRequiredMixin,StaffRequiredMixin,CreateView):
+class PlantelCreate(LoginRequiredMixin,StaffRequiredMixin,SuccessMessageMixin,CreateView):
     model = Plantel
     form_class = PlantelForms
     success_url = reverse_lazy('planteles:licenciaturas')
@@ -141,7 +141,7 @@ class PlantelCreate(LoginRequiredMixin,StaffRequiredMixin,CreateView):
         context['docente'] = Docente.objects.all()
         return context
 
-class PlantelUpdate(LoginRequiredMixin,StaffRequiredMixin,UpdateView):
+class PlantelUpdate(LoginRequiredMixin,StaffRequiredMixin,SuccessMessageMixin,UpdateView):
     model = Plantel
     form_class = PlantelForms
     template_name_suffix = '_update_form'
@@ -163,7 +163,7 @@ class PlantelUpdate(LoginRequiredMixin,StaffRequiredMixin,UpdateView):
         success_url = reverse_lazy('planteles:planteles')
         return success_url
     
-class PlantelDelete(LoginRequiredMixin,StaffRequiredMixin,DeleteView):
+class PlantelDelete(LoginRequiredMixin,StaffRequiredMixin,SuccessMessageMixin,DeleteView):
     model = Plantel
     success_url = reverse_lazy('planteles:planteles')
     success_message = "Plantel eliminado con exito"
@@ -265,7 +265,7 @@ class LicenciaturaDetailView(LoginRequiredMixin,StaffRequiredMixin,DetailView):
     model = Licenciatura
     redirect_field_name = "usuarios:login"
 
-class LicenciaturaCreate(LoginRequiredMixin,StaffRequiredMixin,CreateView):
+class LicenciaturaCreate(LoginRequiredMixin,StaffRequiredMixin,SuccessMessageMixin,CreateView):
     model = Licenciatura
     form_class = LicenciaturaForms
     success_url = reverse_lazy('planteles:licenciaturas')
@@ -285,7 +285,7 @@ class LicenciaturaCreate(LoginRequiredMixin,StaffRequiredMixin,CreateView):
 
         return context
     
-class LicenciaturaUpdate(LoginRequiredMixin,StaffRequiredMixin,UpdateView):
+class LicenciaturaUpdate(LoginRequiredMixin,StaffRequiredMixin,SuccessMessageMixin,UpdateView):
     model = Licenciatura
     form_class = LicenciaturaForms
     template_name_suffix = '_update_form'
@@ -306,7 +306,7 @@ class LicenciaturaUpdate(LoginRequiredMixin,StaffRequiredMixin,UpdateView):
     def get_success_url(self):
         return reverse_lazy('planteles:licenciaturas')
 
-class LicenciaturaDelete(LoginRequiredMixin,StaffRequiredMixin,DeleteView):
+class LicenciaturaDelete(LoginRequiredMixin,StaffRequiredMixin,SuccessMessageMixin,DeleteView):
     model = Licenciatura
     success_url = reverse_lazy('planteles:licenciaturas')
     success_message = "Licenciatura eliminada con exito"
@@ -323,120 +323,6 @@ class LicenciaturaDelete(LoginRequiredMixin,StaffRequiredMixin,DeleteView):
         context['docente'] = Docente.objects.all()
         return context
 # END OF LICENCIATURA
-
-# START OF semestre o clase por semestre
-@login_required(login_url="usuarios:login")
-def semestreList(request):
-    admin = Admin.objects.all()
-    coordina = Coordina.objects.all()
-    docente = Docente.objects.all()
-    if request.method == "POST":
-        searched = request.POST['searched']
-        seme = Semestre.objects.filter(Q(semestre__icontains=searched) | Q(licenciatura__licenciatura__icontains=searched) | Q(ciclo__icontains=searched))
-        print(seme.query)
-        history_list = Semestre.history.select_related('licenciatura')
-        model = Semestre.objects.all()
-        pages = Page.objects.all()
-        disponi = Disponibilidad.objects.all()
-        matedo = DocenteMateria.objects.all()
-        return render(request,'institucion/semestre_list.html',{'searched':searched,'seme':seme,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
-    else:
-        history_list = Semestre.history.select_related('licenciatura')
-        model = Semestre.objects.all()
-        pages = Page.objects.all()
-        disponi = Disponibilidad.objects.all()
-        matedo = DocenteMateria.objects.all()
-        return render(request,'institucion/semestre_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
-    
-@login_required(login_url="usuarios:login")
-def semestreCreate(request):
-
-    if request.user.is_docente:
-        return redirect("homeUser")
-
-    licen = Licenciatura.objects.all()
-    section = SemestreForms()
-    sections = Semestre.objects.all()
-    admin = Admin.objects.all()
-    coordina = Coordina.objects.all()
-    docente = Docente.objects.all()
-    model = Semestre.objects.all()
-    pages = Page.objects.all()
-    disponi = Disponibilidad.objects.all()
-    matedo = DocenteMateria.objects.all()
-    context = {'section':section,'sections':sections,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente,'licen':licen}
-
-    if not licen: 
-        messages.warning(request, 'Favor de crear una licenciatura antes de crear un horario')
-        return redirect('planteles:licenciaturas')
-       
-
-    if request.method == 'POST':
-        section = SemestreForms(request.POST)
-        if section.is_valid():
-            messages.success(request,'Horario creado con exito')
-            section.save()
-            return  render(request,'pages/docentemateria_list.html',context)
-        else:
-            messages.error(request,'Favor de ingresar datos correctos')
-            
-    return render(request,'institucion/semestre_form.html',context)
-        
-class SemestreCreate(LoginRequiredMixin,CreateView):
-    model = Semestre
-    form_class = SemestreForms
-    success_url = reverse_lazy('planteles:semestres')
-    redirect_field_name = "usuarios:login"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Semestre.history.select_related('licenciatura')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        context['licenciatura'] = Licenciatura.objects.all()
-        return context
-
-class SemestreUpdate(LoginRequiredMixin,StaffCoordinaRequiredMixin,UpdateView):
-    model = Semestre
-    form_class = SemestreForms
-    template_name_suffix = '_update_form'
-    success_message = "Horario editado con exito"
-    redirect_field_name = "usuarios:login"
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Semestre.history.select_related('licenciatura')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-
-    def get_success_url(self):
-        return reverse_lazy('homeUser')
-
-class SemestreDelete(LoginRequiredMixin,StaffCoordinaRequiredMixin,DeleteView):
-    model = Semestre
-    success_url = reverse_lazy('homeUser')
-    success_message = "Horario eliminado con exito"
-    redirect_field_name = "usuarios:login"
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Semestre.history.select_related('licenciatura')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
 
 #generar tabla del horario
 @login_required(login_url="usuarios:login")

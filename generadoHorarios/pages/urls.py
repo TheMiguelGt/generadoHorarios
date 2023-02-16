@@ -1,6 +1,6 @@
 from django.urls import path
 from pages import views
-from .views import PageDetailView,PageCreate,PageUpdate,PageDelete,DoceMateDetail,DoceMateCreate,DoceMateUpdate,DoceMateDelete,DispoCreate,DispoUpdate,DispoDelete
+from .views import PageDetailView,PageCreate,PageUpdate,PageDelete,DoceMateDetail,DoceMateCreate,DoceMateUpdate,DoceMateDelete
 
 pages_patterns = ([ #se crea una tupla
     #MATERIAS

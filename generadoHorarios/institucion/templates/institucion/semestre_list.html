@@ -58,7 +58,7 @@
             </tr>
         </thead>
     {% else %}
-    <form method="POST" action="{% url 'planteles:semestres' %}">
+    <form method="POST" action="{% url 'homeUser' %}">
         {% csrf_token %}
         <div style="display:flex; margin-bottom:20px;">
             <div style="margin-right:10px;">
@@ -93,11 +93,23 @@
                     <td class=""><a href="{% url 'planteles:timetable' semestre.id %}"><span class="material-icons-sharp btn-view">visibility</span></a></td>
                     <td class=""><a href="{% url 'planteles:horario-pdf-view' semestre.id %}"><span class="material-icons-sharp btn-pdf">picture_as_pdf</span></a></td>
                     {% if request.user.is_staff or request.user.is_coordina %}
-                        <td class=""><a class="btn-update" href="{% url 'planteles:semeupdate' semestre.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
-                        <td class=""><a class="btn-delete" href="{% url 'planteles:semedel' semestre.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                        <td class=""><a class="btn-update" href="{% url 'semeupdate' semestre.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                        <td class=""><a class="btn-delete" href="{% url 'semedel' semestre.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
                     {% endif %}
                 </tr>
             {% endfor %}
+            <tr>
+                <td>
+                    <span class="step-links pagination">
+                        {% if seme.has_previous %}
+                            <a href="?pages:pages={{ seme.previous_page_number }}"> < Prev </a>
+                        {% endif %}
+                        {% if seme.has_next %}
+                            <a href="?pages:pages={{ seme.next_page_number }}"> Next > </a>
+                        {% endif %}
+                    </span>
+                </td>
+            </tr>
         </tbody>
     {% else %}
         <thead>
@@ -123,11 +135,22 @@
                     <td class=""><a href="{% url 'planteles:timetable' semestre.id %}"><span class="material-icons-sharp btn-view">visibility</span></a></td>
                     <td class=""><a href="{% url 'planteles:horario-pdf-view' semestre.id %}"><span class="material-icons-sharp btn-pdf">picture_as_pdf</span></a></td>
                     {% if request.user.is_staff or request.user.is_coordina %}
-                        <td class=""><a class="btn-update" href="{% url 'planteles:semeupdate' semestre.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
-                        <td class=""><a class="btn-delete" href="{% url 'planteles:semedel' semestre.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
+                        <td class=""><a class="btn-update" href="{% url 'semeupdate' semestre.id %}"><span class="material-icons-sharp btn-update">edit</span></a></td>
+                        <td class=""><a class="btn-delete" href="{% url 'semedel' semestre.id %}"><span class="material-icons-sharp btn-delete">delete</span></a></td>
                     {% endif %}
-                
+            </tr>    
             {% endfor %}
+            <tr>
+                <td>
+                    <span class="step-links pagination">
+                        {% if model.has_previous %}
+                            <a href="?pages:pages={{ model.previous_page_number }}"> < Prev </a>
+                        {% endif %}
+                        {% if model.has_next %}
+                            <a href="?pages:pages={{ model.next_page_number }}"> Next > </a>
+                        {% endif %}
+                    </span>
+                </td>
             </tr>
         </tbody>
     {% endif %}
@@ -136,22 +159,22 @@
     {% if messages %}
         {% for message in messages %}
             {% if message.tags == 'success' %}
-            <script>
-                Swal.fire({
-                    "title": "Felicidades",
-                    "text": "{{message}}",
-                    "icon": "success"
-                })
-            </script>
-        {% elif message.tags == 'warning' %}
-            <script>
-                Swal.fire({
-                    "title": "Alerta",
-                    "text": "{{message}}",
-                    "icon": "warning"
-                })
-            </script>
-        {% endif %}
+                <script>
+                    Swal.fire({
+                        "title": "Felicidades",
+                        "text": "{{message}}",
+                        "icon": "success"
+                    })
+                </script>
+            {% elif message.tags == 'warning' %}
+                <script>
+                    Swal.fire({
+                        "title": "Alerta",
+                        "text": "{{message}}",
+                        "icon": "warning"
+                    })
+                </script>
+            {% endif %}
         {% endfor %}
     {% endif %}
 

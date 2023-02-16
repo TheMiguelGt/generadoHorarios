@@ -9,6 +9,15 @@ from usuarios.models import Admin,Coordina,Docente
 from institucion.models import Plantel,Semestre
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from institucion.views import StaffCoordinaRequiredMixin,StaffRequiredMixin
+from institucion.forms import SemestreForms
+from institucion.models import Plantel,Licenciatura, Semestre
+from django.shortcuts import render,redirect,get_object_or_404
+from django.contrib import messages
+from django.views.generic.edit import CreateView,UpdateView,DeleteView
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
 
 # Create your views here.
 class HomePageView(TemplateView): #se crea una clase para poder hacer la vista del home
@@ -80,7 +89,66 @@ def homePage2View(request):
             model = paginator1.page(paginator1.num_pages)
         
         return render(request,'institucion/semestre_list.html',{'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
-    
+
+class semeCreate(LoginRequiredMixin,StaffRequiredMixin,SuccessMessageMixin,CreateView):
+    model = Semestre
+    form_class = SemestreForms
+    success_url = reverse_lazy('homeUser')
+    success_message = "Horario creado con exito"
+    redirect_field_name = "usuarios:login"
+
+    def get_context_data(self,**kwargs): 
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Semestre.history.select_related('licenciatura')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        context['action'] = 'add'
+        context['list_url'] = '/mate/materia/'
+        
+        return context
+
+class SemestreUpdate(LoginRequiredMixin,StaffCoordinaRequiredMixin,UpdateView):
+    model = Semestre
+    form_class = SemestreForms
+    template_name_suffix = '_update_form'
+    success_message = "Horario editado con exito"
+    redirect_field_name = "usuarios:login"
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Semestre.history.select_related('licenciatura')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('homeUser')
+
+class SemestreDelete(LoginRequiredMixin,StaffCoordinaRequiredMixin,DeleteView):
+    model = Semestre
+    success_url = reverse_lazy('homeUser')
+    success_message = "Horario eliminado con exito"
+    redirect_field_name = "usuarios:login"
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history_list'] = Semestre.history.select_related('licenciatura')
+        context['pages'] = Page.objects.all()
+        context['disponi'] = Disponibilidad.objects.all()
+        context['matedo'] = DocenteMateria.objects.all()
+        context['admin'] = Admin.objects.all()
+        context['coordina'] = Coordina.objects.all()
+        context['docente'] = Docente.objects.all()
+        return context  
+
 class UserPageView(TemplateView):
     template_name = 'core/userhome1.html'
     

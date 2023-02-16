@@ -51,7 +51,7 @@ def pageListSearch(request):
             page_obj = paginator.page(paginator.num_pages)
             
         # Paginate pages
-        paginator1 = Paginator(page_Search,5)
+        paginator1 = Paginator(page_Search,6)
         page1 = request.GET.get('pages:pages')
         try:
             page_Search = paginator1.page(page1)
@@ -82,7 +82,7 @@ def pageListSearch(request):
             page_obj = paginator.page(paginator.num_pages)
             
         # Paginate pages
-        paginator1 = Paginator(page_Search,5)
+        paginator1 = Paginator(page_Search,6)
         page1 = request.GET.get('pages:pages')
         try:
             page_Search = paginator1.page(page1)
@@ -98,7 +98,7 @@ class PageDetailView(LoginRequiredMixin, DetailView):#ver detalles
     redirect_field_name = "usuarios:login"
 
 # @method_decorator(staff_member_required,name='dispatch')
-class PageCreate(LoginRequiredMixin,StaffCoordinaRequiredMixin,CreateView):#crear
+class PageCreate(LoginRequiredMixin,StaffCoordinaRequiredMixin,SuccessMessageMixin,CreateView):#crear
     model = Page
     form_class = PageForms #se pasa la clase que se creo 
     success_url = reverse_lazy('pages:pages') #se puede hacer de dos maneras 
@@ -122,7 +122,7 @@ class PageCreate(LoginRequiredMixin,StaffCoordinaRequiredMixin,CreateView):#crea
         return context
 
 # @method_decorator(staff_member_required,name='dispatch')
-class PageUpdate(LoginRequiredMixin,StaffCoordinaRequiredMixin,UpdateView):
+class PageUpdate(LoginRequiredMixin,StaffCoordinaRequiredMixin,SuccessMessageMixin,UpdateView):
     model = Page
     form_class = PageForms #campos para actualizar
     template_name_suffix = '_update_form' #se pasa un subfijo para usar otro formulario
@@ -148,7 +148,7 @@ class PageUpdate(LoginRequiredMixin,StaffCoordinaRequiredMixin,UpdateView):
         return success_url
 
 # @method_decorator(staff_member_required,name='dispatch')
-class PageDelete(LoginRequiredMixin,StaffCoordinaRequiredMixin,DeleteView):#eliminar
+class PageDelete(LoginRequiredMixin,StaffCoordinaRequiredMixin,SuccessMessageMixin,DeleteView):#eliminar
     model = Page 
     success_url = reverse_lazy('pages:pages')
     success_message = "Materia eliminada con exito"
@@ -281,7 +281,7 @@ class DoceMateDetail(LoginRequiredMixin,DetailView):
     model = DocenteMateria
     redirect_field_name = "usuarios:login"
 
-class DoceMateCreate(LoginRequiredMixin,CreateView):
+class DoceMateCreate(LoginRequiredMixin,SuccessMessageMixin,CreateView):
     model = DocenteMateria
     form_class = DoceMateForms
     success_url = reverse_lazy('pages:docemates')
@@ -302,7 +302,7 @@ class DoceMateCreate(LoginRequiredMixin,CreateView):
         
         return context
     
-class DoceMateUpdate(LoginRequiredMixin,UpdateView):
+class DoceMateUpdate(LoginRequiredMixin,SuccessMessageMixin,UpdateView):
     model = DocenteMateria
     form_class = DoceMateForms
     template_name_suffix = '_update_form'
@@ -323,7 +323,7 @@ class DoceMateUpdate(LoginRequiredMixin,UpdateView):
     def get_success_url(self):
         return reverse_lazy('pages:docemates')
 
-class DoceMateDelete(LoginRequiredMixin ,DeleteView):
+class DoceMateDelete(LoginRequiredMixin,SuccessMessageMixin,DeleteView):
     model = DocenteMateria
     success_url = reverse_lazy('pages:docemates')
     success_message = "Materia asignada se ha eliminado con exito"
@@ -340,128 +340,6 @@ class DoceMateDelete(LoginRequiredMixin ,DeleteView):
         context['docente'] = Docente.objects.all()
         return context 
     
-#Disponibilidad de horario docente
-@login_required(login_url="usuarios:login")    
-def dispoListSearch(request):
-
-    if request.method =="POST":
-        searched = request.POST['searched']
-        model = Disponibilidad.objects.all()
-        disdo = Disponibilidad.objects.filter(Q(docente__nombre__icontains=searched) )
-        history_list = Disponibilidad.history.select_related('docente','dia','horaini','horafin')
-        pages = Page.objects.all()
-        disponi = Disponibilidad.objects.all()
-        matedo = DocenteMateria.objects.all()
-        admin = Admin.objects.all()
-        coordina = Coordina.objects.all()
-        docente = Docente.objects.all()
-        
-        #Paginate historical 
-        paginator = Paginator(history_list,3)
-        page = request.GET.get('pages:disponi')
-        try:
-            history_list = paginator.page(page)
-        except PageNotAnInteger:
-            history_list = paginator.page(1)
-        except EmptyPage:
-            history_list = paginator.page('pages:disponi') 
-            
-        #Paginate disponi
-        paginator1 = Paginator(disdo,5)
-        page1 = request.GET.get('pages:disponi')
-        try:
-            disdo = paginator1.page(page1)
-        except PageNotAnInteger:
-            disdo = paginator1.page(1)
-        except EmptyPage:
-            disdo = paginator1.page(paginator1.num_pages)
-        
-        return render(request,'pages/disponibilidad_list.html',{'searched':searched,'disdo':disdo,'model':model,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
-    else:
-        disdo = Disponibilidad.objects.all()
-        history_list = Disponibilidad.history.select_related('docente','dia')
-        pages = Page.objects.all()
-        disponi = Disponibilidad.objects.all()
-        matedo = DocenteMateria.objects.all()
-        admin = Admin.objects.all()
-        coordina = Coordina.objects.all()
-        docente = Docente.objects.all()
-        
-        #Paginate historical 
-        paginator = Paginator(history_list,3)
-        page = request.GET.get('pages:disponi')
-        try:
-            history_list = paginator.page(page)
-        except PageNotAnInteger:
-            history_list = paginator.page(1)
-        except EmptyPage:
-            history_list = paginator.page(paginator.num_pages)
-            
-        #Paginate disponi
-        paginator1 = Paginator(disdo,5)
-        page1 = request.GET.get('pages:disponi')
-        try:
-            disdo = paginator1.page(page1)
-        except PageNotAnInteger:
-            disdo = paginator1.page(1)
-        except EmptyPage:
-            disdo = paginator1.page(paginator1.num_pages)
-        
-        return render(request,'pages/disponibilidad_list.html',{'disdo':disdo,'history_list':history_list,'pages':pages,'disponi':disponi,'matedo':matedo,'admin':admin,'coordina':coordina,'docente':docente})
-    
-class DispoCreate(LoginRequiredMixin,CreateView):
-    model = Disponibilidad
-    form_class = DispoForms
-    success_url = reverse_lazy('pages:disponi')
-    redirect_field_name = "usuarios:login"
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-    
-class DispoUpdate(LoginRequiredMixin,UpdateView):
-    model = Disponibilidad
-    form_class = DispoForms
-    template_name_suffix = '_update_form'
-    redirect_field_name = "usuarios:login"
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-    
-    def get_success_url(self):
-        return reverse_lazy('pages:dispoupdate',args=[self.object.id]) + '?ok'
-
-class DispoDelete(LoginRequiredMixin,DeleteView):
-    model = Disponibilidad
-    success_url = reverse_lazy('pages:disponi')
-    redirect_field_name = "usuarios:login"
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['history_list'] = Disponibilidad.history.select_related('docente','dia','hora')
-        context['pages'] = Page.objects.all()
-        context['disponi'] = Disponibilidad.objects.all()
-        context['matedo'] = DocenteMateria.objects.all()
-        context['admin'] = Admin.objects.all()
-        context['coordina'] = Coordina.objects.all()
-        context['docente'] = Docente.objects.all()
-        return context
-
 #Horario
 def AlumnoSignUp(request):
     user_type = 'alumno'
