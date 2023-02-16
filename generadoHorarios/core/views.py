@@ -111,7 +111,7 @@ class semeCreate(LoginRequiredMixin,StaffRequiredMixin,SuccessMessageMixin,Creat
         
         return context
 
-class SemestreUpdate(LoginRequiredMixin,StaffCoordinaRequiredMixin,UpdateView):
+class SemestreUpdate(LoginRequiredMixin,StaffCoordinaRequiredMixin,SuccessMessageMixin,UpdateView):
     model = Semestre
     form_class = SemestreForms
     template_name_suffix = '_update_form'
@@ -132,7 +132,7 @@ class SemestreUpdate(LoginRequiredMixin,StaffCoordinaRequiredMixin,UpdateView):
     def get_success_url(self):
         return reverse_lazy('homeUser')
 
-class SemestreDelete(LoginRequiredMixin,StaffCoordinaRequiredMixin,DeleteView):
+class SemestreDelete(LoginRequiredMixin,StaffCoordinaRequiredMixin,SuccessMessageMixin,DeleteView):
     model = Semestre
     success_url = reverse_lazy('homeUser')
     success_message = "Horario eliminado con exito"

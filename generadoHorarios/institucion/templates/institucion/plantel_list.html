@@ -92,6 +92,18 @@
                     {% endif %}
                 </tr>
             {% endfor %}
+            <tr>
+                <td>
+                    <span class="step-links pagination">
+                        {% if plant.has_previous %}
+                            <a href="?pages:pages={{ plant.previous_page_number }}"> < Prev </a>
+                        {% endif %}
+                        {% if plant.has_next %}
+                            <a href="?pages:pages={{ plant.next_page_number }}"> Next > </a>
+                        {% endif %}
+                    </span>
+                </td>
+            </tr>
         </tbody>
     {% else %}
         <thead>
@@ -116,6 +128,18 @@
                     {% endif %}
                 </tr>
             {% endfor %}
+            <tr>
+                <td>
+                    <span class="step-links pagination">
+                        {% if model.has_previous %}
+                            <a href="?pages:pages={{ model.previous_page_number }}"> < Prev </a>
+                        {% endif %}
+                        {% if model.has_next %}
+                            <a href="?pages:pages={{ model.next_page_number }}"> Next > </a>
+                        {% endif %}
+                    </span>
+                </td>
+            </tr>
         </tbody>
     {% endif %}
     {% endif %}
